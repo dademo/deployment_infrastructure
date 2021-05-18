@@ -1,0 +1,5 @@
+.local/
+config/
+.terraform/
+.terraform.lock.hcl
+*.swp

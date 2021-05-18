@@ -1,0 +1,18 @@
+postgresqlPostgresPassword: postgres
+postgresqlUsername: "${username}"
+postgresqlPassword: "${password}"
+postgresqlDatabase: "${database}"
+
+replication:
+  enabled: false
+
+service:
+  type: ClusterIP
+  port: 5432
+
+persistence:
+  storageClass: "${persistence_storage_class}"
+  size: "${persistence_size}"
+
+volumePermissions:
+  enabled: true

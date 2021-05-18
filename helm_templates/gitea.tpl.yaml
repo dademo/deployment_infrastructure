@@ -1,0 +1,54 @@
+persistence:
+  enabled: true
+  size: "${persistence_size}"
+  storageClass: "${persistence_storage_class}"
+
+ingress:
+  enabled: ${ingress_enabled}
+  hosts: ${ingress_hosts}
+
+service:
+  http:
+    type: ClusterIP
+    port: 3000
+  ssh:
+    type: ClusterIP
+    port: 22
+
+config:
+  APP_NAME: "Gitea: With a cup of tea (/!\\ NOW ON K8s)."
+
+gitea:
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 200
+    timeoutSeconds: 1
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 10
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 200
+    timeoutSeconds: 1
+    periodSeconds: 10
+    successThreshold: 1
+    failureThreshold: 10
+  database:
+    builtIn:
+      postgresql:
+        enabled: false
+      mysql:
+        enabled: false
+      mariadb:
+        enabled: false
+  config:
+    database:
+      DB_TYPE: postgres
+      HOST: "${database_svc_name}.${namespace}.svc.cluster.local:5432"
+      NAME: "${database_name}"
+      USER: "${database_user}"
+      PASSWD: "${database_password}"
+  admin:
+    username: "gitea"
+    password: "gitea"
+    email: "${admin_mail}"
