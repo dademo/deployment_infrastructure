@@ -1,3 +1,5 @@
+// https://docs.gitea.io/en-us/install-on-kubernetes/
+
 resource "helm_release" "gitea" {
     name       = "gitea"
     repository = "https://dl.gitea.io/charts/"
@@ -48,6 +50,7 @@ locals {
         database_name = var.gitea.postgresql_database
         database_user = var.gitea.postgresql_user
         database_password =  var.gitea.postgresql_database
+        prometheus_enabled = var.gitea.prometheus_enabled
     }
     helm_gitea_postgresql_tpl_values = {
         username = var.gitea.postgresql_user

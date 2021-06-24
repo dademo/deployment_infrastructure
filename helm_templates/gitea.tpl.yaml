@@ -52,3 +52,7 @@ gitea:
     username: "gitea"
     password: "gitea"
     email: "${admin_mail}"
+  metrics:
+    enabled: ${prometheus_enabled}
+    serviceMonitor:
+      enabled: ${prometheus_enabled}
