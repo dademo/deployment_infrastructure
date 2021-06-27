@@ -1,9 +1,8 @@
 controller:
-  initializeOnce: false
-
-ingress:
-  enabled: ${ingress_enabled}
-  hostName: ${ingress_host}
+  initializeOnce: true
+  ingress:
+    enabled: ${ingress_enabled}
+    hostName: ${ingress_host}
 
 prometheus:
   enabled: ${prometheus_enabled}

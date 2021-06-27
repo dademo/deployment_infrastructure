@@ -55,4 +55,4 @@ gitea:
   metrics:
     enabled: ${prometheus_enabled}
     serviceMonitor:
-      enabled: ${prometheus_enabled}
+      enabled: false
