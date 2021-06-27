@@ -2,6 +2,12 @@ variable "k8s_config_context" {
     type = string
 }
 
+variable "dashboard_ingress_hostname" {
+    type = string
+    description = "The dashboard ingress hostname"
+    default = "dashboard.k8s.local"
+}
+
 variable "gitea" {
     type = object({
         namespace = string
@@ -17,6 +23,7 @@ variable "gitea" {
         admin_mail = string
         prometheus_enabled = string
     })
+    description = "Gitea service configuration"
     default = {
         namespace = "gitea"
         persistence_size = "2Gi"
@@ -27,8 +34,8 @@ variable "gitea" {
         postgresql_user = "gitea"
         postgresql_password = "gitea"
         ingress_enabled = "true"
-        ingress_hosts = ["gitea.k8s.localdomain"]
-        admin_mail = "admin@gitea.k8s.localdomain"
+        ingress_hosts = ["gitea.k8s.local"]
+        admin_mail = "admin@gitea.k8s.local"
         prometheus_enabled = "true"
     }
 }
@@ -42,12 +49,13 @@ variable "jenkins" {
         ingress_host = string
         prometheus_enabled = string
     })
+    description = "Jenkins service configuration"
     default = {
         namespace = "jenkins"
         persistence_storage_class = "standard"
         persistence_size = "20Gi"
         ingress_enabled = "true"
-        ingress_host = "jenkins.k8s.localdomain"
+        ingress_host = "jenkins.k8s.local"
         prometheus_enabled = "true"
     }
 }
