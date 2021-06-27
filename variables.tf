@@ -59,3 +59,22 @@ variable "jenkins" {
         prometheus_enabled = "true"
     }
 }
+
+
+variable "nexus" {
+    type = object({
+        namespace = string
+        persistence_storage_class = string
+        persistence_size = string
+        ingress_enabled = string
+        ingress_host = string
+    })
+    description = "Nexus service configuration"
+    default = {
+        namespace = "nexus"
+        persistence_storage_class = "standard"
+        persistence_size = "20Gi"
+        ingress_enabled = "true"
+        ingress_host = "nexus.k8s.local"
+    }
+}

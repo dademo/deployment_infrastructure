@@ -1,11 +1,17 @@
-resource "kubernetes_namespace" "k8s_gitea_namespace" {
+resource "kubernetes_namespace" "gitea" {
     metadata {
         name = var.gitea.namespace
     }
 }
 
-resource "kubernetes_namespace" "k8s_jenkins_namespace" {
+resource "kubernetes_namespace" "jenkins" {
     metadata {
         name = var.jenkins.namespace
+    }
+}
+
+resource "kubernetes_namespace" "nexus" {
+    metadata {
+        name = var.nexus.namespace
     }
 }

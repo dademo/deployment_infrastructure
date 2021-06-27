@@ -1,0 +1,13 @@
+nexus:
+  docker:
+    enabled: true
+
+ingress:
+  enabled: ${ingress_enabled}
+  hostRepo: "${ingress_host}"
+
+persistence:
+  enabled: true
+  accessMode: "ReadWriteOnce"
+  storageSize: "${persistence_size}"
+  storageClass: "${persistence_storage_class}"

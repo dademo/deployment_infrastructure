@@ -11,7 +11,7 @@ resource "helm_release" "gitea" {
     wait = true
     wait_for_jobs = true
 
-    namespace  = var.gitea.namespace
+    namespace  = kubernetes_namespace.gitea.metadata[0].name
 
     values = [
         "${templatefile("helm_templates/gitea.tpl.yaml", local.helm_gitea_tpl_values)}"
