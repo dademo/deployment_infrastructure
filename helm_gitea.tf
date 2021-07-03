@@ -1,6 +1,9 @@
 // https://docs.gitea.io/en-us/install-on-kubernetes/
 
 resource "helm_release" "gitea" {
+
+    count = var.gitea.enabled ? 1 : 0
+
     name       = "gitea"
     repository = "https://dl.gitea.io/charts/"
     chart      = "gitea"
@@ -11,7 +14,7 @@ resource "helm_release" "gitea" {
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.gitea.metadata[0].name
+    namespace  = kubernetes_namespace.gitea[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/gitea.tpl.yaml", local.helm_gitea_tpl_values)}"
@@ -19,6 +22,8 @@ resource "helm_release" "gitea" {
 }
 
 resource "helm_release" "gitea_postgresql" {
+
+    count = var.gitea.enabled ? 1 : 0
 
     name       = "gitea-postgresql"
     repository = "https://charts.bitnami.com/bitnami"
@@ -30,7 +35,7 @@ resource "helm_release" "gitea_postgresql" {
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.gitea.metadata[0].name
+    namespace  = kubernetes_namespace.gitea[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/postgresql.tpl.yaml", local.helm_gitea_postgresql_tpl_values)}"
@@ -40,16 +45,17 @@ resource "helm_release" "gitea_postgresql" {
 locals {
     helm_gitea_tpl_values = {
         namespace = var.gitea.namespace
+        replica_count = var.gitea.replica_count
         persistence_size = var.gitea.persistence_size
         persistence_storage_class = var.gitea.persistence_storage_class
-        ingress_enabled = var.gitea.ingress_enabled
+        ingress_enabled = tostring(var.gitea.ingress_enabled)
         ingress_hosts = var.gitea.ingress_hosts
         admin_mail = var.gitea.admin_mail
-        database_svc_name = helm_release.gitea_postgresql.name
+        database_svc_name = helm_release.gitea_postgresql[0].name
         database_name = var.gitea.postgresql_database
         database_user = var.gitea.postgresql_user
         database_password =  var.gitea.postgresql_database
-        prometheus_enabled = var.gitea.prometheus_enabled
+        prometheus_enabled = tostring(var.gitea.prometheus_enabled)
     }
     helm_gitea_postgresql_tpl_values = {
         database = var.gitea.postgresql_database

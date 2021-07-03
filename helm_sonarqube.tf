@@ -1,15 +1,18 @@
 // https://github.com/SonarSource/helm-chart-sonarqube/tree/master/charts/sonarqube
 
 resource "helm_release" "sonarqube" {
+    
+    count = var.sonarqube.enabled ? 1 : 0
+    
     name       = "sonarqube"
     chart      = "./dependencies/helm-chart-sonarqube/charts/sonarqube"
 
-    timeout = 300
+    timeout = 600
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.sonarqube.metadata[0].name
+    namespace  = kubernetes_namespace.sonarqube[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/sonarqube.tpl.yaml", local.helm_sonarqube_tpl_values)}"
@@ -17,7 +20,9 @@ resource "helm_release" "sonarqube" {
 }
 
 resource "helm_release" "sonarqube_postgresql" {
-
+    
+    count = var.sonarqube.enabled ? 1 : 0
+    
     name       = "sonarqube-postgresql"
     repository = "https://charts.bitnami.com/bitnami"
     chart      = "postgresql"
@@ -28,7 +33,7 @@ resource "helm_release" "sonarqube_postgresql" {
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.sonarqube.metadata[0].name
+    namespace  = kubernetes_namespace.sonarqube[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/postgresql.tpl.yaml", local.helm_sonarqube_postgresql_tpl_values)}"
@@ -41,13 +46,13 @@ locals {
         replicaCount = var.sonarqube.replicaCount
         persistence_size = var.sonarqube.persistence_size
         persistence_storage_class = var.sonarqube.persistence_storage_class
-        ingress_enabled = var.sonarqube.ingress_enabled
+        ingress_enabled = tostring(var.sonarqube.ingress_enabled)
         ingress_hosts = var.sonarqube.ingress_hosts
-        database_svc_name = helm_release.sonarqube_postgresql.name
+        database_svc_name = helm_release.sonarqube_postgresql[0].name
         database_name = var.sonarqube.postgresql_database
         database_user = var.sonarqube.postgresql_user
         database_password =  var.sonarqube.postgresql_database
-        prometheus_enabled = var.sonarqube.prometheus_enabled
+        prometheus_enabled = tostring(var.sonarqube.prometheus_enabled)
     }
     helm_sonarqube_postgresql_tpl_values = {
         database = var.sonarqube.postgresql_database

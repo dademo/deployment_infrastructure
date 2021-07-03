@@ -1,6 +1,9 @@
 // https://github.com/bitnami/bitnami-docker-keycloak
 
 resource "helm_release" "keycloak" {
+    
+    count = var.keycloak.enabled ? 1 : 0
+    
     name       = "keycloak"
     repository = "https://charts.bitnami.com/bitnami"
     chart      = "keycloak"
@@ -8,10 +11,10 @@ resource "helm_release" "keycloak" {
 
     timeout = 300
     cleanup_on_fail = true
-    wait = true
-    wait_for_jobs = true
+    wait = false
+    wait_for_jobs = false
 
-    namespace  = kubernetes_namespace.keycloak.metadata[0].name
+    namespace  = kubernetes_namespace.keycloak[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/keycloak.tpl.yaml", local.helm_keycloak_tpl_values)}"
@@ -19,7 +22,9 @@ resource "helm_release" "keycloak" {
 }
 
 resource "helm_release" "keycloak_postgresql" {
-
+    
+    count = var.keycloak.enabled ? 1 : 0
+    
     name       = "keycloak-postgresql"
     repository = "https://charts.bitnami.com/bitnami"
     chart      = "postgresql"
@@ -30,7 +35,7 @@ resource "helm_release" "keycloak_postgresql" {
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.keycloak.metadata[0].name
+    namespace  = kubernetes_namespace.keycloak[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/postgresql.tpl.yaml", local.helm_keycloak_postgresql_tpl_values)}"
@@ -41,13 +46,13 @@ locals {
     helm_keycloak_tpl_values = {
         namespace = var.keycloak.namespace
         replica_count = var.keycloak.replica_count
-        ingress_enabled = var.keycloak.ingress_enabled
+        ingress_enabled = tostring(var.keycloak.ingress_enabled)
         ingress_host = var.keycloak.ingress_host
-        database_svc_name = helm_release.keycloak_postgresql.name
+        database_svc_name = helm_release.keycloak_postgresql[0].name
         database_name = var.keycloak.postgresql_database
         database_user = var.keycloak.postgresql_user
         database_password =  var.keycloak.postgresql_database
-        prometheus_enabled = var.keycloak.prometheus_enabled
+        prometheus_enabled = tostring(var.keycloak.prometheus_enabled)
     }
     helm_keycloak_postgresql_tpl_values = {
         database = var.keycloak.postgresql_database

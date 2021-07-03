@@ -37,4 +37,4 @@ account:
 livenessProbe:
   initialDelaySecond: 600
 startupProbe:
-  initialDelaySecond: 300
+  initialDelaySecond: 600

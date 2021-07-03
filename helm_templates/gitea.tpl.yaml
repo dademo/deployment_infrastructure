@@ -1,3 +1,5 @@
+replicaCount: ${replica_count}
+
 persistence:
   enabled: true
   size: "${persistence_size}"
