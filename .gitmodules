@@ -1,0 +1,3 @@
+[submodule "dependencies/helm-chart-sonarqube"]
+	path = dependencies/helm-chart-sonarqube
+	url = https://github.com/SonarSource/helm-chart-sonarqube.git

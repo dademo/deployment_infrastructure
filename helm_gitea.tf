@@ -30,7 +30,7 @@ resource "helm_release" "gitea_postgresql" {
     wait = true
     wait_for_jobs = true
 
-    namespace  = var.gitea.namespace
+    namespace  = kubernetes_namespace.gitea.metadata[0].name
 
     values = [
         "${templatefile("helm_templates/postgresql.tpl.yaml", local.helm_gitea_postgresql_tpl_values)}"
@@ -38,13 +38,12 @@ resource "helm_release" "gitea_postgresql" {
 }
 
 locals {
-    gitea_ingress_hosts = join(",", formatlist("\"%s\"", var.gitea.ingress_hosts))
     helm_gitea_tpl_values = {
         namespace = var.gitea.namespace
         persistence_size = var.gitea.persistence_size
         persistence_storage_class = var.gitea.persistence_storage_class
         ingress_enabled = var.gitea.ingress_enabled
-        ingress_hosts = format("[%s]", local.gitea_ingress_hosts)
+        ingress_hosts = var.gitea.ingress_hosts
         admin_mail = var.gitea.admin_mail
         database_svc_name = helm_release.gitea_postgresql.name
         database_name = var.gitea.postgresql_database
@@ -53,9 +52,9 @@ locals {
         prometheus_enabled = var.gitea.prometheus_enabled
     }
     helm_gitea_postgresql_tpl_values = {
+        database = var.gitea.postgresql_database
         username = var.gitea.postgresql_user
         password = var.gitea.postgresql_password
-        database = var.gitea.postgresql_database
         persistence_size = var.gitea.postgresql_persistence_size
         persistence_storage_class = var.gitea.postgresql_persistence_storage_class
     }

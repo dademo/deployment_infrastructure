@@ -5,7 +5,12 @@ persistence:
 
 ingress:
   enabled: ${ingress_enabled}
-  hosts: ${ingress_hosts}
+  %{ if ingress_enabled }
+  hosts:
+  %{ for ingress_host in ingress_hosts ~}
+  - ${ingress_host}
+  %{ endfor ~}
+  %{ endif }
 
 service:
   http:

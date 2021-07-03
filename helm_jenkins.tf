@@ -25,5 +25,6 @@ locals {
         ingress_enabled = var.jenkins.ingress_enabled
         ingress_host = var.jenkins.ingress_host
         prometheus_enabled = var.jenkins.prometheus_enabled
+        additional_plugins = var.jenkins.additional_plugins
     }
 }

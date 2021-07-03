@@ -15,3 +15,15 @@ resource "kubernetes_namespace" "nexus" {
         name = var.nexus.namespace
     }
 }
+
+resource "kubernetes_namespace" "sonarqube" {
+    metadata {
+        name = var.sonarqube.namespace
+    }
+}
+
+resource "kubernetes_namespace" "keycloak" {
+    metadata {
+        name = var.keycloak.namespace
+    }
+}

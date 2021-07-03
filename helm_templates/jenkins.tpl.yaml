@@ -3,6 +3,11 @@ controller:
   ingress:
     enabled: ${ingress_enabled}
     hostName: ${ingress_host}
+  additionalPlugins: %{ if length(additional_plugins) == 0 } [] %{ else }
+    %{ for plugin in additional_plugins ~}
+    - "${plugin}"
+    %{ endfor ~}
+  %{ endif }
 
 prometheus:
   enabled: ${prometheus_enabled}
