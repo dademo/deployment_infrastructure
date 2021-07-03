@@ -1,3 +1,10 @@
+resource "kubernetes_namespace" "supervision" {
+    count = var.supervision.enabled ? 1 : 0
+    metadata {
+        name = var.supervision.namespace
+    }
+}
+
 resource "kubernetes_namespace" "gitea" {
     count = var.gitea.enabled ? 1 : 0
     metadata {

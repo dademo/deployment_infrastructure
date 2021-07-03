@@ -19,6 +19,7 @@ resource "helm_release" "sonarqube" {
     ]
 }
 
+// https://github.com/bitnami/charts/tree/master/bitnami/postgresql
 resource "helm_release" "sonarqube_postgresql" {
     
     count = var.sonarqube.enabled ? 1 : 0
@@ -60,5 +61,6 @@ locals {
         password = var.sonarqube.postgresql_password
         persistence_size = var.sonarqube.postgresql_persistence_size
         persistence_storage_class = var.sonarqube.postgresql_persistence_storage_class
+        prometheus_enabled = tostring(var.gitea.postgres_prometheus_enabled)
     }
 }

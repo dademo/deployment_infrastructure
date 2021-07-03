@@ -1,0 +1,40 @@
+# https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
+replicas: ${replica_count}
+
+ingress:
+  enabled: ${ingress_enabled}
+  hosts: 
+  %{ for ingress_host in ingress_hosts ~}
+  - "${ingress_host}"
+  %{ endfor ~}
+
+persistence:
+  enabled: true
+  storageClassName: "${persistence_storage_class}"
+  size: "${persistence_size}"
+
+plugins: %{ if length(plugins) == 0 } [] %{ else }
+  %{ for plugin in plugins ~}
+  - ${plugin}
+  %{ endfor ~}
+  %{ endif }
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      uid: prometheus
+      type: prometheus
+      url: "http://prometheus-server.${namespace}.svc.cluster.local"
+      access: proxy
+      isDefault: true
+
+serviceMonitor:
+  enabled: false
+
+imageRenderer:
+  enabled: false
+
+adminUser: admin
+adminPassword: admin

@@ -8,6 +8,64 @@ variable "dashboard_ingress_hostname" {
     default = "dashboard.k8s.local"
 }
 
+variable "supervision" {
+    type = object({
+        enabled = bool
+        namespace = string
+        alert_manager_enabled = bool
+        alert_manager_external_url = string
+        alert_manager_ingress_enabled = bool
+        alert_manager_persistence_storage_class = string
+        alert_manager_persistence_size = string
+        alert_manager_replica_count = number
+        kube_state_metrics_enabled = bool
+        node_exporter_enabled = bool
+        prometheus_enabled = bool
+        prometheus_scrape_interval = string
+        prometheus_scrape_timeout = string
+        prometheus_evaluation_interval = string
+        prometheus_persistence_storage_class = string
+        prometheus_persistence_size = string
+        prometheus_replica_count = number
+        push_gateway_enabled = bool
+        push_gateway_replica_count = number
+        grafana_replication_count = number
+        grafana_ingress_enabled = bool
+        granafa_ingress_hosts = list(string)
+        granafa_persistence_storage_class = string
+        granafa_persistence_size = string
+        granafa_plugins = list(string)
+    })
+    description = "Supervision service configuration"
+    default = {
+        enabled = true
+        namespace = "supervision"
+        alert_manager_enabled = true
+        alert_manager_external_url = "alertmanager.k8s.local"
+        alert_manager_ingress_enabled = true
+        alert_manager_persistence_size = "2Gi"
+        alert_manager_persistence_storage_class = "standard"
+        alert_manager_replica_count = 2
+        kube_state_metrics_enabled = true
+        node_exporter_enabled = true
+        prometheus_enabled = true
+        prometheus_persistence_size = "8Gi"
+        prometheus_persistence_storage_class = "standard"
+        prometheus_replica_count = 2
+        prometheus_scrape_interval = "1m"
+        prometheus_scrape_timeout = "10s"
+        prometheus_evaluation_interval = "1m"
+        push_gateway_enabled = false
+        push_gateway_replica_count = 2
+        grafana_replication_count = 2
+        grafana_ingress_enabled = true
+        granafa_ingress_hosts = [ "grafana.k8s.local" ]
+        granafa_persistence_storage_class = "standard"
+        granafa_persistence_size = "10Gi"
+        granafa_plugins = []
+    }
+}
+
 variable "gitea" {
     type = object({
         enabled = bool
@@ -24,6 +82,7 @@ variable "gitea" {
         ingress_hosts = list(string)
         admin_mail = string
         prometheus_enabled = bool
+        postgres_prometheus_enabled = bool
     })
     description = "Gitea service configuration"
     default = {
@@ -41,6 +100,7 @@ variable "gitea" {
         ingress_hosts = ["gitea.k8s.local"]
         admin_mail = "admin@gitea.k8s.local"
         prometheus_enabled = true
+        postgres_prometheus_enabled = true
     }
 }
 
@@ -104,6 +164,7 @@ variable "sonarqube" {
         postgresql_user = string
         postgresql_password = string
         prometheus_enabled = bool
+        postgres_prometheus_enabled = bool
     })
     description = "Sonarqube service configuration"
     default = {
@@ -120,6 +181,7 @@ variable "sonarqube" {
         ingress_enabled = true
         ingress_hosts = ["sonar.k8s.local"]
         prometheus_enabled = true
+        postgres_prometheus_enabled = true
     }
 }
 
@@ -136,6 +198,7 @@ variable "keycloak" {
         postgresql_user = string
         postgresql_password = string
         prometheus_enabled = bool
+        postgres_prometheus_enabled = bool
     })
     description = "Keycloak service configuration"
     default = {
@@ -150,5 +213,6 @@ variable "keycloak" {
         ingress_enabled = true
         ingress_host = "keycloak.k8s.local"
         prometheus_enabled = true
+        postgres_prometheus_enabled = true
     }
 }

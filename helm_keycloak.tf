@@ -21,6 +21,7 @@ resource "helm_release" "keycloak" {
     ]
 }
 
+// https://github.com/bitnami/charts/tree/master/bitnami/postgresql
 resource "helm_release" "keycloak_postgresql" {
     
     count = var.keycloak.enabled ? 1 : 0
@@ -60,5 +61,6 @@ locals {
         password = var.keycloak.postgresql_password
         persistence_size = var.keycloak.postgresql_persistence_size
         persistence_storage_class = var.keycloak.postgresql_persistence_storage_class
+        prometheus_enabled = tostring(var.gitea.postgres_prometheus_enabled)
     }
 }

@@ -16,3 +16,6 @@ persistence:
 
 volumePermissions:
   enabled: true
+
+metrics:
+  enabled: ${prometheus_enabled}
