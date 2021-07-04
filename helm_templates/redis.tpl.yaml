@@ -1,0 +1,60 @@
+architecture: %{ if replica_count == 0 } standalone %{ else } replication %{ endif }
+
+auth:
+  enabled: ${authentication_enabled}
+  sentinel: ${authentication_enabled}
+  password: ${password}
+
+master:
+  persistence:
+    enabled: true
+    storageClass: "${persistence_storage_class}"
+    size: "${persistence_size}"
+  livenessProbe:
+    enabled: true
+  readinessProbe:
+    enabled: true
+
+replica:
+  replicaCount: ${replica_count}
+  persistence:
+    enabled: true
+    storageClass: "${persistence_storage_class}"
+    size: "${persistence_size}"
+  livenessProbe:
+    enabled: true
+  readinessProbe:
+    enabled: true
+
+sentinel:
+  enabled: false
+
+networkPolicy:
+  enabled: false
+
+rbac:
+  create: false
+
+serviceAccount:
+  create: true
+
+pdb:
+  create: false
+
+tls:
+  enabled: false
+
+metrics:
+  enabled: ${prometheus_enabled}
+  sentinel:
+    enabled: ${prometheus_enabled}
+  serviceMonitor:
+    enabled: false
+  prometheusRule:
+    enabled: false
+
+volumePermissions:
+  enabled: ${volume_permissions_enabled}
+
+sysctl:
+  enabled: ${sysctl_enabled}

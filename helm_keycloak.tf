@@ -9,7 +9,7 @@ resource "helm_release" "keycloak" {
     chart      = "keycloak"
     version    = "3.1.1"
 
-    timeout = 300
+    timeout = 600
     cleanup_on_fail = true
     wait = false
     wait_for_jobs = false
@@ -31,7 +31,7 @@ resource "helm_release" "keycloak_postgresql" {
     chart      = "postgresql"
     version    = "10.4.5"
 
-    timeout = 600
+    timeout = 300
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
@@ -61,6 +61,6 @@ locals {
         password = var.keycloak.postgresql_password
         persistence_size = var.keycloak.postgresql_persistence_size
         persistence_storage_class = var.keycloak.postgresql_persistence_storage_class
-        prometheus_enabled = tostring(var.gitea.postgres_prometheus_enabled)
+        prometheus_enabled = tostring(var.gitea.postgresql_prometheus_enabled)
     }
 }

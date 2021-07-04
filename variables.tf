@@ -82,7 +82,7 @@ variable "gitea" {
         ingress_hosts = list(string)
         admin_mail = string
         prometheus_enabled = bool
-        postgres_prometheus_enabled = bool
+        postgresql_prometheus_enabled = bool
     })
     description = "Gitea service configuration"
     default = {
@@ -91,7 +91,7 @@ variable "gitea" {
         replica_count = 2
         persistence_size = "2Gi"
         persistence_storage_class = "standard"
-        postgresql_persistence_size = "2Gi"
+        postgresql_persistence_size = "8Gi"
         postgresql_persistence_storage_class = "standard"
         postgresql_database = "gitea"
         postgresql_user = "gitea"
@@ -100,7 +100,7 @@ variable "gitea" {
         ingress_hosts = ["gitea.k8s.local"]
         admin_mail = "admin@gitea.k8s.local"
         prometheus_enabled = true
-        postgres_prometheus_enabled = true
+        postgresql_prometheus_enabled = true
     }
 }
 
@@ -189,16 +189,16 @@ variable "sonarqube" {
         postgresql_user = string
         postgresql_password = string
         prometheus_enabled = bool
-        postgres_prometheus_enabled = bool
+        postgresql_prometheus_enabled = bool
     })
     description = "Sonarqube service configuration"
     default = {
         enabled = true
         namespace = "sonarqube"
         replicaCount = 2
-        persistence_size = "2Gi"
+        persistence_size = "5Gi"
         persistence_storage_class = "standard"
-        postgresql_persistence_size = "2Gi"
+        postgresql_persistence_size = "8Gi"
         postgresql_persistence_storage_class = "standard"
         postgresql_database = "sonarqube"
         postgresql_user = "sonarqube"
@@ -206,7 +206,7 @@ variable "sonarqube" {
         ingress_enabled = true
         ingress_hosts = ["sonar.k8s.local"]
         prometheus_enabled = true
-        postgres_prometheus_enabled = true
+        postgresql_prometheus_enabled = true
     }
 }
 
@@ -223,14 +223,14 @@ variable "keycloak" {
         postgresql_user = string
         postgresql_password = string
         prometheus_enabled = bool
-        postgres_prometheus_enabled = bool
+        postgresql_prometheus_enabled = bool
     })
     description = "Keycloak service configuration"
     default = {
         enabled = true
         namespace = "keycloak"
         replica_count = 2
-        postgresql_persistence_size = "2Gi"
+        postgresql_persistence_size = "8Gi"
         postgresql_persistence_storage_class = "standard"
         postgresql_database = "keycloak"
         postgresql_user = "keycloak"
@@ -238,6 +238,47 @@ variable "keycloak" {
         ingress_enabled = true
         ingress_host = "keycloak.k8s.local"
         prometheus_enabled = true
-        postgres_prometheus_enabled = true
+        postgresql_prometheus_enabled = true
+    }
+}
+
+variable "gitlab" {
+    type = object({
+        enabled = bool
+        namespace = string
+        redis_replica_count = number
+        redis_authentication_enabled = bool
+        redis_password = string
+        redis_persistence_storage_class = string
+        redis_persistence_size = string
+        redis_prometheus_enabled = bool
+        redis_volume_permissions_enabled = bool
+        redis_sysctl_enabled = bool
+        postgresql_database = string
+        postgresql_user = string
+        postgresql_password = string
+        postgresql_persistence_size = string
+        postgresql_persistence_storage_class = string
+        postgresql_prometheus_enabled = bool
+
+    })
+    description = "Gitlab service configuration"
+    default = {
+        enabled = true
+        namespace = "gitlab"
+        redis_replica_count = 2
+        redis_authentication_enabled = false
+        redis_password = "admin"
+        redis_persistence_storage_class = "standard"
+        redis_persistence_size = "8Gi"
+        redis_prometheus_enabled = true
+        redis_volume_permissions_enabled = false
+        redis_sysctl_enabled = false
+        postgresql_database = "gitlab"
+        postgresql_user = "gitlab"
+        postgresql_password = "gitlab"
+        postgresql_persistence_size = "8Gi"
+        postgresql_persistence_storage_class = "standard"
+        postgresql_prometheus_enabled = true
     }
 }

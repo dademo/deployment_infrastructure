@@ -39,3 +39,10 @@ resource "kubernetes_namespace" "keycloak" {
         name = var.keycloak.namespace
     }
 }
+
+resource "kubernetes_namespace" "gitlab" {
+    count = var.gitlab.enabled ? 1 : 0
+    metadata {
+        name = var.gitlab.namespace
+    }
+}

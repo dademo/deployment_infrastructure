@@ -64,6 +64,6 @@ locals {
         password = var.gitea.postgresql_password
         persistence_size = var.gitea.postgresql_persistence_size
         persistence_storage_class = var.gitea.postgresql_persistence_storage_class
-        prometheus_enabled = tostring(var.gitea.postgres_prometheus_enabled)
+        prometheus_enabled = tostring(var.gitea.postgresql_prometheus_enabled)
     }
 }
