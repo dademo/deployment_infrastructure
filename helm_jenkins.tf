@@ -9,7 +9,7 @@ resource "helm_release" "jenkins" {
     chart      = "jenkins"
     version    = "3.4.0"
 
-    timeout = 300
+    timeout = 600
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
@@ -28,6 +28,6 @@ locals {
         ingress_enabled = tostring(var.jenkins.ingress_enabled)
         ingress_host = var.jenkins.ingress_host
         prometheus_enabled = tostring(var.jenkins.prometheus_enabled)
-        additional_plugins = var.jenkins.additional_plugins
+        additional_plugins = [ for plugin_def in var.jenkins.additional_plugins: format("%s:%s", plugin_def.plugin, plugin_def.version) ]
     }
 }

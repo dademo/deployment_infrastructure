@@ -113,7 +113,10 @@ variable "jenkins" {
         ingress_enabled = bool
         ingress_host = string
         prometheus_enabled = bool
-        additional_plugins = list(string)
+        additional_plugins = list(object({
+            plugin = string
+            version = string
+        }))
     })
     description = "Jenkins service configuration"
     default = {
@@ -124,7 +127,29 @@ variable "jenkins" {
         ingress_enabled = true
         ingress_host = "jenkins.k8s.local"
         prometheus_enabled = true
-        additional_plugins = []
+        additional_plugins = [
+            // System
+            { plugin = "saml",                      version = "2.0.7" },
+            { plugin = "credentials",               version = "2.5" },
+            { plugin = "mailer",                    version = "1.34" },
+            // Interface
+            { plugin = "cloudbees-folder",          version = "6.15" },
+            { plugin = "dashboard-view",            version = "2.17" },
+            // Pipeline
+            { plugin = "pipeline-model-definition", version = "1.8.5" },
+            { plugin = "pipeline-stage-step",       version = "2.5" },
+            { plugin = "pipeline-build-step",       version = "2.13" },
+            { plugin = "workflow-scm-step",         version = "2.13" },
+            { plugin = "pipeline-github",           version = "2.7" },
+            // Development tools
+            { plugin = "gitlab-plugin",             version = "1.5.20" },
+            { plugin = "git-client",                version = "3.7.2" },
+            { plugin = "xunit",                     version = "3.0.2" },
+            { plugin = "junit",                     version = "1.51" },
+            { plugin = "jacoco",                    version = "3.3.0" },
+            // ... and more
+            { plugin = "blueocean",                 version = "1.24.7" },
+        ]
     }
 }
 
