@@ -27,9 +27,9 @@ resource "helm_release" "sonarqube_postgresql" {
     name       = "sonarqube-postgresql"
     repository = "https://charts.bitnami.com/bitnami"
     chart      = "postgresql"
-    version    = "10.4.5"
+    version    = local.helm_postgresql_version
 
-    timeout = 600
+    timeout = 300
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
@@ -49,7 +49,7 @@ locals {
         persistence_storage_class = var.sonarqube.persistence_storage_class
         ingress_enabled = tostring(var.sonarqube.ingress_enabled)
         ingress_hosts = var.sonarqube.ingress_hosts
-        database_svc_name = helm_release.sonarqube_postgresql[0].name
+        database_svc_name = var.sonarqube.enabled ? helm_release.sonarqube_postgresql[0].name : ""
         database_name = var.sonarqube.postgresql_database
         database_user = var.sonarqube.postgresql_user
         database_password =  var.sonarqube.postgresql_database

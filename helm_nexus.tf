@@ -7,7 +7,7 @@ resource "helm_release" "nexus" {
     name       = "nexus"
     repository = "https://sonatype.github.io/helm3-charts/"
     chart      = "nexus-repository-manager"
-    version    = "29.2.0"
+    version    = local.helm_nexus_version
 
     timeout = 300
     cleanup_on_fail = true

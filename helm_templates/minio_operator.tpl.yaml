@@ -1,0 +1,14 @@
+operator:
+  replicaCount: ${operator_replica_count}
+
+console:
+  replicaCount: ${console_replica_count}
+  ingress:
+    enabled: ${ingress_enabled}
+    host: "${ingress_host}"
+  metrics:
+    enabled: ${prometheus_enabled}
+    serviceMonitor:
+      enabled: false
+
+tenants: []

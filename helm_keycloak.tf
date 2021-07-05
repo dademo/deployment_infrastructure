@@ -7,7 +7,7 @@ resource "helm_release" "keycloak" {
     name       = "keycloak"
     repository = "https://charts.bitnami.com/bitnami"
     chart      = "keycloak"
-    version    = "3.1.1"
+    version    = local.helm_keycloak_version
 
     timeout = 600
     cleanup_on_fail = true
@@ -29,7 +29,7 @@ resource "helm_release" "keycloak_postgresql" {
     name       = "keycloak-postgresql"
     repository = "https://charts.bitnami.com/bitnami"
     chart      = "postgresql"
-    version    = "10.4.5"
+    version    = local.helm_postgresql_version
 
     timeout = 300
     cleanup_on_fail = true
@@ -49,7 +49,7 @@ locals {
         replica_count = var.keycloak.replica_count
         ingress_enabled = tostring(var.keycloak.ingress_enabled)
         ingress_host = var.keycloak.ingress_host
-        database_svc_name = helm_release.keycloak_postgresql[0].name
+        database_svc_name = var.keycloak.enabled ? helm_release.keycloak_postgresql[0].name : ""
         database_name = var.keycloak.postgresql_database
         database_user = var.keycloak.postgresql_user
         database_password =  var.keycloak.postgresql_database

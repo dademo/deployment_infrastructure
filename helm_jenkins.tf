@@ -7,7 +7,7 @@ resource "helm_release" "jenkins" {
     name       = "jenkins"
     repository = "https://charts.jenkins.io"
     chart      = "jenkins"
-    version    = "3.4.0"
+    version    = local.helm_jenkins_version
 
     timeout = 600
     cleanup_on_fail = true

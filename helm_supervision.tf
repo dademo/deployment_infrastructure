@@ -7,7 +7,7 @@ resource "helm_release" "prometheus" {
     name       = "prometheus"
     repository = "https://prometheus-community.github.io/helm-charts"
     chart      = "prometheus"
-    version    = "14.3.0"
+    version    = local.helm_prometheus_version
 
     timeout = 300
     cleanup_on_fail = true
@@ -30,7 +30,7 @@ resource "helm_release" "grafana" {
     name       = "grafana"
     repository = "https://grafana.github.io/helm-charts"
     chart      = "grafana"
-    version    = "6.13.6"
+    version    = local.helm_grafana_version
 
     timeout = 300
     cleanup_on_fail = true

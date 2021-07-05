@@ -104,6 +104,81 @@ variable "gitea" {
     }
 }
 
+variable "gitlab" {
+    type = object({
+        enabled = bool
+        namespace = string
+        redis_replica_count = number
+        redis_authentication_enabled = bool
+        redis_password = string
+        redis_persistence_storage_class = string
+        redis_persistence_size = string
+        redis_prometheus_enabled = bool
+        redis_volume_permissions_enabled = bool
+        redis_sysctl_enabled = bool
+        postgresql_database = string
+        postgresql_user = string
+        postgresql_password = string
+        postgresql_persistence_size = string
+        postgresql_persistence_storage_class = string
+        postgresql_prometheus_enabled = bool
+        minio_operator_operator_replica_count = number
+        minio_operator_console_replica_count = number
+        minio_operator_ingress_enabled = bool
+        minio_operator_ingress_host = string
+        minio_operator_prometheus_enabled = bool
+        minio_tenant_creds_access_key = string
+        minio_tenant_creds_secret_key = string
+        minio_tenant_replica_count = number
+        minio_tenant_volumes_per_server = number
+        minio_tenant_volume_size = string
+        minio_tenant_prometheus_enabled = bool
+        gitlab_saml_auth_enabled = bool
+        gitlab_saml_assertion_consumer_service_url = string
+        gitlab_saml_idp_cert_fingerprint = string
+        gitlab_saml_idp_sso_target_url = string
+        gitlab_saml_issuer = string
+        gitlab_domain = string
+    })
+    description = "Gitlab service configuration"
+    default = {
+        enabled = true
+        namespace = "gitlab"
+        redis_replica_count = 2
+        redis_authentication_enabled = false
+        redis_password = "admin"
+        redis_persistence_storage_class = "standard"
+        redis_persistence_size = "8Gi"
+        redis_prometheus_enabled = true
+        redis_volume_permissions_enabled = false
+        redis_sysctl_enabled = false
+        postgresql_database = "gitlab"
+        postgresql_user = "gitlab"
+        postgresql_password = "gitlab"
+        postgresql_persistence_size = "8Gi"
+        postgresql_persistence_storage_class = "standard"
+        postgresql_prometheus_enabled = true
+        minio_operator_operator_replica_count = 3
+        minio_operator_console_replica_count = 3
+        minio_operator_ingress_enabled = true
+        minio_operator_ingress_host = "gitlab-minio.k8s.local"
+        minio_operator_prometheus_enabled = true
+        minio_tenant_creds_access_key = "minio"
+        minio_tenant_creds_secret_key = "minio123"
+        minio_tenant_replica_count = 4
+        minio_tenant_volumes_per_server = 4
+        minio_tenant_volume_size = "10Gi"
+        minio_tenant_prometheus_enabled = true
+        gitlab_saml_auth_enabled = false
+        gitlab_domain = "k8s.local"
+        // https://docs.gitlab.com/charts/charts/globals.html#providers
+        gitlab_saml_assertion_consumer_service_url = "https://gitlab.example.com/users/auth/saml/callback"
+        gitlab_saml_idp_cert_fingerprint = "xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx"
+        gitlab_saml_idp_sso_target_url = "https://SAML_IDP/app/xxxxxxxxx/xxxxxxxxx/sso/saml"
+        gitlab_saml_issuer = "https://gitlab.example.com"
+    }
+}
+
 variable "jenkins" {
     type = object({
         enabled = bool
@@ -238,47 +313,6 @@ variable "keycloak" {
         ingress_enabled = true
         ingress_host = "keycloak.k8s.local"
         prometheus_enabled = true
-        postgresql_prometheus_enabled = true
-    }
-}
-
-variable "gitlab" {
-    type = object({
-        enabled = bool
-        namespace = string
-        redis_replica_count = number
-        redis_authentication_enabled = bool
-        redis_password = string
-        redis_persistence_storage_class = string
-        redis_persistence_size = string
-        redis_prometheus_enabled = bool
-        redis_volume_permissions_enabled = bool
-        redis_sysctl_enabled = bool
-        postgresql_database = string
-        postgresql_user = string
-        postgresql_password = string
-        postgresql_persistence_size = string
-        postgresql_persistence_storage_class = string
-        postgresql_prometheus_enabled = bool
-
-    })
-    description = "Gitlab service configuration"
-    default = {
-        enabled = true
-        namespace = "gitlab"
-        redis_replica_count = 2
-        redis_authentication_enabled = false
-        redis_password = "admin"
-        redis_persistence_storage_class = "standard"
-        redis_persistence_size = "8Gi"
-        redis_prometheus_enabled = true
-        redis_volume_permissions_enabled = false
-        redis_sysctl_enabled = false
-        postgresql_database = "gitlab"
-        postgresql_user = "gitlab"
-        postgresql_password = "gitlab"
-        postgresql_persistence_size = "8Gi"
-        postgresql_persistence_storage_class = "standard"
         postgresql_prometheus_enabled = true
     }
 }

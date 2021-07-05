@@ -10,7 +10,7 @@ ingress:
   %{ if ingress_enabled }
   hosts:
   %{ for ingress_host in ingress_hosts ~}
-  - ${ingress_host}
+  - "${ingress_host}"
   %{ endfor ~}
   %{ endif }
 
