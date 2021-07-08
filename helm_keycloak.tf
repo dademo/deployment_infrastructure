@@ -56,6 +56,7 @@ locals {
         prometheus_enabled = tostring(var.keycloak.prometheus_enabled)
     }
     helm_keycloak_postgresql_tpl_values = {
+        image_tag = var.keycloak.postgresql_image_tag
         database = var.keycloak.postgresql_database
         username = var.keycloak.postgresql_user
         password = var.keycloak.postgresql_password

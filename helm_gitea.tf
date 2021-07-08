@@ -59,6 +59,7 @@ locals {
         prometheus_enabled = tostring(var.gitea.prometheus_enabled)
     }
     helm_gitea_postgresql_tpl_values = {
+        image_tag = var.gitea.postgresql_image_tag
         database = var.gitea.postgresql_database
         username = var.gitea.postgresql_user
         password = var.gitea.postgresql_password

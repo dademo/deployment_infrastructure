@@ -78,11 +78,12 @@ variable "gitea" {
         postgresql_database = string
         postgresql_user = string
         postgresql_password = string
+        postgresql_image_tag = string
+        postgresql_prometheus_enabled = bool
         ingress_enabled = bool
         ingress_hosts = list(string)
         admin_mail = string
         prometheus_enabled = bool
-        postgresql_prometheus_enabled = bool
     })
     description = "Gitea service configuration"
     default = {
@@ -96,11 +97,12 @@ variable "gitea" {
         postgresql_database = "gitea"
         postgresql_user = "gitea"
         postgresql_password = "gitea"
+        postgresql_image_tag = "13.3.0"
+        postgresql_prometheus_enabled = true
         ingress_enabled = true
         ingress_hosts = ["gitea.k8s.local"]
         admin_mail = "admin@gitea.k8s.local"
         prometheus_enabled = true
-        postgresql_prometheus_enabled = true
     }
 }
 
@@ -121,24 +123,30 @@ variable "gitlab" {
         postgresql_password = string
         postgresql_persistence_size = string
         postgresql_persistence_storage_class = string
+        postgresql_image_tag = string
         postgresql_prometheus_enabled = bool
-        minio_operator_operator_replica_count = number
-        minio_operator_console_replica_count = number
-        minio_operator_ingress_enabled = bool
-        minio_operator_ingress_host = string
-        minio_operator_prometheus_enabled = bool
-        minio_tenant_creds_access_key = string
-        minio_tenant_creds_secret_key = string
-        minio_tenant_replica_count = number
-        minio_tenant_volumes_per_server = number
-        minio_tenant_volume_size = string
-        minio_tenant_prometheus_enabled = bool
+        // minio_operator_operator_replica_count = number
+        // minio_operator_console_replica_count = number
+        // minio_operator_ingress_enabled = bool
+        // minio_operator_ingress_host = string
+        // minio_operator_prometheus_enabled = bool
+        // minio_tenant_creds_access_key = string
+        // minio_tenant_creds_secret_key = string
+        // minio_tenant_replica_count = number
+        // minio_tenant_volumes_per_server = number
+        // minio_tenant_volume_size = string
+        // minio_tenant_prometheus_enabled = bool
+        minio_persistence_size = string
+        minio_persistence_storage_class = string
+        minio_replicas = number
         gitlab_saml_auth_enabled = bool
         gitlab_saml_assertion_consumer_service_url = string
         gitlab_saml_idp_cert_fingerprint = string
         gitlab_saml_idp_sso_target_url = string
         gitlab_saml_issuer = string
         gitlab_domain = string
+        gitaly_persistence_storage_class = string
+        gitaly_persistence_size = string
     })
     description = "Gitlab service configuration"
     default = {
@@ -157,18 +165,24 @@ variable "gitlab" {
         postgresql_password = "gitlab"
         postgresql_persistence_size = "8Gi"
         postgresql_persistence_storage_class = "standard"
+        postgresql_image_tag = "13.3.0"
         postgresql_prometheus_enabled = true
-        minio_operator_operator_replica_count = 3
-        minio_operator_console_replica_count = 3
-        minio_operator_ingress_enabled = true
-        minio_operator_ingress_host = "gitlab-minio.k8s.local"
-        minio_operator_prometheus_enabled = true
-        minio_tenant_creds_access_key = "minio"
-        minio_tenant_creds_secret_key = "minio123"
-        minio_tenant_replica_count = 4
-        minio_tenant_volumes_per_server = 4
-        minio_tenant_volume_size = "10Gi"
+        // minio_operator_operator_replica_count = 3
+        // minio_operator_console_replica_count = 3
+        // minio_operator_ingress_enabled = true
+        // minio_operator_ingress_host = "gitlab-minio.k8s.local"
+        // minio_operator_prometheus_enabled = true
+        // minio_tenant_creds_access_key = "minio"
+        // minio_tenant_creds_secret_key = "minio123"
+        // minio_tenant_replica_count = 4
+        // minio_tenant_volumes_per_server = 4
+        // minio_tenant_volume_size = "10Gi"
+        minio_persistence_size = "2Gi"
+        minio_persistence_storage_class = "standard"
+        minio_replicas = 4
         minio_tenant_prometheus_enabled = true
+        gitaly_persistence_storage_class = "standard"
+        gitaly_persistence_size = "50Gi"
         gitlab_saml_auth_enabled = false
         gitlab_domain = "k8s.local"
         // https://docs.gitlab.com/charts/charts/globals.html#providers
@@ -263,8 +277,9 @@ variable "sonarqube" {
         postgresql_database = string
         postgresql_user = string
         postgresql_password = string
-        prometheus_enabled = bool
+        postgresql_image_tag = string
         postgresql_prometheus_enabled = bool
+        prometheus_enabled = bool
     })
     description = "Sonarqube service configuration"
     default = {
@@ -278,10 +293,11 @@ variable "sonarqube" {
         postgresql_database = "sonarqube"
         postgresql_user = "sonarqube"
         postgresql_password = "sonarqube"
+        postgresql_image_tag = "13.3.0"
+        postgresql_prometheus_enabled = true
         ingress_enabled = true
         ingress_hosts = ["sonar.k8s.local"]
         prometheus_enabled = true
-        postgresql_prometheus_enabled = true
     }
 }
 
@@ -297,8 +313,9 @@ variable "keycloak" {
         postgresql_database = string
         postgresql_user = string
         postgresql_password = string
-        prometheus_enabled = bool
+        postgresql_image_tag = string
         postgresql_prometheus_enabled = bool
+        prometheus_enabled = bool
     })
     description = "Keycloak service configuration"
     default = {
@@ -310,9 +327,10 @@ variable "keycloak" {
         postgresql_database = "keycloak"
         postgresql_user = "keycloak"
         postgresql_password = "keycloak"
+        postgresql_image_tag = "13.3.0"
+        postgresql_prometheus_enabled = true
         ingress_enabled = true
         ingress_host = "keycloak.k8s.local"
         prometheus_enabled = true
-        postgresql_prometheus_enabled = true
     }
 }

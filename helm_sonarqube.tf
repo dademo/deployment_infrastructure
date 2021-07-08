@@ -56,6 +56,7 @@ locals {
         prometheus_enabled = tostring(var.sonarqube.prometheus_enabled)
     }
     helm_sonarqube_postgresql_tpl_values = {
+        image_tag = var.sonarqube.postgresql_image_tag
         database = var.sonarqube.postgresql_database
         username = var.sonarqube.postgresql_user
         password = var.sonarqube.postgresql_password

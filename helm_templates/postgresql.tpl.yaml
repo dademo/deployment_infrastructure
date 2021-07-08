@@ -3,6 +3,9 @@ postgresqlUsername: "${username}"
 postgresqlPassword: "${password}"
 postgresqlDatabase: "${database}"
 
+image:
+  tag: "${image_tag}"
+
 replication:
   enabled: false
 

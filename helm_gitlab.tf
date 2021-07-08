@@ -14,7 +14,7 @@ resource "helm_release" "gitlab" {
     chart      = "gitlab"
     version    = local.helm_gitlab_version
 
-    timeout = 1500
+    timeout = 900
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
@@ -22,7 +22,9 @@ resource "helm_release" "gitlab" {
     namespace  = kubernetes_namespace.gitlab[0].metadata[0].name
 
     values = [
-        "${templatefile("helm_templates/gitlab/gitlab_global.tpl.yaml", local.helm_gitlab_global_tpl_values)}"
+        "${templatefile("helm_templates/gitlab/global.tpl.yaml", local.helm_gitlab_global_tpl_values)}",
+        "${templatefile("helm_templates/gitlab/gitlab.tpl.yaml", local.helm_gitlab_gitlab_tpl_values)}",
+        "${templatefile("helm_templates/gitlab/minio.tpl.yaml", local.helm_gitlab_minio_tpl_values)}",
     ]
 }
 
@@ -249,6 +251,7 @@ locals {
         sysctl_enabled = var.gitlab.redis_sysctl_enabled
     }
     helm_gitlab_postgresql_tpl_values = {
+        image_tag = var.gitlab.postgresql_image_tag
         database = var.gitlab.postgresql_database
         username = var.gitlab.postgresql_user
         password = var.gitlab.postgresql_password
@@ -256,13 +259,13 @@ locals {
         persistence_storage_class = var.gitlab.postgresql_persistence_storage_class
         prometheus_enabled = tostring(var.gitea.postgresql_prometheus_enabled)
     }
-    helm_gitlab_minio_operator_tpl_values = {
-        operator_replica_count = var.gitlab.minio_operator_operator_replica_count
-        console_replica_count = var.gitlab.minio_operator_console_replica_count
-        ingress_enabled = var.gitlab.minio_operator_ingress_enabled
-        ingress_host = var.gitlab.minio_operator_ingress_host
-        prometheus_enabled = var.gitlab.minio_operator_prometheus_enabled
-    }
+    // helm_gitlab_minio_operator_tpl_values = {
+    //     operator_replica_count = var.gitlab.minio_operator_operator_replica_count
+    //     console_replica_count = var.gitlab.minio_operator_console_replica_count
+    //     ingress_enabled = var.gitlab.minio_operator_ingress_enabled
+    //     ingress_host = var.gitlab.minio_operator_ingress_host
+    //     prometheus_enabled = var.gitlab.minio_operator_prometheus_enabled
+    // }
     helm_gitlab_omniauth_saml_keycloak_tpl_values = {
         assertion_consumer_service_url = var.gitlab.gitlab_saml_assertion_consumer_service_url //"http://test-url.k8s.local"
         idp_cert_fingerprint = var.gitlab.gitlab_saml_idp_cert_fingerprint //"12:34:56..."
@@ -282,5 +285,14 @@ locals {
         redis_secret_name = var.gitlab.redis_authentication_enabled ? kubernetes_secret.gitlab_redis[0].metadata[0].name : ""
         redis_secret_key = local.gitlab_redis_secret_key
         providers = var.gitlab.gitlab_saml_auth_enabled ? [ kubernetes_secret.gitlab_saml_keycloak[0].metadata[0].name ] : []
+    }
+    helm_gitlab_gitlab_tpl_values = {
+        persistence_storage_class = var.gitlab.gitaly_persistence_storage_class
+        persistence_size = var.gitlab.gitaly_persistence_size
+    }
+    helm_gitlab_minio_tpl_values = {
+        replicas = var.gitlab.minio_replicas
+        persistence_storage_class = var.gitlab.minio_persistence_storage_class
+        persistence_size = var.gitlab.minio_persistence_size
     }
 }
