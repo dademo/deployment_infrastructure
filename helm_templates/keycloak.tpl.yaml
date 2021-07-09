@@ -19,6 +19,9 @@ keycloakConfigCli:
 
 replicaCount: ${replica_count}
 
+service:
+    type: ClusterIP
+
 ingress:
   enabled: ${ingress_enabled}
   hostname: "${ingress_host}"

@@ -11,8 +11,8 @@ resource "helm_release" "keycloak" {
 
     timeout = 600
     cleanup_on_fail = true
-    wait = false
-    wait_for_jobs = false
+    wait = true
+    wait_for_jobs = true
 
     namespace  = kubernetes_namespace.keycloak[0].metadata[0].name
 

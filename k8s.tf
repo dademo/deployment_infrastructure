@@ -46,3 +46,10 @@ resource "kubernetes_namespace" "gitlab" {
         name = var.gitlab.namespace
     }
 }
+
+resource "kubernetes_namespace" "dokuwiki" {
+    count = var.dokuwiki.enabled ? 1 : 0
+    metadata {
+        name = var.dokuwiki.namespace
+    }
+}

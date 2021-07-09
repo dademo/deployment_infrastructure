@@ -2,10 +2,60 @@ variable "k8s_config_context" {
     type = string
 }
 
-variable "dashboard_ingress_hostname" {
-    type = string
-    description = "The dashboard ingress hostname"
-    default = "dashboard.k8s.local"
+variable "k8s_dashboard" {
+    type = object({
+        enabled = bool
+        namespace = string
+        service_name = string
+        service_port_http = number
+        ingress_host = string
+    })
+    description = "Kubernetes dashboard configuration"
+    default = {
+        enabled = true
+        namespace = "kube-system"
+        service_name = "kubernetes-dashboard"
+        service_port_http = 80
+        ingress_host = "dashboard.k8s.local"
+    }
+}
+
+variable "k8s_kibana_logging" {
+    type = object({
+        enabled = bool
+        namespace = string
+        service_name = string
+        service_port_http = number
+        ingress_host = string
+    })
+    description = "Kubernetes Kibana logging configuration"
+    default = {
+        enabled = true
+        namespace = "kube-system"
+        service_name = "kibana-logging"
+        service_port_http = 5601
+        ingress_host = "kibana.k8s.local"
+    }
+}
+
+variable "k8s_registry" {
+    type = object({
+        enabled = bool
+        namespace = string
+        service_name = string
+        service_port_http = number
+        service_port_https = number
+        ingress_host = string
+    })
+    description = "Kubernetes registry configuration"
+    default = {
+        enabled = true
+        namespace = "kube-system"
+        service_name = "registry"
+        service_port_http = 80
+        service_port_https = 443
+        ingress_host = "registry.k8s.local"
+    }
 }
 
 variable "supervision" {
@@ -331,6 +381,38 @@ variable "keycloak" {
         postgresql_prometheus_enabled = true
         ingress_enabled = true
         ingress_host = "keycloak.k8s.local"
+        prometheus_enabled = true
+    }
+}
+
+variable "dokuwiki" {
+    type = object({
+        enabled = bool
+        namespace = string
+        username = string
+        password = string
+        email = string
+        full_name = string
+        wiki_name = string
+        persistence_size = string
+        persistence_storage_class = string
+        ingress_enabled = bool
+        ingress_host = string
+        prometheus_enabled = bool
+    })
+    description = "Docuwiki service configuration"
+    default = {
+        enabled = true
+        namespace = "dokuwiki"
+        username = "admin"
+        password = "admin"
+        email = "admin@k8s.local"
+        full_name = "Administrator"
+        wiki_name = "dademo's wiki"
+        persistence_size = "8Gi"
+        persistence_storage_class = "standard"
+        ingress_enabled = true
+        ingress_host = "dokuwiki.k8s.local"
         prometheus_enabled = true
     }
 }

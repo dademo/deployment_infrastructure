@@ -11,4 +11,5 @@ locals {
     helm_nexus_version = "29.2.0"
     helm_prometheus_version = "14.3.0"
     helm_grafana_version = "6.13.6"
+    helm_dokuwiki_version = "11.1.15"
 }

@@ -1,0 +1,20 @@
+dokuwikiUsername: "${username}"
+dokuwikiPassword: "${password}"
+dokuwikiEmail: "${email}"
+dokuwikiFullName: "${full_name}"
+dokuwikiWikiName: "${wiki_name}"
+
+persistence:
+  enabled: true
+  storageClassName: "${persistence_storage_class}"
+  size: "${persistence_size}"
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: ${ingress_enabled}
+  hostname: "${ingress_host}"
+
+metrics:
+  enabled: ${prometheus_enabled}  
