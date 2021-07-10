@@ -6,7 +6,7 @@ resource "helm_release" "gitlab" {
 
     depends_on = [
       helm_release.gitlab_postgresql,
-      helm_release.gitlab_redis,
+      helm_release.shared_redis,
     ]
     
     name       = "gitlab"
@@ -50,31 +50,9 @@ resource "helm_release" "gitlab_postgresql" {
     ]
 }
 
-// https://github.com/bitnami/charts/tree/master/bitnami/redis
-resource "helm_release" "gitlab_redis" {
-    
-    count = var.gitlab.enabled ? 1 : 0
-
-    name       = "gitlab-redis"
-    repository = "https://charts.bitnami.com/bitnami"
-    chart      = "redis"
-    version    = local.helm_redis_version
-
-    timeout = 300
-    cleanup_on_fail = true
-    wait = true
-    wait_for_jobs = true
-
-    namespace  = kubernetes_namespace.gitlab[0].metadata[0].name
-
-    values = [
-        "${templatefile("helm_templates/redis.tpl.yaml", local.helm_gitlab_redis_tpl_values)}"
-    ]
-}
-
 resource "kubernetes_secret" "gitlab_redis" {
     
-    count = var.gitlab.enabled && var.gitlab.redis_authentication_enabled ? 1 : 0
+    count = var.gitlab.enabled && var.k8s_shared.redis_authentication_enabled ? 1 : 0
 
     metadata {
         name = "gitlab-redis-credentials"
@@ -82,7 +60,7 @@ resource "kubernetes_secret" "gitlab_redis" {
     }
 
     data = {
-        "${local.gitlab_redis_secret_key}" = var.gitlab.redis_password
+        "${local.gitlab_redis_secret_key}" = var.k8s_shared.redis_password
     }
 
     type = "Opaque"
@@ -240,16 +218,6 @@ locals {
     //gitlab_postgresql_secret_key = "postgresql-password"
     gitlab_postgresql_secret_key = "postgresql-postgres-password" // "postgres" user password
     gitlab_redis_secret_key = "redis-password"
-    helm_gitlab_redis_tpl_values = {
-        replica_count = var.gitlab.redis_replica_count
-        authentication_enabled = var.gitlab.redis_authentication_enabled
-        password = var.gitlab.redis_password
-        persistence_size = var.gitlab.redis_persistence_size
-        persistence_storage_class = var.gitlab.redis_persistence_storage_class
-        prometheus_enabled = var.gitlab.redis_prometheus_enabled
-        volume_permissions_enabled = var.gitlab.redis_volume_permissions_enabled
-        sysctl_enabled = var.gitlab.redis_sysctl_enabled
-    }
     helm_gitlab_postgresql_tpl_values = {
         image_tag = var.gitlab.postgresql_image_tag
         database = var.gitlab.postgresql_database
@@ -280,9 +248,9 @@ locals {
         database_user = "postgres"
         database_password_secret_name = local.gitlab_postgresql_secret_name
         database_password_secret_key = local.gitlab_postgresql_secret_key
-        redis_svc_name = format("%s-master", var.gitlab.enabled ? helm_release.gitlab_redis[0].metadata[0].name : "")
-        redis_authentication_enabled = var.gitlab.redis_authentication_enabled
-        redis_secret_name = var.gitlab.redis_authentication_enabled ? kubernetes_secret.gitlab_redis[0].metadata[0].name : ""
+        redis_svc_name = format("%s-master", var.gitlab.enabled ? helm_release.shared_redis[0].metadata[0].name : "")
+        redis_authentication_enabled = var.k8s_shared.redis_authentication_enabled
+        redis_secret_name = var.k8s_shared.redis_authentication_enabled ? kubernetes_secret.gitlab_redis[0].metadata[0].name : ""
         redis_secret_key = local.gitlab_redis_secret_key
         providers = var.gitlab.gitlab_saml_auth_enabled ? [ kubernetes_secret.gitlab_saml_keycloak[0].metadata[0].name ] : []
     }

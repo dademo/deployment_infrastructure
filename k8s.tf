@@ -1,3 +1,12 @@
+
+resource "kubernetes_namespace" "shared" {
+    count = (var.k8s_shared.redis_force_install
+        || local.shared_enabled) ? 1 : 0
+    metadata {
+        name = "shared"
+    }
+}
+
 resource "kubernetes_namespace" "supervision" {
     count = var.supervision.enabled ? 1 : 0
     metadata {
@@ -52,4 +61,15 @@ resource "kubernetes_namespace" "dokuwiki" {
     metadata {
         name = var.dokuwiki.namespace
     }
+}
+
+resource "kubernetes_namespace" "nextcloud" {
+    count = var.nextcloud.enabled ? 1 : 0
+    metadata {
+        name = var.nextcloud.namespace
+    }
+}
+
+locals {
+    shared_enabled = (var.gitlab.enabled)
 }

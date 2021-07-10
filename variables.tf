@@ -12,7 +12,7 @@ variable "k8s_dashboard" {
     })
     description = "Kubernetes dashboard configuration"
     default = {
-        enabled = true
+        enabled = false
         namespace = "kube-system"
         service_name = "kubernetes-dashboard"
         service_port_http = 80
@@ -30,7 +30,7 @@ variable "k8s_kibana_logging" {
     })
     description = "Kubernetes Kibana logging configuration"
     default = {
-        enabled = true
+        enabled = false
         namespace = "kube-system"
         service_name = "kibana-logging"
         service_port_http = 5601
@@ -49,12 +49,38 @@ variable "k8s_registry" {
     })
     description = "Kubernetes registry configuration"
     default = {
-        enabled = true
+        enabled = false
         namespace = "kube-system"
         service_name = "registry"
         service_port_http = 80
         service_port_https = 443
         ingress_host = "registry.k8s.local"
+    }
+}
+
+variable "k8s_shared" {
+    type = object({
+        redis_force_install = bool
+        redis_replica_count = number
+        redis_authentication_enabled = bool
+        redis_password = string
+        redis_persistence_storage_class = string
+        redis_persistence_size = string
+        redis_prometheus_enabled = bool
+        redis_volume_permissions_enabled = bool
+        redis_sysctl_enabled = bool
+    })
+    description = "Shared services configuration"
+    default = {
+        redis_force_install = false
+        redis_replica_count = 2
+        redis_authentication_enabled = false
+        redis_password = "admin"
+        redis_persistence_storage_class = "standard"
+        redis_persistence_size = "8Gi"
+        redis_prometheus_enabled = true
+        redis_volume_permissions_enabled = false
+        redis_sysctl_enabled = false
     }
 }
 
@@ -88,7 +114,7 @@ variable "supervision" {
     })
     description = "Supervision service configuration"
     default = {
-        enabled = true
+        enabled = false
         namespace = "supervision"
         alert_manager_enabled = true
         alert_manager_external_url = "alertmanager.k8s.local"
@@ -137,7 +163,7 @@ variable "gitea" {
     })
     description = "Gitea service configuration"
     default = {
-        enabled = true
+        enabled = false
         namespace = "gitea"
         replica_count = 2
         persistence_size = "2Gi"
@@ -160,14 +186,6 @@ variable "gitlab" {
     type = object({
         enabled = bool
         namespace = string
-        redis_replica_count = number
-        redis_authentication_enabled = bool
-        redis_password = string
-        redis_persistence_storage_class = string
-        redis_persistence_size = string
-        redis_prometheus_enabled = bool
-        redis_volume_permissions_enabled = bool
-        redis_sysctl_enabled = bool
         postgresql_database = string
         postgresql_user = string
         postgresql_password = string
@@ -200,16 +218,8 @@ variable "gitlab" {
     })
     description = "Gitlab service configuration"
     default = {
-        enabled = true
+        enabled = false
         namespace = "gitlab"
-        redis_replica_count = 2
-        redis_authentication_enabled = false
-        redis_password = "admin"
-        redis_persistence_storage_class = "standard"
-        redis_persistence_size = "8Gi"
-        redis_prometheus_enabled = true
-        redis_volume_permissions_enabled = false
-        redis_sysctl_enabled = false
         postgresql_database = "gitlab"
         postgresql_user = "gitlab"
         postgresql_password = "gitlab"
@@ -259,7 +269,7 @@ variable "jenkins" {
     })
     description = "Jenkins service configuration"
     default = {
-        enabled = true
+        enabled = false
         namespace = "jenkins"
         persistence_storage_class = "standard"
         persistence_size = "20Gi"
@@ -304,7 +314,7 @@ variable "nexus" {
     })
     description = "Nexus service configuration"
     default = {
-        enabled = true
+        enabled = false
         namespace = "nexus"
         persistence_storage_class = "standard"
         persistence_size = "20Gi"
@@ -333,7 +343,7 @@ variable "sonarqube" {
     })
     description = "Sonarqube service configuration"
     default = {
-        enabled = true
+        enabled = false
         namespace = "sonarqube"
         replicaCount = 2
         persistence_size = "5Gi"
@@ -369,7 +379,7 @@ variable "keycloak" {
     })
     description = "Keycloak service configuration"
     default = {
-        enabled = true
+        enabled = false
         namespace = "keycloak"
         replica_count = 2
         postgresql_persistence_size = "8Gi"
@@ -402,7 +412,7 @@ variable "dokuwiki" {
     })
     description = "Docuwiki service configuration"
     default = {
-        enabled = true
+        enabled = false
         namespace = "dokuwiki"
         username = "admin"
         password = "admin"
@@ -413,6 +423,66 @@ variable "dokuwiki" {
         persistence_storage_class = "standard"
         ingress_enabled = true
         ingress_host = "dokuwiki.k8s.local"
+        prometheus_enabled = true
+    }
+}
+
+variable "nextcloud" {
+    type = object({
+        enabled = bool
+        namespace = string
+        admin_username = string
+        admin_password = string
+        mail_enabled = bool
+        mail_from = string
+        mail_domain = string
+        smtp_host = string
+        smtp_secured = bool
+        smtp_port = number
+        smtp_auth_type = string
+        smtp_username = string
+        smtp_password = string
+        persistence_size = string
+        persistence_storage_class = string
+        ingress_enabled = bool
+        ingress_host = string
+        postgresql_database =  string
+        postgresql_name = string
+        postgresql_user = string
+        postgresql_password =  string
+        postgresql_persistence_size = string
+        postgresql_persistence_storage_class = string
+        postgresql_image_tag = string
+        postgresql_prometheus_enabled = bool
+        prometheus_enabled = bool
+    })
+    description = "Nextcloud service configuration"
+    default = {
+        enabled = false
+        namespace = "nextcloud"
+        admin_username = "admin"
+        admin_password = "admin"
+        mail_enabled = false
+        mail_from = "admin@k8s.local"
+        mail_domain = "k8s.local"
+        smtp_host = "mailu.k8s.local"
+        smtp_secured = false
+        smtp_port = 25
+        smtp_auth_type = "LOGIN"
+        smtp_username = "admin"
+        smtp_password = "admin"
+        persistence_size = "8Gi"
+        persistence_storage_class = "standard"
+        ingress_enabled = true
+        ingress_host = "nextcloud.k8s.local"
+        postgresql_database =  "nextcloud"
+        postgresql_name = "nextcloud"
+        postgresql_user = "nextcloud"
+        postgresql_password =  "nextcloud"
+        postgresql_persistence_size = "8Gi"
+        postgresql_persistence_storage_class = "standard"
+        postgresql_image_tag = "13.3.0"
+        postgresql_prometheus_enabled = true
         prometheus_enabled = true
     }
 }

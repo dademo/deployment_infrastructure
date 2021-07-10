@@ -1,0 +1,47 @@
+nextcloud:
+  host: "${ingress_host}"
+  username: "${admin_username}"
+  password: "${admin_password}"
+  mail:
+    enabled: "${mail_enabled}"
+    fromAddress: "${mail_from}"
+    domain: "${mail_domain}"
+    smtp:
+      host: "${smtp_host}"
+      secure: ${smtp_secured}
+      port: ${smtp_port}
+      authType: ${smtp_auth_type}
+      name: ${smtp_username}
+      password: ${smtp_password}
+
+internalDatabase:
+  enabled: false
+
+externalDatabase:
+  enabled: true
+  type: postgresql
+  host: "${database_svc_name}.${namespace}.svc.cluster.local:5432"
+  port: 5432
+  user: "${database_user}"
+  password: "${database_password}"
+  database: "${database_name}"
+
+redis:
+  enabled: false
+
+service:
+  type: ClusterIP
+
+persistence:
+  enabled: true
+  size: "${persistence_size}"
+  storageClass: "${persistence_storage_class}"
+
+ingress:
+  enabled: ${ingress_enabled}
+
+hpa:
+  enabled: false
+
+metrics:
+  enabled: ${prometheus_enabled}

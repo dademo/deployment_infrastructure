@@ -12,4 +12,5 @@ locals {
     helm_prometheus_version = "14.3.0"
     helm_grafana_version = "6.13.6"
     helm_dokuwiki_version = "11.1.15"
+    helm_nextcloud_version = "2.6.5"
 }
