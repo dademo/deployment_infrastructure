@@ -2,11 +2,7 @@ terraform {
   required_providers {
     kubernetes = {
       source = "hashicorp/kubernetes"
-      version = "2.3.2"
-    }
-    kubernetes-alpha = {
-      source = "hashicorp/kubernetes-alpha"
-      version = "0.5.0"
+      version = "2.4.1"
     }
     helm = {
       source = "hashicorp/helm"
@@ -18,6 +14,9 @@ terraform {
 provider "kubernetes" {
   config_path    = "~/.kube/config"
   config_context = var.k8s_config_context
+  experiments {
+    manifest_resource = true
+  }
 }
 
 provider "helm" {
@@ -25,11 +24,6 @@ provider "helm" {
     config_path = "~/.kube/config"
     config_context = var.k8s_config_context
   }
-}
-
-provider "kubernetes-alpha" {
-  config_path    = "~/.kube/config"
-  config_context = var.k8s_config_context
 }
 
 

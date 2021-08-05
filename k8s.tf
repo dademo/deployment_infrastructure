@@ -84,6 +84,13 @@ resource "kubernetes_namespace" "spark" {
     }
 }
 
+resource "kubernetes_namespace" "minio" {
+    count = var.minio.enabled ? 1 : 0
+    metadata {
+        name = var.minio.namespace
+    }
+}
+
 locals {
     shared_enabled = (var.gitlab.enabled)
 }

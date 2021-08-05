@@ -193,17 +193,6 @@ variable "gitlab" {
         postgresql_persistence_storage_class = string
         postgresql_image_tag = string
         postgresql_prometheus_enabled = bool
-        // minio_operator_operator_replica_count = number
-        // minio_operator_console_replica_count = number
-        // minio_operator_ingress_enabled = bool
-        // minio_operator_ingress_host = string
-        // minio_operator_prometheus_enabled = bool
-        // minio_tenant_creds_access_key = string
-        // minio_tenant_creds_secret_key = string
-        // minio_tenant_replica_count = number
-        // minio_tenant_volumes_per_server = number
-        // minio_tenant_volume_size = string
-        // minio_tenant_prometheus_enabled = bool
         minio_persistence_size = string
         minio_persistence_storage_class = string
         minio_replicas = number
@@ -227,16 +216,6 @@ variable "gitlab" {
         postgresql_persistence_storage_class = "standard"
         postgresql_image_tag = "13.3.0"
         postgresql_prometheus_enabled = true
-        // minio_operator_operator_replica_count = 3
-        // minio_operator_console_replica_count = 3
-        // minio_operator_ingress_enabled = true
-        // minio_operator_ingress_host = "gitlab-minio.k8s.local"
-        // minio_operator_prometheus_enabled = true
-        // minio_tenant_creds_access_key = "minio"
-        // minio_tenant_creds_secret_key = "minio123"
-        // minio_tenant_replica_count = 4
-        // minio_tenant_volumes_per_server = 4
-        // minio_tenant_volume_size = "10Gi"
         minio_persistence_size = "2Gi"
         minio_persistence_storage_class = "standard"
         minio_replicas = 4
@@ -587,5 +566,42 @@ variable "spark" {
         ingress_enabled = true
         ingress_host = "spark.k8s.local"
         prometheus_enabled = true
+    }
+}
+
+variable "minio" {
+
+    type = object({
+        enabled = bool
+        namespace = string
+        operator_operator_replica_count = number
+        operator_console_replica_count = number
+        operator_ingress_enabled = bool
+        operator_ingress_host = string
+        operator_prometheus_enabled = bool
+        tenant_name = string
+        tenant_creds_access_key = string
+        tenant_creds_secret_key = string
+        tenant_replica_count = number
+        tenant_volumes_per_server = number
+        tenant_volume_size = string
+        tenant_prometheus_enabled = bool
+    })
+    description = "MinIO service configuration"
+    default = {
+        enabled = false
+        namespace = "minio"
+        operator_operator_replica_count = 3
+        operator_console_replica_count = 3
+        operator_ingress_enabled = true
+        operator_ingress_host = "minio.k8s.local"
+        operator_prometheus_enabled = true
+        tenant_name = "minio-tenant"
+        tenant_creds_access_key = "minio"
+        tenant_creds_secret_key = "minio123"
+        tenant_replica_count = 4
+        tenant_volumes_per_server = 4
+        tenant_volume_size = "10Gi"
+        tenant_prometheus_enabled = true
     }
 }
