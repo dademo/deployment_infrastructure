@@ -4,17 +4,17 @@ resource "helm_release" "keycloak" {
     
     count = var.keycloak.enabled ? 1 : 0
     
-    name       = "keycloak"
+    name = "keycloak"
     repository = "https://charts.bitnami.com/bitnami"
-    chart      = "keycloak"
-    version    = local.helm_keycloak_version
+    chart = "keycloak"
+    version = local.helm_keycloak_version
 
     timeout = 600
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.keycloak[0].metadata[0].name
+    namespace = kubernetes_namespace.keycloak[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/keycloak.tpl.yaml", local.helm_keycloak_tpl_values)}"
@@ -26,17 +26,17 @@ resource "helm_release" "keycloak_postgresql" {
     
     count = var.keycloak.enabled ? 1 : 0
     
-    name       = "keycloak-postgresql"
+    name = "keycloak-postgresql"
     repository = "https://charts.bitnami.com/bitnami"
-    chart      = "postgresql"
-    version    = local.helm_postgresql_version
+    chart = "postgresql"
+    version = local.helm_postgresql_version
 
     timeout = 300
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.keycloak[0].metadata[0].name
+    namespace = kubernetes_namespace.keycloak[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/postgresql.tpl.yaml", local.helm_keycloak_postgresql_tpl_values)}"

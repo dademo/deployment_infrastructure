@@ -1,0 +1,4 @@
+global:
+  istioNamespace: "${namespace}"
+  istiod:
+    enableAnalysis: ${enable_analysis}

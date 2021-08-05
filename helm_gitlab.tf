@@ -9,17 +9,17 @@ resource "helm_release" "gitlab" {
       helm_release.shared_redis,
     ]
     
-    name       = "gitlab"
+    name = "gitlab"
     repository = "https://charts.gitlab.io/"
-    chart      = "gitlab"
-    version    = local.helm_gitlab_version
+    chart = "gitlab"
+    version = local.helm_gitlab_version
 
     timeout = 900
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.gitlab[0].metadata[0].name
+    namespace = kubernetes_namespace.gitlab[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/gitlab/global.tpl.yaml", local.helm_gitlab_global_tpl_values)}",
@@ -33,17 +33,17 @@ resource "helm_release" "gitlab_postgresql" {
     
     count = var.gitlab.enabled ? 1 : 0
     
-    name       = "gitlab-postgresql"
+    name = "gitlab-postgresql"
     repository = "https://charts.bitnami.com/bitnami"
-    chart      = "postgresql"
-    version    = local.helm_postgresql_version
+    chart = "postgresql"
+    version = local.helm_postgresql_version
 
     timeout = 300
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.gitlab[0].metadata[0].name
+    namespace = kubernetes_namespace.gitlab[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/postgresql.tpl.yaml", local.helm_gitlab_postgresql_tpl_values)}"

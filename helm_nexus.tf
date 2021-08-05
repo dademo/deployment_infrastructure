@@ -4,17 +4,17 @@ resource "helm_release" "nexus" {
     
     count = var.nexus.enabled ? 1 : 0
     
-    name       = "nexus"
+    name = "nexus"
     repository = "https://sonatype.github.io/helm3-charts/"
-    chart      = "nexus-repository-manager"
-    version    = local.helm_nexus_version
+    chart = "nexus-repository-manager"
+    version = local.helm_nexus_version
 
     timeout = 300
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.nexus[0].metadata[0].name
+    namespace = kubernetes_namespace.nexus[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/nexus.tpl.yaml", local.helm_nexus_tpl_values)}"

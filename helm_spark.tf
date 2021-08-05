@@ -4,17 +4,17 @@ resource "helm_release" "spark" {
     
     count = var.spark.enabled ? 1 : 0
     
-    name       = "spark"
+    name = "spark"
     repository = "https://charts.bitnami.com/bitnami"
-    chart      = "spark"
-    version    = local.helm_spark_version
+    chart = "spark"
+    version = local.helm_spark_version
 
     timeout = 300
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.spark[0].metadata[0].name
+    namespace = kubernetes_namespace.spark[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/spark.tpl.yaml", local.helm_spark_tpl_values)}"

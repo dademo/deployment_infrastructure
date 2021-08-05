@@ -3,17 +3,17 @@ resource "helm_release" "nextcloud" {
     
     count = var.nextcloud.enabled ? 1 : 0
     
-    name       = "nextcloud"
+    name = "nextcloud"
     repository = "https://nextcloud.github.io/helm"
-    chart      = "nextcloud"
-    version    = local.helm_nextcloud_version
+    chart = "nextcloud"
+    version = local.helm_nextcloud_version
 
     timeout = 300
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.nextcloud[0].metadata[0].name
+    namespace = kubernetes_namespace.nextcloud[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/nextcloud.tpl.yaml", local.helm_nextcloud_nextcloud_tpl_values)}"
@@ -25,17 +25,17 @@ resource "helm_release" "nextcloud_postgresql" {
     
     count = var.nextcloud.enabled ? 1 : 0
     
-    name       = "nextcloud-postgresql"
+    name = "nextcloud-postgresql"
     repository = "https://charts.bitnami.com/bitnami"
-    chart      = "postgresql"
-    version    = local.helm_postgresql_version
+    chart = "postgresql"
+    version = local.helm_postgresql_version
 
     timeout = 300
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.nextcloud[0].metadata[0].name
+    namespace = kubernetes_namespace.nextcloud[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/postgresql.tpl.yaml", local.helm_nextcloud_postgresql_tpl_values)}"

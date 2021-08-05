@@ -4,17 +4,17 @@ resource "helm_release" "minio_operator" {
     
     count = var.minio.enabled ? 1 : 0
     
-    name       = "minio"
+    name = "minio"
     repository = "https://operator.min.io/"
-    chart      = "minio-operator"
-    version    = local.helm_minio_version
+    chart = "minio-operator"
+    version = local.helm_minio_version
 
     timeout = 300
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.minio[0].metadata[0].name
+    namespace = kubernetes_namespace.minio[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/minio_operator.tpl.yaml", local.helm_minio_operator_tpl_values)}"

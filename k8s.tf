@@ -14,6 +14,13 @@ resource "kubernetes_namespace" "supervision" {
     }
 }
 
+resource "kubernetes_namespace" "istio" {
+    count = var.istio.enabled ? 1 : 0
+    metadata {
+        name = var.istio.namespace
+    }
+}
+
 resource "kubernetes_namespace" "gitea" {
     count = var.gitea.enabled ? 1 : 0
     metadata {

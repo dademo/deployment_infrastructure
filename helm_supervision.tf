@@ -4,17 +4,17 @@ resource "helm_release" "prometheus" {
     
     count = var.supervision.enabled ? 1 : 0
     
-    name       = "prometheus"
+    name = "prometheus"
     repository = "https://prometheus-community.github.io/helm-charts"
-    chart      = "prometheus"
-    version    = local.helm_prometheus_version
+    chart = "prometheus"
+    version = local.helm_prometheus_version
 
     timeout = 300
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.supervision[0].metadata[0].name
+    namespace = kubernetes_namespace.supervision[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/prometheus.tpl.yaml", local.helm_prometheus_tpl_values)}"
@@ -27,21 +27,49 @@ resource "helm_release" "grafana" {
     
     count = var.supervision.enabled ? 1 : 0
     
-    name       = "grafana"
+    name = "grafana"
     repository = "https://grafana.github.io/helm-charts"
-    chart      = "grafana"
-    version    = local.helm_grafana_version
+    chart = "grafana"
+    version = local.helm_grafana_version
 
     timeout = 300
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.supervision[0].metadata[0].name
+    namespace = kubernetes_namespace.supervision[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/grafana.tpl.yaml", local.helm_grafana_tpl_values)}"
     ]
+}
+
+resource "kubernetes_config_map" "grafana_istio_dashboards_config" {
+    
+    count = var.supervision.enabled && var.istio.enabled ? 1 : 0
+
+    metadata {
+        name = "istio-grafana-dashboards"
+        namespace = kubernetes_namespace.supervision[0].metadata[0].name
+    }
+
+    data = {
+        for filename in fileset("${path.module}/resources/grafana_dashboards/istio-grafana-dashboards", "*.json"): basename(filename) => file("${path.module}/resources/grafana_dashboards/istio-grafana-dashboards/${filename}")
+    }
+}
+
+resource "kubernetes_config_map" "grafana_istio_services_dashboards_config" {
+    
+    count = var.supervision.enabled && var.istio.enabled ? 1 : 0
+
+    metadata {
+        name = "istio-services-grafana-dashboards"
+        namespace = kubernetes_namespace.supervision[0].metadata[0].name
+    }
+
+    data = {
+        for filename in fileset("${path.module}/resources/grafana_dashboards/istio-services-grafana-dashboards", "*.json"): filename => file("${path.module}/resources/grafana_dashboards/istio-services-grafana-dashboards/${filename}")
+    }
 }
 
 
@@ -73,5 +101,11 @@ locals {
       persistence_storage_class = var.supervision.granafa_persistence_storage_class
       persistence_size = var.supervision.granafa_persistence_size
       plugins = var.supervision.granafa_plugins
+      dashboard_config_maps = merge(
+        var.supervision.enabled && var.istio.enabled ? {
+            "istio" = kubernetes_config_map.grafana_istio_dashboards_config[0].metadata[0].name,
+            "istio-services" = kubernetes_config_map.grafana_istio_services_dashboards_config[0].metadata[0].name,
+        } : {},
+      )
   }
 }

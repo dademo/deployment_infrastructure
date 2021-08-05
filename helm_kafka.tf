@@ -4,17 +4,17 @@ resource "helm_release" "kafka" {
     
     count = var.kafka.enabled ? 1 : 0
     
-    name       = "kafka"
+    name = "kafka"
     repository = "https://charts.bitnami.com/bitnami"
-    chart      = "kafka"
-    version    = local.helm_kafka_version
+    chart = "kafka"
+    version = local.helm_kafka_version
 
     timeout = 300
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.kafka[0].metadata[0].name
+    namespace = kubernetes_namespace.kafka[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/kafka.tpl.yaml", local.helm_kafka_tpl_values)}"

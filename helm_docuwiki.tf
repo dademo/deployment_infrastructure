@@ -4,17 +4,17 @@ resource "helm_release" "dokuwiki" {
 
     count = var.dokuwiki.enabled ? 1 : 0
 
-    name       = "dokuwiki"
+    name = "dokuwiki"
     repository = "https://charts.bitnami.com/bitnami"
-    chart      = "dokuwiki"
-    version    = local.helm_dokuwiki_version
+    chart = "dokuwiki"
+    version = local.helm_dokuwiki_version
 
     timeout = 300
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.dokuwiki[0].metadata[0].name
+    namespace = kubernetes_namespace.dokuwiki[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/dokuwiki.tpl.yaml", local.helm_dokuwiki_tpl_values)}"

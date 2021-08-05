@@ -20,7 +20,7 @@ plugins: %{ if length(plugins) == 0 } [] %{ else }
   %{ endif }
 
 datasources:
-  datasources.yaml:
+  'datasources.yaml':
     apiVersion: 1
     datasources:
     - name: Prometheus
@@ -29,6 +29,37 @@ datasources:
       url: "http://prometheus-server.${namespace}.svc.cluster.local"
       access: proxy
       isDefault: true
+
+dashboardProviders:
+  'dashboardproviders.yaml':
+    apiVersion: 1
+    providers:
+    - name: 'default'
+      orgId: 1
+      folder: ''
+      type: file
+      disableDeletion: false
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards/default
+        
+    %{ for k, v in dashboard_config_maps ~}
+
+    - name: "${k}"
+      orgId: 1
+      folder: "${k}"
+      type: file
+      disableDeletion: false
+      editable: true
+      options:
+        path: "/var/lib/grafana/dashboards/${k}"
+    %{ endfor ~}
+
+dashboardsConfigMaps: %{ if length(dashboard_config_maps) == 0 } {} %{ else }
+  %{ for k, v in dashboard_config_maps ~}
+  ${k}: "${v}"
+  %{ endfor ~}
+  %{ endif }
 
 serviceMonitor:
   enabled: false

@@ -4,15 +4,15 @@ resource "helm_release" "sonarqube" {
     
     count = var.sonarqube.enabled ? 1 : 0
     
-    name       = "sonarqube"
-    chart      = "./dependencies/helm-chart-sonarqube/charts/sonarqube"
+    name = "sonarqube"
+    chart = "${path.module}/dependencies/helm-chart-sonarqube/charts/sonarqube"
 
     timeout = 600
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.sonarqube[0].metadata[0].name
+    namespace = kubernetes_namespace.sonarqube[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/sonarqube.tpl.yaml", local.helm_sonarqube_tpl_values)}"
@@ -24,17 +24,17 @@ resource "helm_release" "sonarqube_postgresql" {
     
     count = var.sonarqube.enabled ? 1 : 0
     
-    name       = "sonarqube-postgresql"
+    name = "sonarqube-postgresql"
     repository = "https://charts.bitnami.com/bitnami"
-    chart      = "postgresql"
-    version    = local.helm_postgresql_version
+    chart = "postgresql"
+    version = local.helm_postgresql_version
 
     timeout = 300
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.sonarqube[0].metadata[0].name
+    namespace = kubernetes_namespace.sonarqube[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/postgresql.tpl.yaml", local.helm_sonarqube_postgresql_tpl_values)}"

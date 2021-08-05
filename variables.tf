@@ -142,6 +142,24 @@ variable "supervision" {
     }
 }
 
+variable "istio" {
+    type = object({
+        enabled = bool
+        namespace = string
+        enable_analysis = bool
+        system_ingress_enabled = bool
+        system_egress_enabled = bool
+    })
+    description = "Istio service configuration"
+    default = {
+        enabled = true
+        namespace = "istio-system"
+        enable_analysis = false
+        system_ingress_enabled = true
+        system_egress_enabled = true
+    }
+}
+
 variable "gitea" {
     type = object({
         enabled = bool

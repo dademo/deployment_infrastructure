@@ -4,17 +4,17 @@ resource "helm_release" "shared_redis" {
     count = (var.k8s_shared.redis_force_install
         || local.shared_enabled) ? 1 : 0
 
-    name       = "k8s_shared-redis"
+    name = "k8s_shared-redis"
     repository = "https://charts.bitnami.com/bitnami"
-    chart      = "redis"
-    version    = local.helm_redis_version
+    chart = "redis"
+    version = local.helm_redis_version
 
     timeout = 300
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.shared[0].metadata[0].name
+    namespace = kubernetes_namespace.shared[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/redis.tpl.yaml", local.helm_shared_redis_tpl_values)}"

@@ -4,17 +4,17 @@ resource "helm_release" "jenkins" {
     
     count = var.jenkins.enabled ? 1 : 0
 
-    name       = "jenkins"
+    name = "jenkins"
     repository = "https://charts.jenkins.io"
-    chart      = "jenkins"
-    version    = local.helm_jenkins_version
+    chart = "jenkins"
+    version = local.helm_jenkins_version
 
     timeout = 600
     cleanup_on_fail = true
     wait = true
     wait_for_jobs = true
 
-    namespace  = kubernetes_namespace.jenkins[0].metadata[0].name
+    namespace = kubernetes_namespace.jenkins[0].metadata[0].name
 
     values = [
         "${templatefile("helm_templates/jenkins.tpl.yaml", local.helm_jenkins_tpl_values)}"
