@@ -70,6 +70,13 @@ resource "kubernetes_namespace" "nextcloud" {
     }
 }
 
+resource "kubernetes_namespace" "kafka" {
+    count = var.kafka.enabled ? 1 : 0
+    metadata {
+        name = var.kafka.namespace
+    }
+}
+
 locals {
     shared_enabled = (var.gitlab.enabled)
 }

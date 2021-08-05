@@ -486,3 +486,61 @@ variable "nextcloud" {
         prometheus_enabled = true
     }
 }
+
+variable "kafka" {
+
+    type = object({
+        enabled = bool
+        namespace = string
+        replica_count = number
+        heap_opts = list(string)
+        delete_topic_enable = bool
+        auto_create_topics_enable = bool
+        log_flush_interval_ms = number
+        log_retention_check_interval_ms = number
+        log_retention_hours = number
+        default_replication_factor = number
+        offsets_topic_replication_factor = number
+        transaction_state_log_replication_factor = number
+        transaction_state_log_min_isr = number
+        num_io_threads = number
+        num_network_threads = number
+        num_partitions = number
+        num_recovery_threads_per_data_dir = number
+        service_type = string
+        persistence_size = string
+        persistence_storage_class = string
+        log_persistence_enabled = bool
+        log_persistence_size = string
+        prometheus_enabled = bool
+    })
+    description = "Kafka service configuration"
+    default = {
+        enabled = false
+        namespace = "kafka"
+        replica_count = 3
+        heap_opts = [
+            "-Xmx1024m",
+            "-Xms1024m",
+        ]
+        delete_topic_enable = false
+        auto_create_topics_enable = false
+        log_flush_interval_ms = 1000
+        log_retention_check_interval_ms = 300000
+        log_retention_hours = 168
+        default_replication_factor = 1
+        offsets_topic_replication_factor = 1
+        transaction_state_log_replication_factor = 1
+        transaction_state_log_min_isr = 1
+        num_io_threads = 8
+        num_network_threads = 3
+        num_partitions = 1
+        num_recovery_threads_per_data_dir = 1
+        service_type = "ClusterIP"
+        persistence_size = "8Gi"
+        persistence_storage_class = "standard"
+        log_persistence_enabled = false
+        log_persistence_size = "8Gi"
+        prometheus_enabled = true
+    }
+}

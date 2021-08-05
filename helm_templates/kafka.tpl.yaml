@@ -1,0 +1,46 @@
+## Config
+heapOpts: "${heap_opts}"
+deleteTopicEnable: ${delete_topic_enable}
+autoCreateTopicsEnable: ${auto_create_topics_enable}
+
+logFlushIntervalMs: ${log_flush_interval_ms}
+logRetentionCheckIntervalMs: ${log_retention_check_interval_ms}
+logRetentionHours: ${log_retention_hours}
+
+defaultReplicationFactor: ${default_replication_factor}
+offsetsTopicReplicationFactor: ${offsets_topic_replication_factor}
+transactionStateLogReplicationFactor: ${transaction_state_log_replication_factor}
+transactionStateLogMinIsr: ${transaction_state_log_min_isr}
+
+numIoThreads : ${num_io_threads}
+numNetworkThreads : ${num_network_threads}
+numPartitions : ${num_partitions}
+numRecoveryThreadsPerDataDir : ${num_recovery_threads_per_data_dir}
+
+## Auth
+auth:
+  interBrokerProtocol: plaintext
+
+replicaCount: ${replica_count}
+
+service:
+  type: "${service_type}"
+
+persistence:
+  enabled: true
+  size: "${persistence_size}"
+  storageClass: "${persistence_storage_class}"
+logPersistence:
+  enabled: "${log_persistence_enabled}"
+  size: "${log_persistence_size}"
+
+zookeeper:
+  enabled: true
+  auth:
+    enabled: false
+
+metrics:
+  kafka:
+    enabled: ${prometheus_enabled}
+  serviceMonitor:
+    enabled: false

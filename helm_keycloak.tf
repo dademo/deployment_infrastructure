@@ -1,4 +1,4 @@
-// https://github.com/bitnami/bitnami-docker-keycloak
+// https://github.com/bitnami/charts/tree/master/bitnami/keycloak
 
 resource "helm_release" "keycloak" {
     

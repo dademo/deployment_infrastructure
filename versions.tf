@@ -13,4 +13,5 @@ locals {
     helm_grafana_version = "6.13.6"
     helm_dokuwiki_version = "11.1.15"
     helm_nextcloud_version = "2.6.5"
+    helm_kafka_version = "14.0.1"
 }
