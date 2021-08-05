@@ -17,4 +17,4 @@ ingress:
   hostname: "${ingress_host}"
 
 metrics:
-  enabled: ${prometheus_enabled}  
+  enabled: ${prometheus_enabled}

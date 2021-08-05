@@ -544,3 +544,48 @@ variable "kafka" {
         prometheus_enabled = true
     }
 }
+
+variable "spark" {
+
+    type = object({
+        enabled = bool
+        namespace = string
+        replica_count = number
+        controller_daemon_memory_limit = string
+        controller_config_options = list(string)
+        controller_extra_env_vars = list(string)
+        controller_resources_limits = map(string)
+        controller_resources_requests = map(string)
+        worker_java_options = list(string)
+        worker_config_options = list(string)
+        worker_daemon_memory_limit = string
+        worker_memory_limit = string
+        worker_core_limit = string
+        worker_resources_limits = map(string)
+        worker_resources_requests = map(string)
+        ingress_enabled = bool
+        ingress_host = string
+        prometheus_enabled = bool
+    })
+    description = "Spark service configuration"
+    default = {
+        enabled = false
+        namespace = "spark"
+        replica_count = 3
+        controller_daemon_memory_limit = ""
+        controller_config_options = []
+        controller_extra_env_vars = []
+        controller_resources_limits = {}
+        controller_resources_requests = {}
+        worker_java_options = []
+        worker_config_options = []
+        worker_daemon_memory_limit = ""
+        worker_memory_limit = ""
+        worker_core_limit = ""
+        worker_resources_limits = {}
+        worker_resources_requests = {}
+        ingress_enabled = true
+        ingress_host = "spark.k8s.local"
+        prometheus_enabled = true
+    }
+}

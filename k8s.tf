@@ -77,6 +77,13 @@ resource "kubernetes_namespace" "kafka" {
     }
 }
 
+resource "kubernetes_namespace" "spark" {
+    count = var.spark.enabled ? 1 : 0
+    metadata {
+        name = var.spark.namespace
+    }
+}
+
 locals {
     shared_enabled = (var.gitlab.enabled)
 }
