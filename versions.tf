@@ -15,4 +15,5 @@ locals {
     helm_nextcloud_version = "2.6.5"
     helm_kafka_version = "14.0.1"
     helm_spark_version = "5.7.1"
+    helm_mailu_version = "0.1.2"
 }

@@ -104,6 +104,9 @@ locals {
     helm_gitlab_global_tpl_values = {
         domain = var.gitlab.gitlab_domain
         namespace = var.gitlab.namespace
+        redis_namespace = kubernetes_namespace.shared.metadata[0].name
+        ingress_service_type = var.gitlab.ingress_service_type
+        ingress_class = var.gitlab.ingress_class
         database_svc_name = var.gitlab.enabled ? helm_release.gitlab_postgresql[0].name : ""
         database_name = var.gitlab.postgresql_database
         database_user = "postgres"

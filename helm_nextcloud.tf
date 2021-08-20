@@ -67,12 +67,12 @@ locals {
     prometheus_enabled = tostring(var.nextcloud.prometheus_enabled)
   }
   helm_nextcloud_postgresql_tpl_values = {
-        image_tag = var.nextcloud.postgresql_image_tag
-        database = var.nextcloud.postgresql_database
-        username = var.nextcloud.postgresql_user
-        password = var.nextcloud.postgresql_password
-        persistence_size = var.nextcloud.postgresql_persistence_size
-        persistence_storage_class = var.nextcloud.postgresql_persistence_storage_class
-        prometheus_enabled = tostring(var.gitea.postgresql_prometheus_enabled)
+    image_tag = var.nextcloud.postgresql_image_tag
+    database = var.nextcloud.postgresql_database
+    username = var.nextcloud.postgresql_user
+    password = var.nextcloud.postgresql_password
+    persistence_size = var.nextcloud.postgresql_persistence_size
+    persistence_storage_class = var.nextcloud.postgresql_persistence_storage_class
+    prometheus_enabled = tostring(var.gitea.postgresql_prometheus_enabled)
   }
 }

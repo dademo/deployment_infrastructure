@@ -1,7 +1,5 @@
 
 resource "kubernetes_namespace" "shared" {
-    count = (var.k8s_shared.redis_force_install
-        || local.shared_enabled) ? 1 : 0
     metadata {
         name = "shared"
     }
@@ -18,6 +16,13 @@ resource "kubernetes_namespace" "istio" {
     count = var.istio.enabled ? 1 : 0
     metadata {
         name = var.istio.namespace
+    }
+}
+
+resource "kubernetes_namespace" "mail" {
+    count = var.mail.enabled ? 1 : 0
+    metadata {
+        name = var.mail.namespace
     }
 }
 

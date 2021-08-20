@@ -160,6 +160,19 @@ variable "istio" {
     }
 }
 
+variable "mail" {
+
+    type = object({
+        enabled = bool
+        namespace = string
+    })
+    description = "Mailu service configuration"
+    default = {
+        enabled = false
+        namespace = "mailu"
+    }
+}
+
 variable "gitea" {
     type = object({
         enabled = bool
@@ -204,6 +217,8 @@ variable "gitlab" {
     type = object({
         enabled = bool
         namespace = string
+        ingress_service_type = string
+        ingress_class = string
         postgresql_database = string
         postgresql_user = string
         postgresql_password = string
@@ -227,6 +242,8 @@ variable "gitlab" {
     default = {
         enabled = false
         namespace = "gitlab"
+        ingress_service_type = "LoadBalancer"
+        ingress_class = ""
         postgresql_database = "gitlab"
         postgresql_user = "gitlab"
         postgresql_password = "gitlab"
@@ -298,7 +315,6 @@ variable "jenkins" {
         ]
     }
 }
-
 
 variable "nexus" {
     type = object({
@@ -472,10 +488,10 @@ variable "nextcloud" {
         persistence_storage_class = "standard"
         ingress_enabled = true
         ingress_host = "nextcloud.k8s.local"
-        postgresql_database =  "nextcloud"
+        postgresql_database = "nextcloud"
         postgresql_name = "nextcloud"
         postgresql_user = "nextcloud"
-        postgresql_password =  "nextcloud"
+        postgresql_password = "nextcloud"
         postgresql_persistence_size = "8Gi"
         postgresql_persistence_storage_class = "standard"
         postgresql_image_tag = "13.3.0"
@@ -517,8 +533,8 @@ variable "kafka" {
         namespace = "kafka"
         replica_count = 3
         heap_opts = [
-            "-Xmx1024m",
-            "-Xms1024m",
+          "-Xmx1024m",
+          "-Xms1024m",
         ]
         delete_topic_enable = false
         auto_create_topics_enable = false

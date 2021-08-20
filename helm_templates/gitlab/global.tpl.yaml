@@ -7,7 +7,11 @@ prometheus:
 nginx-ingress:
   controller:
     service:
-      type: LoadBalancer
+      type: "${ingress_service_type}"
+      %{ if ingress_service_type == "ClusterIP" }
+      externalTrafficPolicy: ""
+      %{ endif }
+
 
 global:
   hosts:
@@ -31,6 +35,9 @@ global:
       https: false
   ingress:
     enabled: true
+    %{ if length(ingress_class) > 0 }
+    class: "${ingress_class}"
+    %{ endif }
     tls:
       enabled: false
     configureCertmanager: false
@@ -45,7 +52,7 @@ global:
       key: "${database_password_secret_key}"
     preparedStatements: false
   redis:
-    host: "${redis_svc_name}.${namespace}.svc.cluster.local"
+    host: "${redis_svc_name}.${redis_namespace}.svc.cluster.local"
     serviceName: redis
     port: 6379
     password:
