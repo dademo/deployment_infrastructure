@@ -1,6 +1,6 @@
 [submodule "dependencies/helm-chart-sonarqube"]
-	path = dependencies/helm-chart-sonarqube
+	path = modules/helm/sonarqube/dependencies/helm-chart-sonarqube
 	url = https://github.com/SonarSource/helm-chart-sonarqube.git
 [submodule "dependencies/istio"]
-	path = dependencies/istio
+	path = modules/helm/istio/dependencies/istio
 	url = https://github.com/istio/istio.git

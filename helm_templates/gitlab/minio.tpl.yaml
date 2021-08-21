@@ -1,6 +1,0 @@
-minio:
-  replicas: ${replicas}
-  persistence:
-    enabled: true
-    storageClass: "${persistence_storage_class}"
-    size: "${persistence_size}"

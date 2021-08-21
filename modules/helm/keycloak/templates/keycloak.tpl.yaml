@@ -1,0 +1,60 @@
+auth:
+  createAdminUser: true
+  adminUser: admin
+  adminPassword: admin
+  managementUser: management
+  managementPassword: management
+  tls:
+    enabled: false
+
+serviceDiscovery:
+  enabled: %{ if replica_count > 1 } true %{ else } false %{ endif }
+
+cache:
+  ownersCount: ${replica_count}
+  authOwnersCount: ${replica_count}
+
+keycloakConfigCli:
+  enabled: false
+
+replicaCount: ${replica_count}
+
+service:
+    type: ClusterIP
+
+ingress:
+  enabled: ${ingress_enabled}
+  hostname: "${ingress_host}"
+  certManager: false
+  tls: false
+  networkPolicy:
+    enabled: false
+
+serviceAccount:
+  create: true
+
+rbac:
+  create: false
+
+pdb:
+  create: false
+
+autoscaling:
+  enabled: false
+
+metrics:
+  enabled: ${prometheus_enabled}
+  service:
+    port: 9990
+  serviceMonitor:
+    enabled: false
+
+postgresql:
+  enabled: false
+
+externalDatabase:
+  host: "${database_host}"
+  port: 5432
+  user: "${database_username}"
+  password: "${database_password}"
+  database: "${database_name}"

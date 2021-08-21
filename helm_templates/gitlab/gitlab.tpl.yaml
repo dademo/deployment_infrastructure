@@ -1,6 +1,0 @@
-gitlab:
-  gitaly:
-    persistence:
-      enabled: true
-      storageClass: "${persistence_storage_class}"
-      size: "${persistence_size}"
