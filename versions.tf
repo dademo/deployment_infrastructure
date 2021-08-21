@@ -7,6 +7,7 @@ locals {
     helm_gitea_version = "3.0.0"
     helm_gitlab_version = "5.0.2"
     helm_jenkins_version = "3.4.0"
+    helm_gocd_version = "1.37.0"
     helm_keycloak_version = "3.1.1"
     helm_nexus_version = "29.2.0"
     helm_prometheus_version = "14.3.0"

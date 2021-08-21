@@ -180,6 +180,8 @@ variable "gitea" {
         replica_count = number
         persistence_size = string
         persistence_storage_class = string
+        disable_registration = bool
+        openid_registration_only = bool
         postgresql_persistence_size = string
         postgresql_persistence_storage_class = string
         postgresql_database = string
@@ -199,6 +201,8 @@ variable "gitea" {
         replica_count = 2
         persistence_size = "2Gi"
         persistence_storage_class = "standard"
+        disable_registration = false
+        openid_registration_only = false
         postgresql_persistence_size = "8Gi"
         postgresql_persistence_storage_class = "standard"
         postgresql_database = "gitea"
@@ -313,6 +317,32 @@ variable "jenkins" {
             // ... and more
             { plugin = "blueocean",                 version = "1.24.7" },
         ]
+    }
+}
+
+variable "gocd" {
+    type = object({
+        enabled = bool
+        namespace = string
+        persistence_storage_class = string
+        persistence_size = string
+        agent_replica_count = number
+        agent_persistence_enabled = bool
+        agent_persistence_size = string
+        ingress_enabled = bool
+        ingress_hosts = list(string)
+    })
+    description = "GoCD service configuration"
+    default = {
+        enabled = false
+        namespace = "gocd"
+        persistence_storage_class = "standard"
+        persistence_size = "2Gi"
+        agent_replica_count = 0
+        agent_persistence_enabled = false
+        agent_persistence_size = "1Gi"
+        ingress_enabled = true
+        ingress_hosts = []
     }
 }
 

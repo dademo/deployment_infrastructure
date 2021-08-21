@@ -75,7 +75,9 @@ resource "kubernetes_secret" "gitlab_saml_keycloak" {
         namespace = kubernetes_namespace.gitlab[0].metadata[0].name
     }
 
-    data = yamldecode(templatefile("helm_templates/gitlab/omniauth_saml.tpl.yaml", local.helm_gitlab_omniauth_saml_keycloak_tpl_values))
+    data = {
+        secret = templatefile("helm_templates/gitlab/omniauth_saml.tpl.yaml", local.helm_gitlab_omniauth_saml_keycloak_tpl_values)
+    }
 
     type = "Opaque"
 }

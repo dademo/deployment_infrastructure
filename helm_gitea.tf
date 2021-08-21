@@ -52,6 +52,8 @@ locals {
         ingress_enabled = tostring(var.gitea.ingress_enabled)
         ingress_hosts = var.gitea.ingress_hosts
         admin_mail = var.gitea.admin_mail
+        disable_registration = var.gitea.disable_registration
+        openid_registration_only = var.gitea.openid_registration_only
         database_svc_name = var.gitea.enabled ? helm_release.gitea_postgresql[0].name : ""
         database_name = var.gitea.postgresql_database
         database_user = var.gitea.postgresql_user

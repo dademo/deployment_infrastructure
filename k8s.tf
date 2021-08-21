@@ -40,6 +40,13 @@ resource "kubernetes_namespace" "jenkins" {
     }
 }
 
+resource "kubernetes_namespace" "gocd" {
+    count = var.gocd.enabled ? 1 : 0
+    metadata {
+        name = var.gocd.namespace
+    }
+}
+
 resource "kubernetes_namespace" "nexus" {
     count = var.nexus.enabled ? 1 : 0
     metadata {

@@ -133,12 +133,12 @@ global:
       allowSingleSignOn: ['saml']
       autoLinkSamlUser: true
       autoLinkUser: ['saml']
-      providers: %{ if length(providers) == 0} [] %{ else }
-      %{ for provider in providers ~}
+      providers: %{ if length(providers) == 0 } [] %{ else }
+%{ for provider in providers ~}
       - name: "${provider}"
         key: provider
-      %{ endfor ~}
-      %{ endif }
+%{ endfor ~}
+%{ endif }
   rails:
     bootsnap:
       enabled: true

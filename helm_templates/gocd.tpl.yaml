@@ -1,0 +1,24 @@
+server:
+  persistence:
+    enabled: true
+    size: "${persistence_size}" #2Gi
+    storageClass: "${persistence_storage_class}"
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: ${ingress_enabled}
+    %{ if ingress_enabled }
+    hosts:
+    %{ for ingress_host in ingress_hosts ~}
+    - "${ingress_host}"
+    %{ endfor ~}
+    %{ endif }
+
+agent:
+  replicaCount: ${agent_replica_count}
+  persistence:
+    enabled: ${agent_persistence_enabled}
+    size: "${agent_persistence_size}" #1Gi
+    storageClass: "${persistence_storage_class}"
+  healthCheck:
+    enabled: true

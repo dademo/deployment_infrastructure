@@ -63,3 +63,16 @@ gitea:
     enabled: ${prometheus_enabled}
     serviceMonitor:
       enabled: false
+
+statefulset:
+  env:
+  %{ if disable_registration && !openid_registration_only }
+  - name: GITEA__service__DISABLE_REGISTRATION
+    value: "true"
+  %{ endif }
+  %{ if openid_registration_only }
+  - name: GITEA__service__ALLOW_ONLY_EXTERNAL_REGISTRATION
+    value: "true"
+  - name: GITEA__openid__ENABLE_OPENID_SIGNUP
+    value: "true"
+  %{ endif }
