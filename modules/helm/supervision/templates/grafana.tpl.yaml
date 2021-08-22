@@ -67,5 +67,7 @@ serviceMonitor:
 imageRenderer:
   enabled: false
 
-adminUser: admin
-adminPassword: admin
+admin:
+  existingSecret: "${admin_auth_secret}"
+  userKey: "${admin_auth_secret_user_key}"
+  passwordKey: "${admin_auth_secret_password_key}"

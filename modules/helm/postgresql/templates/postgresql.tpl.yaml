@@ -1,7 +1,7 @@
 postgresqlPostgresPassword: postgres
 postgresqlUsername: "${username}"
-postgresqlPassword: "${password}"
 postgresqlDatabase: "${database}"
+existingSecret: "${database_secret}"
 
 image:
   tag: "${image_tag}"
@@ -19,6 +19,12 @@ persistence:
 
 volumePermissions:
   enabled: true
+
+service:
+  type: "${service_type}"
+  nodePort: ${service_node_port}
+  clusterIP: "${service_cluster_ip}"
+  loadBalancerIP: "${service_load_balancer_ip}"
 
 metrics:
   enabled: ${prometheus_enabled}

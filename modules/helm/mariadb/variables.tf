@@ -11,7 +11,7 @@ variable "namespace" {
 
 variable "service_name" {
     type = string
-    default = "postgresql"
+    default = "MariaDB"
     description = "The service name to use."
     sensitive = false
     validation {
@@ -23,7 +23,7 @@ variable "service_name" {
 variable "image_tag" {
     type = string
     default = "latest"
-    description = "The PostgreSQL image tag to deploy"
+    description = "The MariaDB image tag to deploy"
     sensitive = false
     validation {
         condition = alltrue([
@@ -41,11 +41,18 @@ variable "image_tag" {
 
 variable "database" {
     type = object({
+        replica_count = number
         database = string
         username = string
         persistence_size = string
         persistence_storage_class = string
-        service = object({
+        primary_service = object({
+            service_type = string
+            service_node_port = string
+            service_cluster_ip = string
+            service_load_balancer_ip = string
+        })
+        secondary_service = object({
             service_type = string
             service_node_port = string
             service_cluster_ip = string
@@ -53,46 +60,45 @@ variable "database" {
         })
     })
     default = {
-        database = "dev"
-        username = "dev"
+        replica_count = 0
+        database = "mariadb"
+        username = "mariadb"
         persistence_size = "2Gi"
         persistence_storage_class = "standard"
-        service = {
+        primary_service = {
+            service_type = "ClusterIP"
+            service_node_port = ""
+            service_cluster_ip = ""
+            service_load_balancer_ip = ""
+        }
+        secondary_service = {
             service_type = "ClusterIP"
             service_node_port = ""
             service_cluster_ip = ""
             service_load_balancer_ip = ""
         }
     }
-    description = "The PostgreSQL database configuration."
+    description = "The MariaDB database configuration."
     sensitive = false
     validation {
         condition = alltrue([
+            var.database.replica_count >= 0,
+            var.database.replica_count % 1 == 0,
             length(var.database.database) > 0,
             length(var.database.username) > 0,
-            var.database.database != "postgres",
-            var.database.username != "postgres",
             length(var.database.persistence_storage_class) > 0,
             can(regex("^[0-9]+[GM]i$", var.database.persistence_size)),
-            contains(["ClusterIP", "NodePort", "LoadBalancer", "ExternalName"], var.database.service.service_type),
-            anytrue([
-                alltrue([
-                    !(var.database.service.service_type == "NodePort"),
-                    length(var.database.service.service_node_port) == 0,
-                ]),
-                length(var.database.service.service_node_port) > 0
-            ])
         ])
         error_message = "Invalid database configuration."
     }
 }
 
-variable "database_postgres_password" {
+variable "database_root_password" {
     type = string
-    description = "The database postgres user password to use."
+    description = "The database root user password to use."
     sensitive = true
     validation {
-        condition = length(var.database_postgres_password) > 0
+        condition = length(var.database_root_password) > 0
         error_message = "Password must not be empty."
     }
 }
@@ -103,6 +109,16 @@ variable "database_password" {
     sensitive = true
     validation {
         condition = length(var.database_password) > 0
+        error_message = "Password must not be empty."
+    }
+}
+
+variable "database_replication_password" {
+    type = string
+    description = "The database replication password to use."
+    sensitive = true
+    validation {
+        condition = length(var.database_replication_password) > 0
         error_message = "Password must not be empty."
     }
 }

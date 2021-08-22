@@ -6,7 +6,34 @@ module "postgresql_deployment" {
     service_name = local.postgresql_service_name
     image_tag = var.postgresql_image_tag
     database = var.postgresql.service
+    database_postgres_password = var.postgresql_postgres_password
     database_password = var.postgresql_password
+    prometheus_enabled = var.prometheus_enabled
+}
+
+module "mysql_deployment" {
+    source = "../../helm/mysql"
+    count = var.mysql.enabled ? 1 : 0
+  
+    namespace = var.namespace
+    service_name = local.mysql_service_name
+    database = var.mysql.service
+    database_root_password = var.mysql_root_password
+    database_password = var.mysql_password
+    database_replication_password = var.mysql_replication_password
+    prometheus_enabled = var.prometheus_enabled
+}
+
+module "mariadb_deployment" {
+    source = "../../helm/mariadb"
+    count = var.mariadb.enabled ? 1 : 0
+  
+    namespace = var.namespace
+    service_name = local.mariadb_service_name
+    database = var.mariadb.service
+    database_root_password = var.mariadb_root_password
+    database_password = var.mariadb_password
+    database_replication_password = var.mariadb_replication_password
     prometheus_enabled = var.prometheus_enabled
 }
 

@@ -1,6 +1,10 @@
-// https://docs.dokuwiki.io/en-us/install-on-kubernetes/
+// https://artifacthub.io/packages/helm/bitnami/dokuwiki
 
 resource "helm_release" "dokuwiki" {
+
+    depends_on = [
+        kubernetes_secret.auth
+    ]
 
     name = "dokuwiki"
     repository = "https://charts.bitnami.com/bitnami"
@@ -19,11 +23,25 @@ resource "helm_release" "dokuwiki" {
     ]
 }
 
+resource "kubernetes_secret" "auth" {
+
+    metadata {
+        name = "dokuwiki-auth"
+        namespace = var.namespace
+    }
+
+    data = {
+        "dokuwiki-password" = var.auth_password
+    }
+    
+    type = "Opaque"
+}
+
 locals {
     helm_dokuwiki_tpl_values = {
         namespace = var.namespace
         username = var.auth.username
-        password = var.auth_password
+        dokuwiki_auth_secret_name = kubernetes_secret.auth.metadata[0].name
         email = var.auth.email
         full_name = var.auth.full_name
         wiki_name = var.service.wiki_name

@@ -1,9 +1,8 @@
 auth:
   createAdminUser: true
-  adminUser: admin
-  adminPassword: admin
-  managementUser: management
-  managementPassword: management
+  existingSecret: "${auth_secret}"
+  adminUser: "${admin_username}"
+  managementUser: "${management_username}"
   tls:
     enabled: false
 
@@ -55,6 +54,5 @@ postgresql:
 externalDatabase:
   host: "${database_host}"
   port: 5432
-  user: "${database_username}"
-  password: "${database_password}"
   database: "${database_name}"
+  user: "${database_username}"

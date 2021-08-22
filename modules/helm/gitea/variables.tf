@@ -65,12 +65,24 @@ variable "database" {
         username = string
         persistence_size = string
         persistence_storage_class = string
+        service = object({
+            service_type = string
+            service_node_port = string
+            service_cluster_ip = string
+            service_load_balancer_ip = string
+        })
     })
     default = {
         database = "gitea"
         username = "gitea"
         persistence_size = "2Gi"
         persistence_storage_class = "standard"
+        service = {
+            service_type = "ClusterIP"
+            service_node_port = ""
+            service_cluster_ip = ""
+            service_load_balancer_ip = ""
+        }
     }
     description = "The PostgreSQL database configuration."
     sensitive = false

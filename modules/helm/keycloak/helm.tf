@@ -3,7 +3,8 @@
 resource "helm_release" "keycloak" {
 
     depends_on = [
-        module.database_deployment
+        module.database_deployment,
+        kubernetes_secret.auth,
     ]
     
     name = "keycloak"
@@ -23,16 +24,35 @@ resource "helm_release" "keycloak" {
     ]
 }
 
+resource "kubernetes_secret" "auth" {
+
+    metadata {
+        name = "keycloak-auth"
+        namespace = var.namespace
+    }
+
+    data = {
+        "admin-password" = var.admin_password
+        "management-password" = var.management_password
+        "database-password" = var.database_password
+    }
+    
+    type = "Opaque"
+}
+
 locals {
     helm_keycloak_tpl_values = {
         namespace = var.namespace
         replica_count = var.service.replica_count
+        admin_username = var.service.admin_username
+        management_username = var.service.management_username
+        auth_secret = kubernetes_secret.auth.metadata[0].name
         ingress_enabled = tostring(var.service.ingress_enabled)
         ingress_host = var.service.ingress_host
         database_host = var.deploy_postgresql ? "${local.postgresql_service_name}.${var.namespace}.svc.cluster.local" : var.database_host
         database_name = var.database.database
         database_username = var.database.username
-        database_password =  var.database_password
+        database_secret = kubernetes_secret.auth.metadata[0].name
         prometheus_enabled = tostring(var.prometheus_enabled)
     }
 }

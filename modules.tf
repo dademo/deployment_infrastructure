@@ -9,6 +9,7 @@ module "supervision" {
     namespace = var.module_supervision.namespace
     istio_enabled = var.module_supervision.istio_enabled
     grafana = var.module_supervision.grafana
+    grafana_admin_password = var.module_supervision_grafana_admin_password
     prometheus = var.module_supervision.prometheus
 }
 
@@ -38,6 +39,8 @@ module "keycloak" {
     service = var.module_keycloak.service
     deploy_postgresql = var.module_keycloak.deploy_postgresql
     database = var.module_keycloak.database
+    admin_password = var.module_keycloak_admin_password
+    management_password = var.module_keycloak_management_password
     database_password = var.module_keycloak_database_password
     prometheus_enabled = var.module_keycloak.prometheus_enabled
 }
@@ -169,10 +172,19 @@ module "dev" {
     // Variables
     namespace = var.module_dev.namespace
     postgresql = var.module_dev.postgresql
+    mysql = var.module_dev.mysql
+    mariadb = var.module_dev.mariadb
     kafka = var.module_dev.kafka
     spark = var.module_dev.spark
     redis = var.module_dev.redis
     postgresql_password = var.module_dev_postgresql_password
+    postgresql_postgres_password = var.module_dev_postgresql_postgres_password
+    mysql_root_password = var.module_dev_mysql_root_password
+    mysql_password = var.module_dev_mysql_password
+    mysql_replication_password = var.module_dev_mysql_replication_password
+    mariadb_root_password = var.module_dev_mysql_root_password
+    mariadb_password = var.module_dev_mysql_password
+    mariadb_replication_password = var.module_dev_mysql_replication_password
     postgresql_image_tag = var.module_dev_postgresql_image_tag
     redis_password = var.module_dev_redis_password
 }

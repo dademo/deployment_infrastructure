@@ -6,6 +6,7 @@ variable "module_supervision" {
         grafana = object({
             enabled = bool
             replica_count = number
+            admin_username = string
             ingress_enabled = bool
             ingress_hosts = list(string)
             persistence_storage_class = string
@@ -47,6 +48,7 @@ variable "module_supervision" {
         grafana = {
             enabled = true
             replica_count = 2
+            admin_username = "admin"
             ingress_enabled = true
             ingress_hosts = ["grafana.k8s.local"]
             persistence_storage_class = "standard"
@@ -79,4 +81,10 @@ variable "module_supervision" {
             }
         }
     }
+}
+
+variable "module_supervision_grafana_admin_password" {
+    type = string
+    description = "Grafana administrator password."
+    sensitive = true
 }

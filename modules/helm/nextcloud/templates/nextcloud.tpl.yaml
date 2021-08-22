@@ -1,7 +1,12 @@
 nextcloud:
   host: "${ingress_host}"
-  username: "${admin_username}"
-  password: "${admin_password}"
+  existingSecret:
+    enabled: true
+    secretName: "${nextcloud_auth_secret_name}"
+    usernameKey: "${nextcloud_auth_secret_user_key}"
+    passwordKey: "${nextcloud_auth_secret_password_key}"
+    smtpUsernameKey: "${nextcloud_smtp_secret_user_key}"
+    smtpPasswordKey: "${nextcloud_smtp_secret_password_key}"
   mail:
     enabled: "${mail_enabled}"
     fromAddress: "${mail_from}"

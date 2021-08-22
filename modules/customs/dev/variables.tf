@@ -17,6 +17,12 @@ variable "postgresql" {
             username = string
             persistence_size = string
             persistence_storage_class = string
+            service = object({
+                service_type = string
+                service_node_port = string
+                service_cluster_ip = string
+                service_load_balancer_ip = string
+            })
         })
     })
     description = "The PostgreSQL database configuration"
@@ -28,8 +34,112 @@ variable "postgresql" {
             username = "postgres"
             persistence_size = "2Gi"
             persistence_storage_class = "standard"
+            service = {
+                service_type = "ClusterIP"
+                service_node_port = ""
+                service_cluster_ip = ""
+                service_load_balancer_ip = ""
+            }
         }
     }
+}
+
+variable "mysql" {
+    type = object({
+        enabled = bool
+        service = object({
+            replica_count = number
+            database = string
+            username = string
+            persistence_size = string
+            persistence_storage_class = string
+            primary_service = object({
+                service_type = string
+                service_node_port = string
+                service_cluster_ip = string
+                service_load_balancer_ip = string
+            })
+            secondary_service = object({
+                service_type = string
+                service_node_port = string
+                service_cluster_ip = string
+                service_load_balancer_ip = string
+            })
+        })
+    })
+    default = {
+        enabled = false
+        service = {
+            replica_count = 0
+            database = "mysql"
+            username = "mysql"
+            persistence_size = "2Gi"
+            persistence_storage_class = "standard"
+            primary_service = {
+                service_type = "ClusterIP"
+                service_node_port = ""
+                service_cluster_ip = ""
+                service_load_balancer_ip = ""
+            }
+            secondary_service = {
+                service_type = "ClusterIP"
+                service_node_port = ""
+                service_cluster_ip = ""
+                service_load_balancer_ip = ""
+            }
+        }
+    }
+    description = "The MySQL database configuration."
+    sensitive = false
+}
+
+variable "mariadb" {
+    type = object({
+        enabled = bool
+        service = object({
+            replica_count = number
+            database = string
+            username = string
+            persistence_size = string
+            persistence_storage_class = string
+            primary_service = object({
+                service_type = string
+                service_node_port = string
+                service_cluster_ip = string
+                service_load_balancer_ip = string
+            })
+            secondary_service = object({
+                service_type = string
+                service_node_port = string
+                service_cluster_ip = string
+                service_load_balancer_ip = string
+            })
+        })
+    })
+    default = {
+        enabled = false
+        service = {
+            replica_count = 0
+            database = "mariadb"
+            username = "mariadb"
+            persistence_size = "2Gi"
+            persistence_storage_class = "standard"
+            primary_service = {
+                service_type = "ClusterIP"
+                service_node_port = ""
+                service_cluster_ip = ""
+                service_load_balancer_ip = ""
+            }
+            secondary_service = {
+                service_type = "ClusterIP"
+                service_node_port = ""
+                service_cluster_ip = ""
+                service_load_balancer_ip = ""
+            }
+        }
+    }
+    description = "The MariDB database configuration."
+    sensitive = false
 }
 
 variable "kafka" {
@@ -180,11 +290,53 @@ variable "postgresql_password" {
     sensitive = true
 }
 
+variable "postgresql_postgres_password" {
+    type = string
+    description = "The postgresql postgres user password to use."
+    sensitive = true
+}
+
 variable "postgresql_image_tag" {
     type = string
     description = "The postgresql database version tag to use."
     sensitive = false
     default = "13.3.0"
+}
+
+variable "mysql_root_password" {
+    type = string
+    description = "The MySQL database root user password to use."
+    sensitive = true
+}
+
+variable "mysql_password" {
+    type = string
+    description = "The MySQL database password to use."
+    sensitive = true
+}
+
+variable "mysql_replication_password" {
+    type = string
+    description = "The MySQL replication password to use."
+    sensitive = true
+}
+
+variable "mariadb_root_password" {
+    type = string
+    description = "The MariaDB database root user password to use."
+    sensitive = true
+}
+
+variable "mariadb_password" {
+    type = string
+    description = "The MariaDB database password to use."
+    sensitive = true
+}
+
+variable "mariadb_replication_password" {
+    type = string
+    description = "The MariaDB replication password to use."
+    sensitive = true
 }
 
 variable "redis_password" {

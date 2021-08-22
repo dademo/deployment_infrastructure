@@ -3,7 +3,8 @@ architecture: %{ if replica_count == 0 } standalone %{ else } replication %{ end
 auth:
   enabled: ${authentication_enabled}
   sentinel: ${authentication_enabled}
-  password: ${password}
+  existingSecret: "${mysql_auth_secret}"
+  existingSecretPasswordKey: "${mysql_auth_secret_password_key}"
 
 master:
   persistence:

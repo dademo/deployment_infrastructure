@@ -27,6 +27,10 @@ resource "helm_release" "grafana" {
     
     count = var.grafana.enabled ? 1 : 0
 
+    depends_on = [
+        kubernetes_secret.grafana_auth
+    ]
+
     name = "grafana"
     repository = "https://grafana.github.io/helm-charts"
     chart = "grafana"
@@ -42,6 +46,23 @@ resource "helm_release" "grafana" {
     values = [
         "${templatefile("${path.module}/templates/grafana.tpl.yaml", local.helm_grafana_tpl_values)}"
     ]
+}
+
+resource "kubernetes_secret" "grafana_auth" {
+
+    count = var.grafana.enabled ? 1 : 0
+
+    metadata {
+        name = "grafana-auth"
+        namespace = var.namespace
+    }
+
+    data = {
+        "${local.grafana_admin_secret_user_key}" = var.grafana.admin_username
+        "${local.grafana_admin_secret_password_key}" = var.grafana_admin_password
+    }
+    
+    type = "Opaque"
 }
 
 resource "kubernetes_config_map" "grafana_istio_dashboards_config" {
@@ -93,6 +114,9 @@ locals {
     helm_grafana_tpl_values = {
         namespace = var.namespace
         replica_count = var.grafana.replica_count
+        admin_auth_secret = var.grafana.enabled ? kubernetes_secret.grafana_auth[0].metadata[0].name : ""
+        admin_auth_secret_user_key = local.grafana_admin_secret_user_key
+        admin_auth_secret_password_key = local.grafana_admin_secret_password_key
         ingress_enabled = var.grafana.ingress_enabled
         ingress_hosts = var.grafana.ingress_hosts
         persistence_storage_class = var.grafana.persistence_storage_class

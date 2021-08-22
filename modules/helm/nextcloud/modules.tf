@@ -7,5 +7,6 @@ module "database_deployment" {
     image_tag = local.postgresql_image_tag
     database = var.database
     database_password = var.database_password
+    database_postgres_password = var.database_password
     prometheus_enabled = var.prometheus_enabled
 }

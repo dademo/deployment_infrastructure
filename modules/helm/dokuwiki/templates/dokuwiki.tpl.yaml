@@ -1,5 +1,5 @@
 dokuwikiUsername: "${username}"
-dokuwikiPassword: "${password}"
+existingSecret: "${dokuwiki_auth_secret_name}"
 dokuwikiEmail: "${email}"
 dokuwikiFullName: "${full_name}"
 dokuwikiWikiName: "${wiki_name}"

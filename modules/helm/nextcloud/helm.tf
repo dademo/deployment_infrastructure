@@ -2,7 +2,8 @@
 resource "helm_release" "nextcloud" {
 
     depends_on = [
-        module.database_deployment
+        module.database_deployment,
+        kubernetes_secret.auth,
     ]
     
     name = "nextcloud"
@@ -22,11 +23,31 @@ resource "helm_release" "nextcloud" {
     ]
 }
 
+resource "kubernetes_secret" "auth" {
+
+    metadata {
+        name = "nextcloud-auth"
+        namespace = var.namespace
+    }
+
+    data = {
+        "${local.nextcloud_admin_secret_user_key}" = var.service.admin_username
+        "${local.nextcloud_admin_secret_password_key}" = var.service_admin_password
+        "${local.nextcloud_smtp_secret_user_key}" = ""
+        "${local.nextcloud_smtp_secret_password_key}" = ""
+    }
+    
+    type = "Opaque"
+}
+
 locals {
   helm_nextcloud_nextcloud_tpl_values = {
     namespace = var.namespace
-    admin_username = var.service.admin_username
-    admin_password = var.service_admin_password
+    nextcloud_auth_secret_name = kubernetes_secret.auth.metadata[0].name
+    nextcloud_auth_secret_user_key = local.nextcloud_admin_secret_user_key
+    nextcloud_auth_secret_password_key = local.nextcloud_admin_secret_password_key
+    nextcloud_smtp_secret_user_key = local.nextcloud_smtp_secret_user_key
+    nextcloud_smtp_secret_password_key = local.nextcloud_smtp_secret_password_key
     mail_enabled = var.service.mail.enabled
     mail_from = var.service.mail.from
     mail_domain = var.service.mail.domain

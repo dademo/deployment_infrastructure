@@ -20,6 +20,7 @@ variable "grafana" {
     type = object({
         enabled = bool
         replica_count = number
+        admin_username = string
         ingress_enabled = bool
         ingress_hosts = list(string)
         persistence_storage_class = string
@@ -29,6 +30,7 @@ variable "grafana" {
     default = {
         enabled = true
         replica_count = 2
+        admin_username = "admin"
         ingress_enabled = true
         ingress_hosts = ["grafana.k8s.local"]
         persistence_storage_class = "standard"
@@ -46,6 +48,16 @@ variable "grafana" {
             can(regex("^[0-9]+[GM]i$", var.grafana.persistence_size)),
         ])
         error_message = "Invalid Grafana service configuration."
+    }
+}
+
+variable "grafana_admin_password" {
+    type = string
+    description = "Grafana administrator password."
+    sensitive = true
+    validation {
+        condition = length(var.grafana_admin_password) > 0
+        error_message = "Grafana admin password must be defined and non-empty."
     }
 }
 

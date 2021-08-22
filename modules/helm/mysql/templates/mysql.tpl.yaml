@@ -1,0 +1,33 @@
+architecture: %{ if replica_count == 0 } standalone %{ else } replication %{ endif }
+
+auth:
+  existingSecret: "${database_secret}"
+  database: "${database}"
+  username: "${username}"
+  database: "${database}"
+
+primary:
+  persistence:
+    enabled: true
+    storageClass: "${persistence_storage_class}"
+    size: "${persistence_size}"
+  service:
+    type: "${primary_service_type}"
+    nodePort: ${primary_service_node_port}
+    clusterIP: "${primary_service_cluster_ip}"
+    loadBalancerIP: "${primary_service_load_balancer_ip}"
+
+secondary:
+  replicaCount: ${replica_count}
+  persistence:
+    enabled: true
+    storageClass: "${persistence_storage_class}"
+    size: "${persistence_size}"
+  service:
+    type: "${primary_service_type}"
+    nodePort: ${primary_service_node_port}
+    clusterIP: "${primary_service_cluster_ip}"
+    loadBalancerIP: "${primary_service_load_balancer_ip}"
+
+metrics:
+  enabled: ${prometheus_enabled}
