@@ -10,10 +10,10 @@ variable "module_dev" {
                 persistence_size = string
                 persistence_storage_class = string
                 service = object({
-                    service_type = string
-                    service_node_port = string
-                    service_cluster_ip = string
-                    service_load_balancer_ip = string
+                    type = string
+                    node_port = string
+                    cluster_ip = string
+                    load_balancer_ip = string
                 })
             })
         })
@@ -26,16 +26,16 @@ variable "module_dev" {
                 persistence_size = string
                 persistence_storage_class = string
                 primary_service = object({
-                    service_type = string
-                    service_node_port = string
-                    service_cluster_ip = string
-                    service_load_balancer_ip = string
+                    type = string
+                    node_port = string
+                    cluster_ip = string
+                    load_balancer_ip = string
                 })
                 secondary_service = object({
-                    service_type = string
-                    service_node_port = string
-                    service_cluster_ip = string
-                    service_load_balancer_ip = string
+                    type = string
+                    node_port = string
+                    cluster_ip = string
+                    load_balancer_ip = string
                 })
             })
         })
@@ -48,16 +48,16 @@ variable "module_dev" {
                 persistence_size = string
                 persistence_storage_class = string
                 primary_service = object({
-                    service_type = string
-                    service_node_port = string
-                    service_cluster_ip = string
-                    service_load_balancer_ip = string
+                    type = string
+                    node_port = string
+                    cluster_ip = string
+                    load_balancer_ip = string
                 })
                 secondary_service = object({
-                    service_type = string
-                    service_node_port = string
-                    service_cluster_ip = string
-                    service_load_balancer_ip = string
+                    type = string
+                    node_port = string
+                    cluster_ip = string
+                    load_balancer_ip = string
                 })
             })
         })
@@ -79,7 +79,7 @@ variable "module_dev" {
                 num_network_threads = number
                 num_partitions = number
                 num_recovery_threads_per_data_dir = number
-                service_type = string
+                type = string
                 persistence_size = string
                 persistence_storage_class = string
                 log_persistence_enabled = bool
@@ -136,10 +136,10 @@ variable "module_dev" {
                 persistence_size = "2Gi"
                 persistence_storage_class = "standard"
                 service = {
-                    service_type = "ClusterIP"
-                    service_node_port = ""
-                    service_cluster_ip = ""
-                    service_load_balancer_ip = ""
+                    type = "ClusterIP"
+                    node_port = ""
+                    cluster_ip = ""
+                    load_balancer_ip = ""
                 }
             }
         }
@@ -152,16 +152,16 @@ variable "module_dev" {
                 persistence_size = "2Gi"
                 persistence_storage_class = "standard"
                 primary_service = {
-                    service_type = "ClusterIP"
-                    service_node_port = ""
-                    service_cluster_ip = ""
-                    service_load_balancer_ip = ""
+                    type = "ClusterIP"
+                    node_port = ""
+                    cluster_ip = ""
+                    load_balancer_ip = ""
                 }
                 secondary_service = {
-                    service_type = "ClusterIP"
-                    service_node_port = ""
-                    service_cluster_ip = ""
-                    service_load_balancer_ip = ""
+                    type = "ClusterIP"
+                    node_port = ""
+                    cluster_ip = ""
+                    load_balancer_ip = ""
                 }
             }
         }
@@ -174,16 +174,16 @@ variable "module_dev" {
                 persistence_size = "2Gi"
                 persistence_storage_class = "standard"
                 primary_service = {
-                    service_type = "ClusterIP"
-                    service_node_port = ""
-                    service_cluster_ip = ""
-                    service_load_balancer_ip = ""
+                    type = "ClusterIP"
+                    node_port = ""
+                    cluster_ip = ""
+                    load_balancer_ip = ""
                 }
                 secondary_service = {
-                    service_type = "ClusterIP"
-                    service_node_port = ""
-                    service_cluster_ip = ""
-                    service_load_balancer_ip = ""
+                    type = "ClusterIP"
+                    node_port = ""
+                    cluster_ip = ""
+                    load_balancer_ip = ""
                 }
             }
         }
@@ -208,7 +208,7 @@ variable "module_dev" {
                 num_network_threads = 3
                 num_partitions = 10
                 num_recovery_threads_per_data_dir = 1
-                service_type = "ClusterIP"
+                type = "ClusterIP"
                 persistence_size = "2Gi"
                 persistence_storage_class = "standard"
                 log_persistence_enabled = true

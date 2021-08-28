@@ -37,7 +37,7 @@ variable "service" {
         num_network_threads = number
         num_partitions = number
         num_recovery_threads_per_data_dir = number
-        service_type = string
+        type = string
         persistence_size = string
         persistence_storage_class = string
         log_persistence_enabled = bool
@@ -62,7 +62,7 @@ variable "service" {
         num_network_threads = 3
         num_partitions = 10
         num_recovery_threads_per_data_dir = 1
-        service_type = "LoadBalancer"
+        type = "LoadBalancer"
         persistence_size = "2Gi"
         persistence_storage_class = "standard"
         log_persistence_enabled = true
@@ -96,7 +96,7 @@ variable "service" {
             var.service.num_partitions % 1 == 0,
             var.service.num_recovery_threads_per_data_dir > 0,
             var.service.num_recovery_threads_per_data_dir % 1 == 0,
-            contains(["ClusterIP", "NodePort", "LoadBalancer", "ExternalName"], var.service.service_type),
+            contains(["ClusterIP", "NodePort", "LoadBalancer", "ExternalName"], var.service.type),
             length(var.service.persistence_storage_class) > 0,
             can(regex("^[0-9]+[GM]i$", var.service.persistence_size)),
             can(regex("^[0-9]+[GM]i$", var.service.log_persistence_size)),

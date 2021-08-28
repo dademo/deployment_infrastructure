@@ -90,10 +90,10 @@ variable "database" {
         persistence_size = string
         persistence_storage_class = string
         service = object({
-            service_type = string
-            service_node_port = string
-            service_cluster_ip = string
-            service_load_balancer_ip = string
+            type = string
+            node_port = string
+            cluster_ip = string
+            load_balancer_ip = string
         })
     })
     default = {
@@ -102,10 +102,10 @@ variable "database" {
         persistence_size = "2Gi"
         persistence_storage_class = "standard"
         service = {
-            service_type = "ClusterIP"
-            service_node_port = ""
-            service_cluster_ip = ""
-            service_load_balancer_ip = ""
+            type = "ClusterIP"
+            node_port = ""
+            cluster_ip = ""
+            load_balancer_ip = ""
         }
     }
     description = "The PostgreSQL database configuration."
@@ -141,12 +141,12 @@ variable "smtp_password" {
     }
 }
 
-variable "service_admin_password" {
+variable "admin_password" {
     type = string
     description = "The Nextcloud service administrator password to use."
     sensitive = true
     validation {
-        condition = length(var.service_admin_password) > 0
+        condition = length(var.admin_password) > 0
         error_message = "Password must not be empty."
     }
 }

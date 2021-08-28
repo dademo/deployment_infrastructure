@@ -19,10 +19,10 @@ variable "module_keycloak" {
             persistence_size = string
             persistence_storage_class = string
             service = object({
-                service_type = string
-                service_node_port = string
-                service_cluster_ip = string
-                service_load_balancer_ip = string
+                type = string
+                node_port = string
+                cluster_ip = string
+                load_balancer_ip = string
             })
         })
         prometheus_enabled = bool
@@ -49,10 +49,10 @@ variable "module_keycloak" {
             persistence_size = "2Gi"
             persistence_storage_class = "standard"
             service = {
-                service_type = "ClusterIP"
-                service_node_port = ""
-                service_cluster_ip = ""
-                service_load_balancer_ip = ""
+                type = "ClusterIP"
+                node_port = ""
+                cluster_ip = ""
+                load_balancer_ip = ""
             }
         }
         prometheus_enabled = true

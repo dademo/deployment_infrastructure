@@ -4,6 +4,7 @@ resource "helm_release" "istio_base" {
     
     name = "istio-base"
     chart = "${local.helm_istio_charts_root}/base"
+    dependency_update = true
 
     timeout = 300
     cleanup_on_fail = true

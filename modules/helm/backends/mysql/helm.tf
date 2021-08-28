@@ -47,14 +47,14 @@ locals {
         database_secret = kubernetes_secret.auth.metadata[0].name
         persistence_size = var.database.persistence_size
         persistence_storage_class = var.database.persistence_storage_class
-        primary_service_type = var.database.primary_service.service_type
-        primary_service_node_port = var.database.primary_service.service_node_port
-        primary_service_cluster_ip = var.database.primary_service.service_cluster_ip
-        primary_service_load_balancer_ip = var.database.primary_service.service_load_balancer_ip
-        secondary_service_type = var.database.secondary_service.service_type
-        secondary_service_node_port = var.database.secondary_service.service_node_port
-        secondary_service_cluster_ip = var.database.secondary_service.service_cluster_ip
-        secondary_service_load_balancer_ip = var.database.secondary_service.service_load_balancer_ip
+        primary_service_type = var.database.primary_service.type
+        primary_service_node_port = var.database.primary_service.node_port
+        primary_service_cluster_ip = var.database.primary_service.cluster_ip
+        primary_service_load_balancer_ip = var.database.primary_service.load_balancer_ip
+        secondary_service_type = var.database.secondary_service.type
+        secondary_service_node_port = var.database.secondary_service.node_port
+        secondary_service_cluster_ip = var.database.secondary_service.cluster_ip
+        secondary_service_load_balancer_ip = var.database.secondary_service.load_balancer_ip
         prometheus_enabled = tostring(var.prometheus_enabled)
     }
 }

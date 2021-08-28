@@ -8,15 +8,19 @@ terraform {
       source = "hashicorp/helm"
       version = "2.2.0"
     }
+    random = {
+      source = "hashicorp/random"
+      version = "3.1.0"
+    }
   }
 }
 
 provider "kubernetes" {
   config_path    = "~/.kube/config"
   config_context = var.k8s_config_context
-  experiments {
-    manifest_resource = true
-  }
+  //experiments {
+  //  manifest_resource = true
+  //}
 }
 
 provider "helm" {

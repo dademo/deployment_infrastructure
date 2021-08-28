@@ -37,7 +37,7 @@ locals {
         num_network_threads = var.service.num_network_threads
         num_partitions = var.service.num_partitions
         num_recovery_threads_per_data_dir = var.service.num_recovery_threads_per_data_dir
-        service_type = var.service.service_type
+        service_type = var.service.type
         persistence_size = var.service.persistence_size
         persistence_storage_class = var.service.persistence_storage_class
         log_persistence_enabled = var.service.log_persistence_enabled

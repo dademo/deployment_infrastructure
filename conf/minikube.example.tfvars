@@ -96,10 +96,10 @@ module_keycloak = {
         persistence_size = "2Gi"
         persistence_storage_class = "standard"
         service = {
-            service_type = "ClusterIP"
-            service_node_port = ""
-            service_cluster_ip = ""
-            service_load_balancer_ip = ""
+            type = "ClusterIP"
+            node_port = ""
+            cluster_ip = ""
+            load_balancer_ip = ""
         }
     }
     prometheus_enabled = true
@@ -132,10 +132,10 @@ module_gitea = {
         persistence_size = "2Gi"
         persistence_storage_class = "standard"
         service = {
-            service_type = "ClusterIP"
-            service_node_port = ""
-            service_cluster_ip = ""
-            service_load_balancer_ip = ""
+            type = "ClusterIP"
+            node_port = ""
+            cluster_ip = ""
+            load_balancer_ip = ""
         }
     }
     prometheus_enabled = true
@@ -224,10 +224,10 @@ module_sonarqube = {
         persistence_size = "5Gi"
         persistence_storage_class = "standard"
         service = {
-            service_type = "ClusterIP"
-            service_node_port = ""
-            service_cluster_ip = ""
-            service_load_balancer_ip = ""
+            type = "ClusterIP"
+            node_port = ""
+            cluster_ip = ""
+            load_balancer_ip = ""
         }
     }
     prometheus_enabled = true
@@ -300,10 +300,10 @@ module_nextcloud = {
         persistence_size = "2Gi"
         persistence_storage_class = "standard"
         service = {
-            service_type = "ClusterIP"
-            service_node_port = ""
-            service_cluster_ip = ""
-            service_load_balancer_ip = ""
+            type = "ClusterIP"
+            node_port = ""
+            cluster_ip = ""
+            load_balancer_ip = ""
         }
     }
     prometheus_enabled = true
@@ -313,7 +313,7 @@ module_nextcloud_database_password = "nextcloud"
 
 module_nextcloud_smtp_password = "nextcloud"
 
-module_nextcloud_service_admin_password = "admin"
+module_nextcloud_admin_password = "admin"
 
 module_dev = {
     enabled = true
@@ -326,10 +326,10 @@ module_dev = {
             persistence_size = "2Gi"
             persistence_storage_class = "standard"
             service = {
-                service_type = "ClusterIP"
-                service_node_port = ""
-                service_cluster_ip = ""
-                service_load_balancer_ip = ""
+                type = "ClusterIP"
+                node_port = ""
+                cluster_ip = ""
+                load_balancer_ip = ""
             }
         }
     }
@@ -342,16 +342,16 @@ module_dev = {
             persistence_size = "2Gi"
             persistence_storage_class = "standard"
             primary_service = {
-                service_type = "ClusterIP"
-                service_node_port = ""
-                service_cluster_ip = ""
-                service_load_balancer_ip = ""
+                type = "ClusterIP"
+                node_port = ""
+                cluster_ip = ""
+                load_balancer_ip = ""
             }
             secondary_service = {
-                service_type = "ClusterIP"
-                service_node_port = ""
-                service_cluster_ip = ""
-                service_load_balancer_ip = ""
+                type = "ClusterIP"
+                node_port = ""
+                cluster_ip = ""
+                load_balancer_ip = ""
             }
         }
     }
@@ -364,16 +364,16 @@ module_dev = {
             persistence_size = "2Gi"
             persistence_storage_class = "standard"
             primary_service = {
-                service_type = "ClusterIP"
-                service_node_port = ""
-                service_cluster_ip = ""
-                service_load_balancer_ip = ""
+                type = "ClusterIP"
+                node_port = ""
+                cluster_ip = ""
+                load_balancer_ip = ""
             }
             secondary_service = {
-                service_type = "ClusterIP"
-                service_node_port = ""
-                service_cluster_ip = ""
-                service_load_balancer_ip = ""
+                type = "ClusterIP"
+                node_port = ""
+                cluster_ip = ""
+                load_balancer_ip = ""
             }
         }
     }
@@ -398,7 +398,7 @@ module_dev = {
             num_network_threads = 3
             num_partitions = 10
             num_recovery_threads_per_data_dir = 1
-            service_type = "ClusterIP"
+            type = "ClusterIP"
             persistence_size = "2Gi"
             persistence_storage_class = "standard"
             log_persistence_enabled = true

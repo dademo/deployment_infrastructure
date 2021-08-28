@@ -9,10 +9,6 @@ image:
 replication:
   enabled: false
 
-service:
-  type: ClusterIP
-  port: 5432
-
 persistence:
   storageClass: "${persistence_storage_class}"
   size: "${persistence_size}"
@@ -22,6 +18,7 @@ volumePermissions:
 
 service:
   type: "${service_type}"
+  port: 5432
   nodePort: ${service_node_port}
   clusterIP: "${service_cluster_ip}"
   loadBalancerIP: "${service_load_balancer_ip}"

@@ -6,7 +6,8 @@ resource "helm_release" "sonarqube" {
     ]
     
     name = "sonarqube"
-    chart = "${path.module}/dependencies/helm-chart-sonarqube/charts/sonarqube"
+    chart = "${local.helm_sonarqube_charts_root}/sonarqube"
+    dependency_update = true
 
     timeout = 600
     cleanup_on_fail = true
@@ -21,6 +22,8 @@ resource "helm_release" "sonarqube" {
 }
 
 locals {
+
+    helm_sonarqube_charts_root = "${path.module}/dependencies/helm-chart-sonarqube/charts"
     helm_sonarqube_tpl_values = {
         namespace = var.namespace
         replica_count = var.service.replica_count

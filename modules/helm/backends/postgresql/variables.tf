@@ -46,10 +46,10 @@ variable "database" {
         persistence_size = string
         persistence_storage_class = string
         service = object({
-            service_type = string
-            service_node_port = string
-            service_cluster_ip = string
-            service_load_balancer_ip = string
+            type = string
+            node_port = string
+            cluster_ip = string
+            load_balancer_ip = string
         })
     })
     default = {
@@ -58,10 +58,10 @@ variable "database" {
         persistence_size = "2Gi"
         persistence_storage_class = "standard"
         service = {
-            service_type = "ClusterIP"
-            service_node_port = ""
-            service_cluster_ip = ""
-            service_load_balancer_ip = ""
+            type = "ClusterIP"
+            node_port = ""
+            cluster_ip = ""
+            load_balancer_ip = ""
         }
     }
     description = "The PostgreSQL database configuration."
@@ -74,13 +74,13 @@ variable "database" {
             var.database.username != "postgres",
             length(var.database.persistence_storage_class) > 0,
             can(regex("^[0-9]+[GM]i$", var.database.persistence_size)),
-            contains(["ClusterIP", "NodePort", "LoadBalancer", "ExternalName"], var.database.service.service_type),
+            contains(["ClusterIP", "NodePort", "LoadBalancer", "ExternalName"], var.database.service.type),
             anytrue([
                 alltrue([
-                    !(var.database.service.service_type == "NodePort"),
-                    length(var.database.service.service_node_port) == 0,
+                    !(var.database.service.type == "NodePort"),
+                    length(var.database.service.node_port) == 0,
                 ]),
-                length(var.database.service.service_node_port) > 0
+                length(var.database.service.node_port) > 0
             ])
         ])
         error_message = "Invalid database configuration."

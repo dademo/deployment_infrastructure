@@ -29,10 +29,10 @@ variable "module_nextcloud" {
             persistence_size = string
             persistence_storage_class = string
             service = object({
-                service_type = string
-                service_node_port = string
-                service_cluster_ip = string
-                service_load_balancer_ip = string
+                type = string
+                node_port = string
+                cluster_ip = string
+                load_balancer_ip = string
             })
         })
         prometheus_enabled = bool
@@ -69,10 +69,10 @@ variable "module_nextcloud" {
             persistence_size = "2Gi"
             persistence_storage_class = "standard"
             service = {
-                service_type = "ClusterIP"
-                service_node_port = ""
-                service_cluster_ip = ""
-                service_load_balancer_ip = ""
+                type = "ClusterIP"
+                node_port = ""
+                cluster_ip = ""
+                load_balancer_ip = ""
             }
         }
         prometheus_enabled = true
@@ -91,7 +91,7 @@ variable "module_nextcloud_smtp_password" {
     sensitive = true
 }
 
-variable "module_nextcloud_service_admin_password" {
+variable "module_nextcloud_admin_password" {
     type = string
     description = "The Nextcloud service administrator password to use."
     sensitive = true

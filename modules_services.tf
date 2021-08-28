@@ -115,6 +115,6 @@ module "nextcloud" {
   database = var.module_nextcloud.database
   database_password = var.module_nextcloud_database_password
   smtp_password = var.module_nextcloud_smtp_password
-  service_admin_password = var.module_nextcloud_service_admin_password
+  admin_password = var.module_nextcloud_admin_password
   prometheus_enabled = var.module_nextcloud.prometheus_enabled
 }

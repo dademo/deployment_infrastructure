@@ -45,10 +45,10 @@ locals {
         database_secret = kubernetes_secret.auth.metadata[0].name
         persistence_size = var.database.persistence_size
         persistence_storage_class = var.database.persistence_storage_class
-        service_type = var.database.service.service_type
-        service_node_port = var.database.service.service_node_port
-        service_cluster_ip = var.database.service.service_cluster_ip
-        service_load_balancer_ip = var.database.service.service_load_balancer_ip
+        service_type = var.database.service.type
+        service_node_port = var.database.service.node_port
+        service_cluster_ip = var.database.service.cluster_ip
+        service_load_balancer_ip = var.database.service.load_balancer_ip
         prometheus_enabled = tostring(var.prometheus_enabled)
     }
 }

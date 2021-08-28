@@ -39,7 +39,7 @@ variable "service" {
             var.service.replica_count % 1 == 0,
             length(var.service.persistence_storage_class) > 0,
             can(regex("^[0-9]+[GM]i$", var.service.persistence_size)),
-            (!var.service.ingress_enabled) || alltrue([for host in var.service.ingress_hosts : length(host) > 0]),
+            (!var.service.ingress_enabled) || alltrue([for host in var.service.ingress_hosts : (length(host) > 0)]),
         ])
         error_message = "Invalid Sonarqube service configuration."
     }
@@ -59,10 +59,10 @@ variable "database" {
         persistence_size = string
         persistence_storage_class = string
         service = object({
-            service_type = string
-            service_node_port = string
-            service_cluster_ip = string
-            service_load_balancer_ip = string
+            type = string
+            node_port = string
+            cluster_ip = string
+            load_balancer_ip = string
         })
     })
     default = {
@@ -71,10 +71,10 @@ variable "database" {
         persistence_size = "5Gi"
         persistence_storage_class = "standard"
         service = {
-            service_type = "ClusterIP"
-            service_node_port = ""
-            service_cluster_ip = ""
-            service_load_balancer_ip = ""
+            type = "ClusterIP"
+            node_port = ""
+            cluster_ip = ""
+            load_balancer_ip = ""
         }
     }
     description = "The PostgreSQL database configuration."

@@ -32,7 +32,7 @@ resource "kubernetes_secret" "auth" {
 
     data = {
         "${local.nextcloud_admin_secret_user_key}" = var.service.admin_username
-        "${local.nextcloud_admin_secret_password_key}" = var.service_admin_password
+        "${local.nextcloud_admin_secret_password_key}" = var.admin_password
         "${local.nextcloud_smtp_secret_user_key}" = ""
         "${local.nextcloud_smtp_secret_password_key}" = ""
     }

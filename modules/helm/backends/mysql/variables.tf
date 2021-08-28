@@ -47,16 +47,16 @@ variable "database" {
         persistence_size = string
         persistence_storage_class = string
         primary_service = object({
-            service_type = string
-            service_node_port = string
-            service_cluster_ip = string
-            service_load_balancer_ip = string
+            type = string
+            node_port = string
+            cluster_ip = string
+            load_balancer_ip = string
         })
         secondary_service = object({
-            service_type = string
-            service_node_port = string
-            service_cluster_ip = string
-            service_load_balancer_ip = string
+            type = string
+            node_port = string
+            cluster_ip = string
+            load_balancer_ip = string
         })
     })
     default = {
@@ -66,16 +66,16 @@ variable "database" {
         persistence_size = "2Gi"
         persistence_storage_class = "standard"
         primary_service = {
-            service_type = "ClusterIP"
-            service_node_port = ""
-            service_cluster_ip = ""
-            service_load_balancer_ip = ""
+            type = "ClusterIP"
+            node_port = ""
+            cluster_ip = ""
+            load_balancer_ip = ""
         }
         secondary_service = {
-            service_type = "ClusterIP"
-            service_node_port = ""
-            service_cluster_ip = ""
-            service_load_balancer_ip = ""
+            type = "ClusterIP"
+            node_port = ""
+            cluster_ip = ""
+            load_balancer_ip = ""
         }
     }
     description = "The MySQL database configuration."
