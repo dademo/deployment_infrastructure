@@ -13,6 +13,7 @@ module "dev" {
   kafka = var.module_dev.kafka
   spark = var.module_dev.spark
   redis = var.module_dev.redis
+  rabbitmq = var.module_dev.rabbitmq
   postgresql_password = var.module_dev_postgresql_password
   postgresql_postgres_password = var.module_dev_postgresql_postgres_password
   mysql_root_password = var.module_dev_mysql_root_password
@@ -23,4 +24,5 @@ module "dev" {
   mariadb_replication_password = var.module_dev_mysql_replication_password
   postgresql_image_tag = var.module_dev_postgresql_image_tag
   redis_password = var.module_dev_redis_password
+  rabbitmq_password = var.module_dev_rabbitmq_password
 }

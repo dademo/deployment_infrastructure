@@ -1,43 +1,43 @@
 // https://github.com/nextcloud/helm/tree/master/charts/nextcloud
 resource "helm_release" "nextcloud" {
 
-    depends_on = [
-        module.database_deployment,
-        kubernetes_secret.auth,
-    ]
-    
-    name = "nextcloud"
-    repository = "https://nextcloud.github.io/helm"
-    chart = "nextcloud"
-    version = local.helm_nextcloud_version
+  depends_on = [
+    module.database_deployment,
+    kubernetes_secret.auth,
+  ]
 
-    timeout = 300
-    cleanup_on_fail = true
-    wait = true
-    wait_for_jobs = true
+  name = "nextcloud"
+  repository = "https://nextcloud.github.io/helm"
+  chart = "nextcloud"
+  version = local.helm_nextcloud_version
 
-    namespace = var.namespace
+  timeout = 300
+  cleanup_on_fail = true
+  wait = true
+  wait_for_jobs = true
 
-    values = [
-        "${templatefile("${path.module}/templates/nextcloud.tpl.yaml", local.helm_nextcloud_nextcloud_tpl_values)}"
-    ]
+  namespace = var.namespace
+
+  values = [
+    templatefile("${path.module}/templates/nextcloud.tpl.yaml", local.helm_nextcloud_nextcloud_tpl_values)
+  ]
 }
 
 resource "kubernetes_secret" "auth" {
 
-    metadata {
-        name = "nextcloud-auth"
-        namespace = var.namespace
-    }
+  metadata {
+    name = "nextcloud-auth"
+    namespace = var.namespace
+  }
 
-    data = {
-        "${local.nextcloud_admin_secret_user_key}" = var.service.admin_username
-        "${local.nextcloud_admin_secret_password_key}" = var.admin_password
-        "${local.nextcloud_smtp_secret_user_key}" = ""
-        "${local.nextcloud_smtp_secret_password_key}" = ""
-    }
-    
-    type = "Opaque"
+  data = {
+    "${local.nextcloud_admin_secret_user_key}" = var.service.admin_username
+    "${local.nextcloud_admin_secret_password_key}" = var.admin_password
+    "${local.nextcloud_smtp_secret_user_key}" = ""
+    "${local.nextcloud_smtp_secret_password_key}" = ""
+  }
+
+  type = "Opaque"
 }
 
 locals {
@@ -64,7 +64,7 @@ locals {
     database_host = var.deploy_postgresql ? "${local.postgresql_service_name}.${var.namespace}.svc.cluster.local" : var.database_host
     database_name = var.database.database
     database_username = var.database.username
-    database_password =  var.database_password
+    database_password = var.database_password
     prometheus_enabled = tostring(var.prometheus_enabled)
   }
 }

@@ -1,94 +1,94 @@
 // https://istio.io/latest/docs/setup/install/helm/
 
 resource "helm_release" "istio_base" {
-    
-    name = "istio-base"
-    chart = "${local.helm_istio_charts_root}/base"
-    dependency_update = true
 
-    timeout = 300
-    cleanup_on_fail = true
-    wait = true
-    wait_for_jobs = true
+  name = "istio-base"
+  chart = "${local.helm_istio_charts_root}/base"
+  dependency_update = true
 
-    namespace = var.namespace
+  timeout = 300
+  cleanup_on_fail = true
+  wait = true
+  wait_for_jobs = true
 
-    values = [
-        "${templatefile("${path.module}/templates/istio_generic.tpl.yaml", local.helm_istio_generic_tpl_values)}"
-    ]
+  namespace = var.namespace
+
+  values = [
+    templatefile("${path.module}/templates/istio_generic.tpl.yaml", local.helm_istio_generic_tpl_values)
+  ]
 }
 
 resource "helm_release" "istio_discovery" {
 
-    depends_on = [
-        helm_release.istio_base,
-    ]
-    
-    name = "istio-discovery"
-    chart = "${local.helm_istio_charts_root}/istio-control/istio-discovery"
+  depends_on = [
+    helm_release.istio_base,
+  ]
 
-    timeout = 300
-    cleanup_on_fail = true
-    wait = true
-    wait_for_jobs = true
+  name = "istio-discovery"
+  chart = "${local.helm_istio_charts_root}/istio-control/istio-discovery"
 
-    namespace = var.namespace
+  timeout = 300
+  cleanup_on_fail = true
+  wait = true
+  wait_for_jobs = true
 
-    values = [
-        "${templatefile("${path.module}/templates/istio_generic.tpl.yaml", local.helm_istio_generic_tpl_values)}"
-    ]
+  namespace = var.namespace
+
+  values = [
+    templatefile("${path.module}/templates/istio_generic.tpl.yaml", local.helm_istio_generic_tpl_values)
+  ]
 }
 
 resource "helm_release" "istio_ingress" {
 
-    count = var.system_ingress_enabled ? 1 : 0
-    depends_on = [
-        helm_release.istio_base,
-        helm_release.istio_discovery,
-    ]
-    
-    name = "istio-ingress"
-    chart = "${local.helm_istio_charts_root}/gateways/istio-ingress"
+  count = var.system_ingress_enabled ? 1 : 0
+  depends_on = [
+    helm_release.istio_base,
+    helm_release.istio_discovery,
+  ]
 
-    timeout = 300
-    cleanup_on_fail = true
-    wait = true
-    wait_for_jobs = true
+  name = "istio-ingress"
+  chart = "${local.helm_istio_charts_root}/gateways/istio-ingress"
 
-    namespace = var.namespace
+  timeout = 300
+  cleanup_on_fail = true
+  wait = true
+  wait_for_jobs = true
 
-    values = [
-        "${templatefile("${path.module}/templates/istio_generic.tpl.yaml", local.helm_istio_generic_tpl_values)}"
-    ]
+  namespace = var.namespace
+
+  values = [
+    templatefile("${path.module}/templates/istio_generic.tpl.yaml", local.helm_istio_generic_tpl_values)
+  ]
 }
 
 resource "helm_release" "istio_egress" {
 
-    count = var.system_egress_enabled ? 1 : 0
-    depends_on = [
-        helm_release.istio_base,
-        helm_release.istio_discovery,
-    ]
-    
-    name = "istio-egress"
-    chart = "${local.helm_istio_charts_root}/gateways/istio-egress"
+  count = var.system_egress_enabled ? 1 : 0
+  depends_on = [
+    helm_release.istio_base,
+    helm_release.istio_discovery,
+  ]
 
-    timeout = 300
-    cleanup_on_fail = true
-    wait = true
-    wait_for_jobs = true
+  name = "istio-egress"
+  chart = "${local.helm_istio_charts_root}/gateways/istio-egress"
 
-    namespace = var.namespace
+  timeout = 300
+  cleanup_on_fail = true
+  wait = true
+  wait_for_jobs = true
 
-    values = [
-        "${templatefile("${path.module}/templates/istio_generic.tpl.yaml", local.helm_istio_generic_tpl_values)}"
-    ]
+  namespace = var.namespace
+
+  values = [
+    templatefile("${path.module}/templates/istio_generic.tpl.yaml", local.helm_istio_generic_tpl_values)
+  ]
 }
 
 locals {
-    helm_istio_charts_root = "${path.module}/dependencies/istio/manifests/charts"
-    helm_istio_generic_tpl_values = {
-        namespace = var.namespace
-        enable_analysis = var.enable_analysis
-    }
+  helm_istio_charts_root = "${path.module}/dependencies/istio/manifests/charts"
+  helm_istio_generic_tpl_values = {
+    namespace = var.namespace
+    enable_analysis = var.enable_analysis
+  }
 }

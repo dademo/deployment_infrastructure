@@ -67,3 +67,14 @@ module "redis_deployment" {
   redis_password = var.redis_password
   prometheus_enabled = var.prometheus_enabled
 }
+
+module "rabbitmq_deployment" {
+  source = "./../../helm/backends/rabbitmq"
+  count = var.rabbitmq.enabled ? 1 : 0
+
+  namespace = var.namespace
+  service_name = local.rabbitmq_service_name
+  service = var.rabbitmq.service
+  rabbitmq_password = var.rabbitmq_password
+  prometheus_enabled = var.prometheus_enabled
+}

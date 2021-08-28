@@ -1,0 +1,39 @@
+auth:
+  username: "${username}"
+  existingPasswordSecret: "${auth_secret}"
+  existingErlangSecret: "${auth_secret}"
+
+plugins: "${plugins}"
+communityPlugins: "${community_plugins}"
+extraPlugins: "${extra_plugins}"
+replicaCount: ${replica_count}
+
+clustering:
+  enabled: ${clustering_enabled}
+  rebalance: ${clustering_rebalance}
+
+persistence:
+  enabled: true
+  size: "${persistence_size}"
+  storageClass: "${persistence_storage_class}"
+
+service:
+  type: "${service_type}"
+  port: 5672
+  nodePort: "${service_node_port}"
+  clusterIP: "${service_cluster_ip}"
+  loadBalancerIP: "${service_load_balancer_ip}"
+  # Manager
+  managerPortEnabled: ${service_manager_enabled}
+  managerPort: 15672
+  managerNodePort: "${service_manager_node_port}"
+
+ingress:
+  enabled: ${manager_ingress_enabled}
+  hostname: "${manager_ingress_host}"
+
+metrics:
+  enabled: ${prometheus_enabled}
+  plugins: "rabbitmq_prometheus"
+  serviceMonitor:
+    enabled: false
