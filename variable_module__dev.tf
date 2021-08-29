@@ -61,6 +61,35 @@ variable "module_dev" {
         })
       })
     })
+    mongodb = object({
+      enabled = bool
+      service = object({
+        replica_count = number
+        username = string
+        database = string
+        cluster_domain = string
+        disable_javascript = bool
+        arbiter_enabled = bool
+        hidden_enabled = bool
+        hidden_replica_count = number
+        persistence_size = string
+        persistence_storage_class = string
+        service = object({
+          type = string
+          node_port = string
+          cluster_ip = string
+          load_balancer_ip = string
+        })
+        external_service = object({
+          enabled = bool
+          auto_discovery_enabled = bool
+          type = string
+          node_port = string
+          load_balancer_ip = string
+          domain = string
+        })
+      })
+    })
     kafka = object({
       enabled = bool
       service = object({
@@ -210,6 +239,35 @@ variable "module_dev" {
           node_port = ""
           cluster_ip = ""
           load_balancer_ip = ""
+        }
+      }
+    }
+    mongodb = {
+      enabled = false
+      service = {
+        replica_count = 1
+        username = "mongodb"
+        database = "dev"
+        cluster_domain = "cluster.local"
+        disable_javascript = false
+        arbiter_enabled = true
+        hidden_enabled = false
+        hidden_replica_count = 1
+        persistence_size = "8Gi"
+        persistence_storage_class = "standard"
+        service = {
+          type = "ClusterIP"
+          node_port = ""
+          cluster_ip = ""
+          load_balancer_ip = ""
+        }
+        external_service = {
+          enabled = false
+          auto_discovery_enabled = false
+          type = "LoadBalancer"
+          node_port = ""
+          load_balancer_ip = ""
+          domain = ""
         }
       }
     }
@@ -365,6 +423,24 @@ variable "module_dev_mariadb_password" {
 variable "module_dev_mariadb_replication_password" {
   type = string
   description = "The MariaDB replication password to use."
+  sensitive = true
+}
+
+variable "module_dev_mongodb_root_password" {
+  type = string
+  description = "The MongoDB database root user password to use."
+  sensitive = true
+}
+
+variable "module_dev_mongodb_password" {
+  type = string
+  description = "The MongoDB database password to use."
+  sensitive = true
+}
+
+variable "module_dev_mongodb_replicaset_password" {
+  type = string
+  description = "The MongoDB replica set password to use."
   sensitive = true
 }
 

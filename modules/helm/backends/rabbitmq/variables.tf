@@ -107,7 +107,7 @@ variable "service" {
 
 variable "rabbitmq_password" {
   type = string
-  description = "The rabbitmq password to use."
+  description = "The RabbitMQ password to use."
   sensitive = true
   validation {
     condition = length(var.rabbitmq_password) > 0

@@ -1,0 +1,53 @@
+architecture: %{ if replica_count == 1 } standalone %{ else } replicaset %{ endif }
+replicaCount: ${replica_count}
+podManagementPolicy: OrderedReady
+
+clusterDomain: "${cluster_domain}"
+disableJavascript: ${disable_javascript}
+
+auth:
+  enabled: true
+  username: "${username}"
+  database: "${database}"
+  existingSecret: "${auth_secret}"
+
+arbiter:
+  enabled: ${arbiter_enabled}
+
+hidden:
+  enabled: ${hidden_enabled}
+  replicaCount: ${hidden_replica_count}
+  persistence:
+    enabled: true
+    size: "${persistence_size}"
+    storageClass: "${persistence_storage_class}"
+
+persistence:
+  enabled: true
+  size: "${persistence_size}"
+  storageClass: "${persistence_storage_class}"
+
+service:
+  type: "${service_type}"
+  port: 5672
+  nodePort: "${service_node_port}"
+  clusterIP: "${service_cluster_ip}"
+  loadBalancerIP: "${service_load_balancer_ip}"
+
+externalAccess:
+  enabled: ${external_access_enabled}
+  autoDiscovery:
+    enabled: ${external_access_auto_discovery_enabled}
+  service:
+    type: "${external_service_type}"
+    port: 27017
+    nodePorts: [ "${external_service_node_port}" ]
+    loadBalancerIPs: [ "${external_service_load_balancer_ip}" ]
+    domain: "${external_service_domain}"
+
+metrics:
+  enabled: ${prometheus_enabled}
+  serviceMonitor:
+    enabled: false
+  prometheusRule:
+    enabled: false

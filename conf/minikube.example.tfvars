@@ -429,6 +429,35 @@ module_dev = {
       }
     }
   }
+  mongodb = {
+    enabled = true
+    service = {
+      replica_count = 3
+      username = "mongodb"
+      database = "dev"
+      cluster_domain = "cluster.local"
+      disable_javascript = true
+      arbiter_enabled = true
+      hidden_enabled = true
+      hidden_replica_count = 1
+      persistence_size = "8Gi"
+      persistence_storage_class = "standard"
+      service = {
+        type = "ClusterIP"
+        node_port = ""
+        cluster_ip = ""
+        load_balancer_ip = ""
+      }
+      external_service = {
+        enabled = false
+        auto_discovery_enabled = true
+        type = "LoadBalancer"
+        node_port = ""
+        load_balancer_ip = ""
+        domain = ""
+      }
+    }
+  }
   kafka = {
     enabled = false
     service = {
@@ -536,5 +565,8 @@ module_dev_mysql_replication_password = "mysql"
 module_dev_mariadb_password = "mysql"
 module_dev_mariadb_root_password = "mysql"
 module_dev_mariadb_replication_password = "mysql"
+module_dev_mongodb_password = "mongo"
+module_dev_mongodb_root_password = "mongo"
+module_dev_mongodb_replicaset_password = "mongoSuperSecret"
 module_dev_redis_password = "redis"
 module_dev_rabbitmq_password = "dev"

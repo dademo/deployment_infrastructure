@@ -37,6 +37,19 @@ module "mariadb_deployment" {
   prometheus_enabled = var.prometheus_enabled
 }
 
+module "mongodb_deployment" {
+  source = "./../../helm/backends/mongodb"
+  count = var.mongodb.enabled ? 1 : 0
+
+  namespace = var.namespace
+  service_name = local.mongodb_service_name
+  database = var.mongodb.service
+  mongodb_password = var.mongodb_password
+  mongodb_root_password = var.mongodb_root_password
+  mongodb_replicaset_password = var.mongodb_replicaset_password
+  prometheus_enabled = var.prometheus_enabled
+}
+
 module "kafka_deployment" {
   source = "./../../helm/backends/kafka"
   count = var.kafka.enabled ? 1 : 0

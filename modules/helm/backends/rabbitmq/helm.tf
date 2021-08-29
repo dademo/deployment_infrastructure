@@ -30,8 +30,8 @@ resource "kubernetes_secret" "auth" {
   }
 
   data = {
-    "${local.rabbitmq_admin_secret_password_key}" = var.rabbitmq_password
-    "${local.rabbitmq_erlang_cookie_secret_password_key}": random_password.rabbitmq_erlang_cookie.result
+    "${local.rabbitmq_secret_admin_password_key}" = var.rabbitmq_password
+    "${local.rabbitmq_secret_erlang_cookie_password_key}": random_password.rabbitmq_erlang_cookie.result
   }
 
   type = "Opaque"
