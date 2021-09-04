@@ -35,8 +35,8 @@ locals {
     worker_core_limit = var.service.worker.core_limit
     worker_resources_limits = var.service.worker.resources_limits
     worker_resources_requests = var.service.worker.resources_requests
-    ingress_enabled = var.service.ingress_enabled
+    ingress_enabled = tostring(var.service.ingress_enabled)
     ingress_host = var.service.ingress_host
-    prometheus_enabled = var.prometheus_enabled
+    prometheus_enabled = tostring(var.prometheus_enabled)
   }
 }

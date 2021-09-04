@@ -33,7 +33,8 @@ variable "service" {
     }
     ingress_enabled = true
     ingress_hosts = [
-      "gocd.k8s.local"]
+      "gocd.k8s.local"
+    ]
   }
   description = "The GoCD service configuration"
   sensitive = false

@@ -1,4 +1,4 @@
-// https://github.com/bitnami/charts/tree/master/bitnami/postgresql
+// https://artifacthub.io/packages/helm/bitnami/rabbitmq
 resource "helm_release" "rabbitmq" {
 
   depends_on = [
@@ -61,9 +61,9 @@ locals {
     service_node_port = var.service.service.node_port
     service_cluster_ip = var.service.service.cluster_ip
     service_load_balancer_ip = var.service.service.load_balancer_ip
-    service_manager_enabled = var.service.service.manager_enabled
+    service_manager_enabled = tostring(var.service.service.manager_enabled)
     service_manager_node_port = var.service.service.manager_node_port
-    manager_ingress_enabled = var.service.ingress_enabled
+    manager_ingress_enabled = tostring(var.service.ingress_enabled)
     manager_ingress_host = var.service.ingress_host
     prometheus_enabled = tostring(var.prometheus_enabled)
   }

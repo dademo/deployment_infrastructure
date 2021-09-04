@@ -1,0 +1,31 @@
+replicas: ${replica_count}
+httpPort: ${http_port}
+logstashJavaOpts: "${logstash_java_opts}"
+
+persistence:
+  enabled: true
+
+volumeClaimTemplate:
+  accessModes: [ "ReadWriteOnce" ]
+  storageClassName: "${persistence_storage_class}"
+  resources:
+    requests:
+      storage: "${persistence_size}"
+
+resources:
+  requests:
+    cpu: "${cpu_limits_millis}m"
+    memory: "${memory_limits_mega}Mi"
+  limits:
+    cpu: "${cpu_limits_millis}m"
+    memory: "${memory_limits_mega}Mi"
+
+ingress:
+  enabled: ${ingress_enabled}
+  hosts:
+%{ for ingress_host in ingress_hosts ~}
+  - host: "${ingress_host}"
+    paths:
+    - path: /logs
+      servicePort: 8080
+%{ endfor ~}

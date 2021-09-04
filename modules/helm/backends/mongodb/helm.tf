@@ -1,4 +1,4 @@
-// https://github.com/bitnami/charts/tree/master/bitnami/postgresql
+// https://artifacthub.io/packages/helm/bitnami/mongodb
 resource "helm_release" "mongodb" {
 
   depends_on = [
@@ -45,8 +45,8 @@ locals {
     database = var.database.database
     cluster_domain = var.database.cluster_domain
     disable_javascript = var.database.disable_javascript
-    arbiter_enabled = var.database.arbiter_enabled
-    hidden_enabled = var.database.hidden_enabled
+    arbiter_enabled = tostring(var.database.arbiter_enabled)
+    hidden_enabled = tostring(var.database.hidden_enabled)
     hidden_replica_count = var.database.hidden_replica_count
     auth_secret = kubernetes_secret.auth.metadata[0].name
     persistence_size = var.database.persistence_size
@@ -55,8 +55,8 @@ locals {
     service_node_port = var.database.service.node_port
     service_cluster_ip = var.database.service.cluster_ip
     service_load_balancer_ip = var.database.service.load_balancer_ip
-    external_access_enabled = var.database.external_service.enabled
-    external_access_auto_discovery_enabled = var.database.external_service.auto_discovery_enabled
+    external_access_enabled = tostring(var.database.external_service.enabled)
+    external_access_auto_discovery_enabled = tostring(var.database.external_service.auto_discovery_enabled)
     external_service_type = var.database.external_service.type
     external_service_node_port = var.database.external_service.node_port
     external_service_load_balancer_ip = var.database.external_service.load_balancer_ip

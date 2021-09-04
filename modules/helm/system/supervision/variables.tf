@@ -33,7 +33,8 @@ variable "grafana" {
     admin_username = "admin"
     ingress_enabled = true
     ingress_hosts = [
-      "grafana.k8s.local"]
+      "grafana.k8s.local"
+    ]
     persistence_storage_class = "standard"
     persistence_size = "1Gi"
     plugins = []

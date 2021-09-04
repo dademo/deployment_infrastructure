@@ -24,7 +24,7 @@ locals {
     persistence_size = var.service.persistence_size
     persistence_storage_class = var.service.persistence_storage_class
     agent_replica_count = var.service.agent.replica_count
-    agent_persistence_enabled = var.service.agent.persistence_enabled
+    agent_persistence_enabled = tostring(var.service.agent.persistence_enabled)
     agent_persistence_size = var.service.agent.persistence_size
     agent_persistence_storage_class = var.service.agent.persistence_storage_class
     ingress_enabled = tostring(var.service.ingress_enabled)

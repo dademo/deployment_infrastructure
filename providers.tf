@@ -28,6 +28,7 @@ provider "helm" {
     config_path = "~/.kube/config"
     config_context = var.k8s_config_context
   }
+  repository_cache = "./_helpers/helm_cache/data"
 }
 
 

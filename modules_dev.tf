@@ -15,6 +15,7 @@ module "dev" {
   spark = var.module_dev.spark
   redis = var.module_dev.redis
   rabbitmq = var.module_dev.rabbitmq
+  elastic = var.module_dev.elastic
   postgresql_password = var.module_dev_postgresql_password
   postgresql_postgres_password = var.module_dev_postgresql_postgres_password
   mysql_root_password = var.module_dev_mysql_root_password

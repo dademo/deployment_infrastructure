@@ -56,9 +56,9 @@ locals {
   helm_minio_operator_tpl_values = {
     operator_replica_count = var.operator.operator_replica_count
     console_replica_count = var.operator.console_replica_count
-    ingress_enabled = var.operator.ingress_enabled
+    ingress_enabled = tostring(var.operator.ingress_enabled)
     ingress_host = var.operator.ingress_host
-    prometheus_enabled = var.prometheus_enabled
+    prometheus_enabled = tostring(var.prometheus_enabled)
   }
   ////    minio_tenant_tpl_values = {
   ////        name = var.minio.tenant_name

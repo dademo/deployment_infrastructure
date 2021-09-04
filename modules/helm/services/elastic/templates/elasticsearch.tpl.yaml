@@ -1,0 +1,49 @@
+replicas: ${replica_count}
+clusterName: "${cluster_name}"
+nodeGroup: "${node_group}"
+esJavaOpts: "${es_java_opts}"
+
+antiAffinityTopologyKey: "kubernetes.io/hostname"
+antiAffinity: "soft"
+
+resources:
+  requests:
+    cpu: "${cpu_limits_millis}m"
+    memory: "${memory_limits_mega}Mi"
+  limits:
+    cpu: "${cpu_limits_millis}m"
+    memory: "${memory_limits_mega}Mi"
+
+extraEnvs:
+- name: "http.port"
+  value: "${http_port}"
+- name: "transport.port"
+  value: "${transport_port}"
+
+httpPort: ${http_port}
+transportPort: ${transport_port}
+
+persistence:
+  enabled: true
+
+volumeClaimTemplate:
+  accessModes: [ "ReadWriteOnce" ]
+  storageClassName: "${persistence_storage_class}"
+  resources:
+    requests:
+      storage: "${persistence_size}"
+
+service:
+  enabled: true
+  type: "${service_type}"
+  loadBalancerIP: "${service_load_balancer_ip}"
+  nodePort: "${service_node_port}"
+
+ingress:
+  enabled: ${ingress_enabled}
+  hosts:
+%{ for ingress_host in ingress_hosts ~}
+  - host: "${ingress_host}"
+    paths:
+    - path: /
+%{ endfor ~}

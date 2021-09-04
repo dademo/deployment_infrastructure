@@ -90,7 +90,8 @@ variable "database" {
         "ClusterIP",
         "NodePort",
         "LoadBalancer",
-        "ExternalName"], var.database.service.type),
+        "ExternalName"
+      ], var.database.service.type),
       anytrue([
         alltrue([
           !(var.database.service.type == "NodePort"),

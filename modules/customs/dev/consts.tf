@@ -7,4 +7,5 @@ locals {
   spark_service_name = "dev-spark"
   redis_service_name = "dev-redis"
   rabbitmq_service_name = "dev-rabbitmq"
+  elastic_service_name = "dev-elastic"
 }

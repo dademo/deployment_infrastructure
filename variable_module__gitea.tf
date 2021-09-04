@@ -39,7 +39,8 @@ variable "module_gitea" {
       persistence_storage_class = "standard"
       ingress_enabled = true
       ingress_hosts = [
-        "gitea.k8s.local"]
+        "gitea.k8s.local"
+      ]
       admin_mail = "admin@gitea.k8s.local"
       disable_registration = false
       openid_registration_only = false

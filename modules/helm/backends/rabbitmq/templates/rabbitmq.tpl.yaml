@@ -11,6 +11,7 @@ replicaCount: ${replica_count}
 clustering:
   enabled: ${clustering_enabled}
   rebalance: ${clustering_rebalance}
+  forceBoot: true
 
 persistence:
   enabled: true

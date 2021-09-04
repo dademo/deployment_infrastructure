@@ -91,3 +91,17 @@ module "rabbitmq_deployment" {
   rabbitmq_password = var.rabbitmq_password
   prometheus_enabled = var.prometheus_enabled
 }
+
+module "elastic_deployment" {
+  source = "./../../helm/services/elastic"
+  count = var.elastic.enabled ? 1 : 0
+
+  namespace = var.namespace
+  service_name = local.elastic_service_name
+  elasticsearch = var.elastic.elasticsearch
+  kibana = var.elastic.kibana
+  apm = var.elastic.apm
+  filebeat = var.elastic.filebeat
+  logstash = var.elastic.logstash
+  metricbeat = var.elastic.metricbeat
+}

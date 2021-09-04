@@ -7,12 +7,12 @@ server:
     type: ClusterIP
   ingress:
     enabled: ${ingress_enabled}
-    %{ if ingress_enabled }
+%{ if ingress_enabled }
     hosts:
-    %{ for ingress_host in ingress_hosts ~}
+%{ for ingress_host in ingress_hosts ~}
     - "${ingress_host}"
-    %{ endfor ~}
-    %{ endif }
+%{ endfor ~}
+%{ endif }
 
 agent:
   replicaCount: ${agent_replica_count}

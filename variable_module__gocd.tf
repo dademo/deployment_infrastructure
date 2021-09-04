@@ -31,7 +31,8 @@ variable "module_gocd" {
       }
       ingress_enabled = true
       ingress_hosts = [
-        "gocd.k8s.local"]
+        "gocd.k8s.local"
+      ]
     }
   }
 }

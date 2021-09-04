@@ -30,7 +30,8 @@ variable "service" {
     persistence_storage_class = "standard"
     ingress_enabled = true
     ingress_hosts = [
-      "sonarqube.k8s.local"]
+      "sonarqube.k8s.local"
+    ]
   }
   description = "The Sonarqube service configuration"
   sensitive = false

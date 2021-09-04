@@ -1,0 +1,5 @@
+replicas: ${replica_count}
+
+kube_state_metrics:
+  enabled: false
+  host: "${kube_state_metrics_host}"

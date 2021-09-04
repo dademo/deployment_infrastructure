@@ -48,11 +48,11 @@ locals {
     nextcloud_auth_secret_password_key = local.nextcloud_admin_secret_password_key
     nextcloud_smtp_secret_user_key = local.nextcloud_smtp_secret_user_key
     nextcloud_smtp_secret_password_key = local.nextcloud_smtp_secret_password_key
-    mail_enabled = var.service.mail.enabled
+    mail_enabled = tostring(var.service.mail.enabled)
     mail_from = var.service.mail.from
     mail_domain = var.service.mail.domain
     smtp_host = var.service.smtp.host
-    smtp_secured = var.service.smtp.secured
+    smtp_secured = tostring(var.service.smtp.secured)
     smtp_port = var.service.smtp.port
     smtp_auth_type = var.service.smtp.auth_type
     smtp_username = var.service.smtp.username

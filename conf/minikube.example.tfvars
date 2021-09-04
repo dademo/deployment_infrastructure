@@ -35,7 +35,8 @@ module_supervision = {
     admin_username = "admin"
     ingress_enabled = true
     ingress_hosts = [
-      "grafana.k8s.local"]
+      "grafana.k8s.local"
+    ]
     persistence_storage_class = "standard"
     persistence_size = "1Gi"
     plugins = []
@@ -121,7 +122,8 @@ module_gitea = {
     persistence_storage_class = "standard"
     ingress_enabled = true
     ingress_hosts = [
-      "gitea.k8s.local"]
+      "gitea.k8s.local"
+    ]
     admin_mail = "admin@gitea.k8s.local"
     disable_registration = true
     openid_registration_only = true
@@ -242,7 +244,8 @@ module_gocd = {
     }
     ingress_enabled = true
     ingress_hosts = [
-      "gocd.k8s.local"]
+      "gocd.k8s.local"
+    ]
   }
 }
 
@@ -266,7 +269,8 @@ module_sonarqube = {
     persistence_storage_class = "standard"
     ingress_enabled = true
     ingress_hosts = [
-      "sonarqube.k8s.local"]
+      "sonarqube.k8s.local"
+    ]
   }
   deploy_postgresql = true
   database_host = ""
@@ -552,6 +556,93 @@ module_dev = {
       }
       ingress_enabled = true
       ingress_host = "rabbitmq.k8s.local"
+    }
+  }
+  elastic = {
+    enabled = true
+    elasticsearch = {
+      replica_count = 3
+      persistence_size = "8Gi"
+      persistence_storage_class = "standard"
+      cluster_name = "elasticsearch"
+      node_group = "master"
+      java_opts = []
+      cpu_limits_millis = 1000
+      memory_limits_mega = 2048
+      persistence_size = "20Gi"
+      persistence_storage_class = "standard"
+      service = {
+        type = "ClusterIP"
+        node_port = ""
+        cluster_ip = ""
+        load_balancer_ip = ""
+      }
+      ingress_enabled = true
+      ingress_hosts = [
+        "elasticsearch.elastic.k8s.local",
+      ]
+    }
+    kibana = {
+      enabled = true
+      replica_count = 1
+      service = {
+        type = "ClusterIP"
+        node_port = ""
+        cluster_ip = ""
+        load_balancer_ip = ""
+      }
+      ingress_enabled = true
+      ingress_hosts = [
+        "kibana.elastic.k8s.local",
+      ]
+    }
+    apm = {
+      enabled = true
+      replica_count = 1
+      autoscaling = {
+        enabled = true
+        min_replicas = 1
+        max_replicas = 3
+        avg_cpu_utilization = 50
+      }
+      service = {
+        type = "ClusterIP"
+        node_port = ""
+        cluster_ip = ""
+        load_balancer_ip = ""
+      }
+      ingress_enabled = true
+      ingress_hosts = [
+        "apm.elastic.k8s.local",
+      ]
+    }
+    filebeat = {
+      enabled = true
+      replica_count = 1
+      autoscaling = {
+        enabled = true
+        min_replicas = 1
+        max_replicas = 3
+        avg_cpu_utilization = 50
+      }
+    }
+    logstash = {
+      enabled = true
+      replica_count = 1
+      java_opts = []
+      cpu_limits_millis = 100
+      memory_limits_mega = 1536
+      persistence_size = "1Gi"
+      persistence_storage_class = "standard"
+      ingress_enabled = true
+      ingress_hosts = [
+        "logstash.elastic.k8s.local",
+      ]
+    }
+    metricbeat = {
+      enabled = true
+      replica_count = 1
+      kube_state_metrics_host = "prometheus-kube-state-metrics.supervision.svc.cluster.local"
     }
   }
   prometheus_enabled = true

@@ -100,7 +100,8 @@ variable "service" {
         "ClusterIP",
         "NodePort",
         "LoadBalancer",
-        "ExternalName"], var.service.type),
+        "ExternalName"
+      ], var.service.type),
       length(var.service.persistence_storage_class) > 0,
       can(regex("^[0-9]+[GM]i$", var.service.persistence_size)),
       can(regex("^[0-9]+[GM]i$", var.service.log_persistence_size)),

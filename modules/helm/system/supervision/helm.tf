@@ -102,13 +102,13 @@ locals {
     prometheus_persistence_storage_class = var.prometheus.prometheus.persistence_storage_class
     prometheus_persistence_size = var.prometheus.prometheus.persistence_size
     prometheus_replica_count = var.prometheus.prometheus.replica_count
-    kube_state_metrics_enabled = var.prometheus.kube_state_metrics_enabled
-    node_exporter_enabled = var.prometheus.node_exporter_enabled
-    alert_manager_enabled = var.prometheus.alert_manager.enabled
+    kube_state_metrics_enabled = tostring(var.prometheus.kube_state_metrics_enabled)
+    node_exporter_enabled = tostring(var.prometheus.node_exporter_enabled)
+    alert_manager_enabled = tostring(var.prometheus.alert_manager.enabled)
     alert_manager_persistence_storage_class = var.prometheus.alert_manager.persistence_storage_class
     alert_manager_persistence_size = var.prometheus.alert_manager.persistence_size
     alert_manager_replica_count = var.prometheus.alert_manager.replica_count
-    push_gateway_enabled = var.prometheus.push_gateway.enabled
+    push_gateway_enabled = tostring(var.prometheus.push_gateway.enabled)
     push_gateway_replica_count = var.prometheus.push_gateway.replica_count
   }
   helm_grafana_tpl_values = {
@@ -117,7 +117,7 @@ locals {
     admin_auth_secret = var.grafana.enabled ? kubernetes_secret.grafana_auth[0].metadata[0].name : ""
     admin_auth_secret_user_key = local.grafana_admin_secret_user_key
     admin_auth_secret_password_key = local.grafana_admin_secret_password_key
-    ingress_enabled = var.grafana.ingress_enabled
+    ingress_enabled = tostring(var.grafana.ingress_enabled)
     ingress_hosts = var.grafana.ingress_hosts
     persistence_storage_class = var.grafana.persistence_storage_class
     persistence_size = var.grafana.persistence_size

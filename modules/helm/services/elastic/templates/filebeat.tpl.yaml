@@ -1,0 +1,9 @@
+replicas: ${replica_count}
+daemonset:
+  enabled: true
+
+autoscaling:
+  enabled: ${autoscaling_enabled}
+  minReplicas: ${autoscaling_min_replicas}
+  maxReplicas: ${autoscaling_max_replicas}
+  averageCpuUtilization: ${autoscaling_avg_cpu_utilization}

@@ -2,29 +2,41 @@ resource "kubernetes_namespace" "namespace" {
 
   for_each = toset(concat(
   var.module_istio.enabled ? [
-    "istio"] : [],
+    "istio"
+  ] : [],
   var.module_supervision.enabled ? [
-    "supervision"] : [],
+    "supervision"
+  ] : [],
   var.module_keycloak.enabled ? [
-    "keycloak"] : [],
+    "keycloak"
+  ] : [],
   var.module_gitea.enabled ? [
-    "gitea"] : [],
+    "gitea"
+  ] : [],
   var.module_jenkins.enabled ? [
-    "jenkins"] : [],
+    "jenkins"
+  ] : [],
   var.module_gocd.enabled ? [
-    "gocd"] : [],
+    "gocd"
+  ] : [],
   var.module_nexus.enabled ? [
-    "nexus"] : [],
+    "nexus"
+  ] : [],
   var.module_sonarqube.enabled ? [
-    "sonarqube"] : [],
+    "sonarqube"
+  ] : [],
   var.module_minio.enabled ? [
-    "minio"] : [],
+    "minio"
+  ] : [],
   var.module_dokuwiki.enabled ? [
-    "dokuwiki"] : [],
+    "dokuwiki"
+  ] : [],
   var.module_nextcloud.enabled ? [
-    "nextcloud"] : [],
+    "nextcloud"
+  ] : [],
   var.module_dev.enabled ? [
-    "dev"] : [],
+    "dev"
+  ] : [],
   ))
 
   metadata {

@@ -42,13 +42,13 @@ locals {
 
   helm_shared_redis_tpl_values = {
     replica_count = var.service.replica_count
-    authentication_enabled = var.service.authentication_enabled
+    authentication_enabled = tostring(var.service.authentication_enabled)
     mysql_auth_secret = var.service.authentication_enabled ? kubernetes_secret.auth[0].metadata[0].name : ""
     mysql_auth_secret_password_key = var.service.authentication_enabled ? local.secret_password_key : ""
     persistence_size = var.service.persistence_size
     persistence_storage_class = var.service.persistence_storage_class
-    volume_permissions_enabled = var.service.volume_permissions_enabled
-    sysctl_enabled = var.service.sysctl_enabled
-    prometheus_enabled = var.prometheus_enabled
+    volume_permissions_enabled = tostring(var.service.volume_permissions_enabled)
+    sysctl_enabled = tostring(var.service.sysctl_enabled)
+    prometheus_enabled = tostring(var.prometheus_enabled)
   }
 }

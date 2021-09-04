@@ -84,7 +84,8 @@ variable "service" {
         "ClusterIP",
         "NodePort",
         "LoadBalancer",
-        "ExternalName"], var.service.service.type),
+        "ExternalName"
+      ], var.service.service.type),
       anytrue([
         alltrue([
           !(var.service.service.type == "NodePort"),

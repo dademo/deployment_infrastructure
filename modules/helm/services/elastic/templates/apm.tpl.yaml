@@ -1,0 +1,22 @@
+replicas: ${replica_count}
+
+autoscaling:
+  enabled: ${autoscaling_enabled}
+  minReplicas: ${autoscaling_min_replicas}
+  maxReplicas: ${autoscaling_max_replicas}
+  averageCpuUtilization: ${autoscaling_avg_cpu_utilization}
+
+service:
+  type: "${service_type}"
+  loadBalancerIP: "${service_load_balancer_ip}"
+  port: 8200
+  nodePort: "${service_node_port}"
+
+ingress:
+  enabled: ${ingress_enabled}
+  hosts:
+%{ for ingress_host in ingress_hosts ~}
+  - host: "${ingress_host}"
+    paths:
+    - path: /
+%{ endfor ~}

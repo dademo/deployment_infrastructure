@@ -1,0 +1,18 @@
+elasticsearchHosts: "${elasticsearch_hosts}"
+replicas: ${replica_count}
+httpPort: ${http_port}
+
+service:
+  port: 5601
+  type: "${service_type}"
+  loadBalancerIP: "${service_load_balancer_ip}"
+  nodePort: "${service_node_port}"
+
+ingress:
+  enabled: ${ingress_enabled}
+  hosts:
+%{ for ingress_host in ingress_hosts ~}
+  - host: "${ingress_host}"
+    paths:
+    - path: /
+%{ endfor ~}

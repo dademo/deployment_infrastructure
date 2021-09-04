@@ -176,6 +176,80 @@ variable "module_dev" {
         ingress_host = string
       })
     })
+    elastic = object({
+      enabled = bool
+      elasticsearch = object({
+        replica_count = number
+        cluster_name = string
+        node_group = string
+        java_opts = list(string)
+        cpu_limits_millis = number
+        memory_limits_mega = number
+        persistence_size = string
+        persistence_storage_class = string
+        service = object({
+          type = string
+          node_port = string
+          load_balancer_ip = string
+        })
+        ingress_enabled = bool
+        ingress_hosts = list(string)
+      })
+      kibana = object({
+        enabled = bool
+        replica_count = number
+        service = object({
+          type = string
+          node_port = string
+          load_balancer_ip = string
+        })
+        ingress_enabled = bool
+        ingress_hosts = list(string)
+      })
+      apm = object({
+        enabled = bool
+        replica_count = number
+        autoscaling = object({
+          enabled = bool
+          min_replicas = number
+          max_replicas = number
+          avg_cpu_utilization = number
+        })
+        service = object({
+          type = string
+          node_port = string
+          load_balancer_ip = string
+        })
+        ingress_enabled = bool
+        ingress_hosts = list(string)
+      })
+      filebeat = object({
+        enabled = bool
+        replica_count = number
+        autoscaling = object({
+          enabled = bool
+          min_replicas = number
+          max_replicas = number
+          avg_cpu_utilization = number
+        })
+      })
+      logstash = object({
+        enabled = bool
+        replica_count = number
+        java_opts = list(string)
+        cpu_limits_millis = number
+        memory_limits_mega = number
+        persistence_size = string
+        persistence_storage_class = string
+        ingress_enabled = bool
+        ingress_hosts = list(string)
+      })
+      metricbeat = object({
+        enabled = bool
+        replica_count = number
+        kube_state_metrics_host = string
+      })
+    })
     prometheus_enabled = bool
   })
   sensitive = false
@@ -365,6 +439,93 @@ variable "module_dev" {
         }
         ingress_enabled = true
         ingress_host = "rabbitmq.k8s.local"
+      }
+    }
+    elastic = {
+      enabled = false
+      elasticsearch = {
+        replica_count = 3
+        persistence_size = "8Gi"
+        persistence_storage_class = "standard"
+        cluster_name = "elasticsearch"
+        node_group = "master"
+        java_opts = []
+        cpu_limits_millis = 1000
+        memory_limits_mega = 2048
+        persistence_size = "20Gi"
+        persistence_storage_class = "standard"
+        service = {
+          type = "ClusterIP"
+          node_port = ""
+          cluster_ip = ""
+          load_balancer_ip = ""
+        }
+        ingress_enabled = true
+        ingress_hosts = [
+          "elasticsearch.elastic.k8s.local",
+        ]
+      }
+      kibana = {
+        enabled = true
+        replica_count = 1
+        service = {
+          type = "ClusterIP"
+          node_port = ""
+          cluster_ip = ""
+          load_balancer_ip = ""
+        }
+        ingress_enabled = true
+        ingress_hosts = [
+          "kibana.elastic.k8s.local",
+        ]
+      }
+      apm = {
+        enabled = true
+        replica_count = 1
+        autoscaling = {
+          enabled = true
+          min_replicas = 1
+          max_replicas = 3
+          avg_cpu_utilization = 50
+        }
+        service = {
+          type = "ClusterIP"
+          node_port = ""
+          cluster_ip = ""
+          load_balancer_ip = ""
+        }
+        ingress_enabled = true
+        ingress_hosts = [
+          "apm.elastic.k8s.local",
+        ]
+      }
+      filebeat = {
+        enabled = true
+        replica_count = 1
+        autoscaling = {
+          enabled = true
+          min_replicas = 1
+          max_replicas = 3
+          avg_cpu_utilization = 50
+        }
+      }
+      logstash = {
+        enabled = true
+        replica_count = 1
+        java_opts = []
+        cpu_limits_millis = 100
+        memory_limits_mega = 1536
+        persistence_size = "1Gi"
+        persistence_storage_class = "standard"
+        ingress_enabled = true
+        ingress_hosts = [
+          "logstash.elastic.k8s.local",
+        ]
+      }
+      metricbeat = {
+        enabled = true
+        replica_count = 1
+        kube_state_metrics_host = "prometheus-kube-state-metrics.supervision.svc.cluster.local:8080"
       }
     }
     prometheus_enabled = true

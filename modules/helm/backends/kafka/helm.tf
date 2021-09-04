@@ -24,8 +24,8 @@ locals {
     namespace = var.namespace
     replica_count = var.service.replica_count
     heap_opts = join(" ", var.service.heap_opts)
-    delete_topic_enable = var.service.delete_topic_enable
-    auto_create_topics_enable = var.service.auto_create_topics_enable
+    delete_topic_enable = tostring(var.service.delete_topic_enable)
+    auto_create_topics_enable = tostring(var.service.auto_create_topics_enable)
     log_flush_interval_ms = var.service.log_flush_interval_ms
     log_retention_check_interval_ms = var.service.log_retention_check_interval_ms
     log_retention_hours = var.service.log_retention_hours
@@ -40,8 +40,8 @@ locals {
     service_type = var.service.type
     persistence_size = var.service.persistence_size
     persistence_storage_class = var.service.persistence_storage_class
-    log_persistence_enabled = var.service.log_persistence_enabled
+    log_persistence_enabled = tostring(var.service.log_persistence_enabled)
     log_persistence_size = var.service.log_persistence_size
-    prometheus_enabled = var.prometheus_enabled
+    prometheus_enabled = tostring(var.prometheus_enabled)
   }
 }

@@ -36,7 +36,8 @@ variable "module_sonarqube" {
       persistence_storage_class = "standard"
       ingress_enabled = true
       ingress_hosts = [
-        "sonarqube.k8s.local"]
+        "sonarqube.k8s.local"
+      ]
     }
     deploy_postgresql = true
     database_host = ""
