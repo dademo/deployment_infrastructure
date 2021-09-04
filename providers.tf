@@ -30,5 +30,3 @@ provider "helm" {
   }
   repository_cache = "./_helpers/helm_cache/data"
 }
-
-

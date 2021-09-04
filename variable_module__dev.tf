@@ -255,7 +255,7 @@ variable "module_dev" {
   sensitive = false
   description = "Dev module configuration."
   default = {
-    enabled = true
+    enabled = false
     namespace = "dev"
     postgresql = {
       enabled = false
@@ -480,7 +480,7 @@ variable "module_dev" {
         ]
       }
       apm = {
-        enabled = true
+        enabled = false
         replica_count = 1
         autoscaling = {
           enabled = true
@@ -500,7 +500,7 @@ variable "module_dev" {
         ]
       }
       filebeat = {
-        enabled = true
+        enabled = false
         replica_count = 1
         autoscaling = {
           enabled = true
@@ -510,7 +510,7 @@ variable "module_dev" {
         }
       }
       logstash = {
-        enabled = true
+        enabled = false
         replica_count = 1
         java_opts = []
         cpu_limits_millis = 100
@@ -523,7 +523,7 @@ variable "module_dev" {
         ]
       }
       metricbeat = {
-        enabled = true
+        enabled = false
         replica_count = 1
         kube_state_metrics_host = "prometheus-kube-state-metrics.supervision.svc.cluster.local:8080"
       }

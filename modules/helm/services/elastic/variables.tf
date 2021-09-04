@@ -170,7 +170,7 @@ variable "apm" {
     ingress_hosts = list(string)
   })
   default = {
-    enabled = true
+    enabled = false
     replica_count = 1
     autoscaling = {
       enabled = true
@@ -237,7 +237,7 @@ variable "filebeat" {
     })
   })
   default = {
-    enabled = true
+    enabled = false
     replica_count = 1
     autoscaling = {
       enabled = true
@@ -278,7 +278,7 @@ variable "logstash" {
     ingress_hosts = list(string)
   })
   default = {
-    enabled = true
+    enabled = false
     replica_count = 1
     java_opts = []
     cpu_limits_millis = 100
@@ -319,7 +319,7 @@ variable "metricbeat" {
     kube_state_metrics_host = string
   })
   default = {
-    enabled = true
+    enabled = false
     replica_count = 1
     kube_state_metrics_host = "prometheus-kube-state-metrics.supervision.svc.cluster.local:8080"
   }

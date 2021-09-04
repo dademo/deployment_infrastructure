@@ -118,3 +118,27 @@ module "nextcloud" {
   admin_password = var.module_nextcloud_admin_password
   prometheus_enabled = var.module_nextcloud.prometheus_enabled
 }
+
+module "superset" {
+  source = "./modules/helm/services/superset"
+  count = var.module_superset.enabled ? 1 : 0
+  depends_on = [
+    kubernetes_namespace.namespace["superset"]
+  ]
+
+  namespace = var.module_superset.namespace
+  service = var.module_superset.service
+
+  deploy_postgresql = var.module_superset.deploy_postgresql
+  database = var.module_superset.database
+  database_host = var.module_superset.database_host
+  database_password = var.module_superset_database_password
+
+  deploy_redis = var.module_superset.deploy_redis
+  redis = var.module_superset.redis
+  redis_host = var.module_superset.redis_host
+  redis_authentication_enabled = var.module_superset.redis_authentication_enabled
+  redis_password = var.module_superset_redis_password
+
+  prometheus_enabled = var.module_nextcloud.prometheus_enabled
+}

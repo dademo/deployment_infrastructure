@@ -1,6 +1,6 @@
 variable "namespace" {
   type = string
-  default = "keycloak"
+  default = "superset"
   description = "The Kubernetes namespace where to deploy"
   sensitive = false
   validation {
@@ -16,38 +16,35 @@ variable "deploy_postgresql" {
   sensitive = false
 }
 
+variable "deploy_redis" {
+  type = bool
+  default = true
+  description = "If we have to deploy a Redis service."
+  sensitive = false
+}
+
 variable "service" {
   type = object({
     replica_count = number
-    admin_username = string
-    management_username = string
-    persistence_size = string
-    persistence_storage_class = string
     ingress_enabled = bool
-    ingress_host = string
+    ingress_hosts = list(string)
   })
   default = {
     replica_count = 1
-    admin_username = "admin"
-    management_username = "management"
-    persistence_size = "2Gi"
-    persistence_storage_class = "standard"
     ingress_enabled = true
-    ingress_host = "keycloak.k8s.local"
+    ingress_hosts = [
+      "superset.k8s.local"
+    ]
   }
-  description = "The Keycloak service configuration"
+  description = "The Superset service configuration"
   sensitive = false
   validation {
     condition = alltrue([
       var.service.replica_count > 0,
       var.service.replica_count % 1 == 0,
-      length(var.service.admin_username) > 0,
-      length(var.service.management_username) > 0,
-      length(var.service.persistence_storage_class) > 0,
-      can(regex("^[0-9]+[GM]i$", var.service.persistence_size)),
-      (!var.service.ingress_enabled) || length(var.service.ingress_host) > 0,
+      (!var.service.ingress_enabled) || alltrue([for host in var.service.ingress_hosts : (length(host) > 0)]),
     ])
-    error_message = "Invalid Keycloak service configuration."
+    error_message = "Invalid Superset service configuration."
   }
 }
 
@@ -55,6 +52,13 @@ variable "database_host" {
   type = string
   default = ""
   description = "The database host (only required if deploy_postgresql is false)"
+  sensitive = false
+}
+
+variable "redis_host" {
+  type = string
+  default = ""
+  description = "The redis host (only required if deploy_redis is false)"
   sensitive = false
 }
 
@@ -72,8 +76,8 @@ variable "database" {
     })
   })
   default = {
-    database = "keycloak"
-    username = "keycloak"
+    database = "superset"
+    username = "superset"
     persistence_size = "2Gi"
     persistence_storage_class = "standard"
     service = {
@@ -87,30 +91,45 @@ variable "database" {
   sensitive = false
 }
 
-variable "admin_password" {
-  type = string
-  description = "The Keycloak admin password to use."
-  sensitive = true
-  validation {
-    condition = length(var.admin_password) > 0
-    error_message = "Password must not be empty."
+variable "redis" {
+  type = object({
+    replica_count = number
+    authentication_enabled = bool
+    persistence_size = string
+    persistence_storage_class = string
+    volume_permissions_enabled = bool
+    sysctl_enabled = bool
+  })
+  default = {
+    replica_count = 0
+    authentication_enabled = false
+    persistence_size = "512Mi"
+    persistence_storage_class = "standard"
+    volume_permissions_enabled = false
+    sysctl_enabled = false
   }
-}
-
-variable "management_password" {
-  type = string
-  description = "The Keycloak management password to use."
-  sensitive = true
-  validation {
-    condition = length(var.management_password) > 0
-    error_message = "Password must not be empty."
-  }
+  description = "The Redis service configuration."
+  sensitive = false
 }
 
 variable "database_password" {
   type = string
-  description = "The Keycloak database password to use."
+  description = "The database password to use."
   sensitive = true
+}
+
+variable "redis_authentication_enabled" {
+  type = bool
+  description = "If the redis authentication is enabled."
+  sensitive = false
+  default = false
+}
+
+variable "redis_password" {
+  type = string
+  description = "The Redis service password to use."
+  sensitive = true
+  default = ""
 }
 
 variable "prometheus_enabled" {

@@ -30,7 +30,7 @@ variable "module_keycloak" {
   sensitive = false
   description = "Keycloak module configuration."
   default = {
-    enabled = true
+    enabled = false
     namespace = "keycloak"
     service = {
       replica_count = 1

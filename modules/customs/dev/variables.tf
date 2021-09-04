@@ -523,7 +523,7 @@ variable "elastic" {
       ]
     }
     apm = {
-      enabled = true
+      enabled = false
       replica_count = 1
       autoscaling = {
         enabled = true
@@ -543,7 +543,7 @@ variable "elastic" {
       ]
     }
     filebeat = {
-      enabled = true
+      enabled = false
       replica_count = 1
       autoscaling = {
         enabled = true
@@ -553,7 +553,7 @@ variable "elastic" {
       }
     }
     logstash = {
-      enabled = true
+      enabled = false
       replica_count = 1
       java_opts = []
       cpu_limits_millis = 100
@@ -566,7 +566,7 @@ variable "elastic" {
       ]
     }
     metricbeat = {
-      enabled = true
+      enabled = false
       replica_count = 1
       kube_state_metrics_host = "prometheus-kube-state-metrics.supervision.svc.cluster.local:8080"
     }

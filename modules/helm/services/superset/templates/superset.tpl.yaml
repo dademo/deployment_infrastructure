@@ -1,0 +1,30 @@
+replicaCount: ${replica_count}
+
+ingress:
+  enabled: ${ingress_enabled}
+  %{ if ingress_enabled }
+hosts:
+  %{ for ingress_host in ingress_hosts ~}
+- "${ingress_host}"
+  %{ endfor ~}
+  %{ endif }
+
+supersetCeleryBeat:
+  enabled: false
+
+postgresql:
+  enabled: false
+  existingSecret: "${database_secret}"
+  existingSecretKey: "${database_secret_key}"
+  postgresHost: "${database_host}"
+  postgresqlUsername: "${database_username}"
+  postgresqlDatabase: "${database_name}"
+  service:
+    port: 5432
+
+redis:
+  enabled: false
+  usePassword: ${redis_auth_enabled}
+  existingSecret: "${redis_secret}"
+  existingSecretKey: "${redis_secret_key}"
+  redisHost: "${redis_host}"

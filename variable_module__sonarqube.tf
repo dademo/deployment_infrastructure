@@ -28,7 +28,7 @@ variable "module_sonarqube" {
   sensitive = false
   description = "Sonarqube module configuration."
   default = {
-    enabled = true
+    enabled = false
     namespace = "sonarqube"
     service = {
       replica_count = 1

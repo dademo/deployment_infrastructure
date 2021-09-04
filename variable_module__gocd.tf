@@ -18,7 +18,7 @@ variable "module_gocd" {
   sensitive = false
   description = "GoCD module configuration."
   default = {
-    enabled = true
+    enabled = false
     namespace = "gocd"
     service = {
       persistence_size = "2Gi"

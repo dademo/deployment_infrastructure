@@ -88,25 +88,12 @@ variable "database" {
   }
   description = "The PostgreSQL database configuration."
   sensitive = false
-  validation {
-    condition = alltrue([
-      length(var.database.database) > 0,
-      length(var.database.username) > 0,
-      length(var.database.persistence_storage_class) > 0,
-      can(regex("^[0-9]+[GM]i$", var.database.persistence_size)),
-    ])
-    error_message = "Invalid database configuration."
-  }
 }
 
 variable "database_password" {
   type = string
   description = "The database password to use."
   sensitive = true
-  validation {
-    condition = length(var.database_password) > 0
-    error_message = "Password must not be empty."
-  }
 }
 
 variable "prometheus_enabled" {

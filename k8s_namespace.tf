@@ -34,6 +34,9 @@ resource "kubernetes_namespace" "namespace" {
   var.module_nextcloud.enabled ? [
     "nextcloud"
   ] : [],
+  var.module_superset.enabled ? [
+    "superset"
+  ] : [],
   var.module_dev.enabled ? [
     "dev"
   ] : [],
@@ -61,6 +64,7 @@ locals {
     minio = var.module_minio.namespace
     dokuwiki = var.module_dokuwiki.namespace
     nextcloud = var.module_nextcloud.namespace
+    superset = var.module_superset.namespace
     dev = var.module_dev.namespace
   }
 }

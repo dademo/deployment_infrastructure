@@ -17,7 +17,7 @@ variable "module_jenkins" {
   sensitive = false
   description = "Jenkins module configuration."
   default = {
-    enabled = true
+    enabled = false
     namespace = "jenkins"
     service = {
       persistence_size = "2Gi"

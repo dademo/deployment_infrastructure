@@ -19,7 +19,7 @@ variable "module_dokuwiki" {
   sensitive = false
   description = "Dokuwiki module configuration."
   default = {
-    enabled = true
+    enabled = false
     namespace = "dokuwiki"
     auth = {
       username = "admin"

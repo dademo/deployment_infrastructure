@@ -371,6 +371,50 @@ module_nextcloud_smtp_password = "nextcloud"
 
 module_nextcloud_admin_password = "admin"
 
+
+module_superset = {
+  enabled = false
+  namespace = "superset"
+  service = {
+    replica_count = 1
+    ingress_enabled = true
+    ingress_hosts = [
+      "superset.k8s.local"
+    ]
+  }
+  deploy_postgresql = true
+  deploy_redis = true
+  database_host = ""
+  redis_host = ""
+  redis_authentication_enabled = true
+  database = {
+    database = "superset"
+    username = "superset"
+    persistence_size = "2Gi"
+    persistence_storage_class = "standard"
+    service = {
+      type = "ClusterIP"
+      node_port = ""
+      cluster_ip = ""
+      load_balancer_ip = ""
+    }
+  }
+  redis = {
+    replica_count = 0
+    authentication_enabled = false
+    persistence_size = "512Mi"
+    persistence_storage_class = "standard"
+    volume_permissions_enabled = false
+    sysctl_enabled = false
+  }
+  prometheus_enabled = true
+}
+
+module_superset_database_password = "superset"
+
+module_superset_redis_password = ""
+
+
 module_dev = {
   enabled = true
   namespace = "dev"

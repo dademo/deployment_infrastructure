@@ -12,7 +12,7 @@ variable "module_nexus" {
   sensitive = false
   description = "Nexus module configuration."
   default = {
-    enabled = true
+    enabled = false
     namespace = "nexus"
     service = {
       persistence_size = "5Gi"
