@@ -689,6 +689,25 @@ module_dev = {
       kube_state_metrics_host = "prometheus-kube-state-metrics.supervision.svc.cluster.local"
     }
   }
+  pgadmin = {
+    enabled = false
+    service = {
+      default_email = "user@domain.com"
+      login_banner = ""
+      persistence_size = "1G"
+      persistence_storage_class = "standard"
+      service = {
+        type = "ClusterIP"
+        node_port = 0
+        cluster_ip = ""
+        load_balancer_ip = ""
+      }
+      ingress_enabled = true
+      ingress_hosts = [
+        "pgadmin.k8s.local"
+      ]
+    }
+  }
   prometheus_enabled = true
 }
 
@@ -705,3 +724,4 @@ module_dev_mongodb_root_password = "mongo"
 module_dev_mongodb_replicaset_password = "mongoSuperSecret"
 module_dev_redis_password = "redis"
 module_dev_rabbitmq_password = "dev"
+module_dev_pgadmin_password = "user"

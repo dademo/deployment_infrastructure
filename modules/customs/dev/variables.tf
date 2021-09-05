@@ -573,6 +573,47 @@ variable "elastic" {
   }
 }
 
+variable "pgadmin" {
+  type = object({
+    enabled = bool
+    service = object({
+      default_email = string
+      login_banner = string
+      persistence_size = string
+      persistence_storage_class = string
+      service = object({
+        type = string
+        node_port = number
+        cluster_ip = string
+        load_balancer_ip = string
+      })
+      ingress_enabled = bool
+      ingress_hosts = list(string)
+    })
+  })
+  description = "The PGAdmin service configuration"
+  sensitive = false
+  default = {
+    enabled = false
+    service = {
+      default_email = "user@domain.com"
+      login_banner = ""
+      persistence_size = "1G"
+      persistence_storage_class = "standard"
+      service = {
+        type = "ClusterIP"
+        node_port = 0
+        cluster_ip = ""
+        load_balancer_ip = ""
+      }
+      ingress_enabled = true
+      ingress_hosts = [
+        "pgadmin.k8s.local"
+      ]
+    }
+  }
+}
+
 variable "postgresql_password" {
   type = string
   description = "The postgresql database password to use."
@@ -655,6 +696,12 @@ variable "redis_password" {
 variable "rabbitmq_password" {
   type = string
   description = "The RabbitMQ service password to use."
+  sensitive = true
+}
+
+variable "pgadmin_password" {
+  type = string
+  description = "The PGAdmin service password to use."
   sensitive = true
 }
 

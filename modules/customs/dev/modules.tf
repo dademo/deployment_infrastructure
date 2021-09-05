@@ -105,3 +105,27 @@ module "elastic_deployment" {
   logstash = var.elastic.logstash
   metricbeat = var.elastic.metricbeat
 }
+
+module "pgadmin" {
+  source = "../services/pgadmin4"
+  count = var.pgadmin.enabled ? 1 : 0
+
+  namespace = var.namespace
+  default_password = var.pgadmin_password
+  service = var.pgadmin.service
+  database_configurations = var.postgresql.enabled ? [
+    {
+      Name = local.postgresql_service_name
+      Group = "Servers"
+      Host = local.postgresql_service_name
+      Port = 5432
+      MaintenanceDB = var.postgresql.service.database
+      Username = var.postgresql.service.username
+      Comment = "Dev server"
+      SSLMode = "prefer"
+    }
+  ] : []
+  additional_env_configmap = []
+  additional_env_secrets = []
+  debug = false
+}
